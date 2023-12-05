@@ -1,4 +1,6 @@
-﻿namespace MillesHotel
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace MillesHotel
 {
     internal class Program
     {
@@ -32,7 +34,7 @@
 
             //Booking (Instance Variable: private List<Booking>)
             //Booking (Ctor: Booking = new List<Booking>)
-            //Booking (Properties: BookingID(PK), DateTime, CustomerID(FK)
+            //Booking (Properties: BookingID(PK), BookingDate, CustomerID(FK)
             //BookingService : IBooking (Methods: CreateBooking, GetBookingID, UpdateBooking, DeleteBooking)
 
             //Invoice (Instance Variable: private List<Invoice>)
