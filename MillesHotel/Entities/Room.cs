@@ -9,7 +9,10 @@ namespace MillesHotel.Entities
     public class Room
     {
         private List<Room> _rooms;
-
+        public Room()
+        {
+            _rooms = new List<Room>();
+        }
         // [Key]
         public int RoomID { get; set; }
         public int RoomSize { get; set; }
@@ -17,12 +20,6 @@ namespace MillesHotel.Entities
         public bool ExtraBeds { get; set; }
         //public int InvoiceID (FK)
         //public int BookingID (FK)
-
-        public Room()
-        {
-            _rooms = new List<Room>();
-        }
-
 
     }
 }

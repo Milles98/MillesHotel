@@ -9,7 +9,10 @@ namespace MillesHotel.Entities
     public class Customer
     {
         private List<Customer> _customer;
-
+        public Customer()
+        {
+            _customer = new List<Customer>();
+        }
         // [Key]
         public int CustomerID { get; set; }
         public string CustomerName { get; set; }
@@ -18,9 +21,5 @@ namespace MillesHotel.Entities
         public string Phone { get; set; }
         public string Country { get; set; }
 
-        public Customer()
-        {
-            _customer = new List<Customer>();
-        }
     }
 }
