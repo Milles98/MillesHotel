@@ -6,7 +6,55 @@ using System.Threading.Tasks;
 
 namespace MillesHotel.Menus
 {
-    public class BookingMenu
+    public static class BookingMenu
     {
+        //Booking MainMenu Case 1 (1. Register Booking, 2. See Booking, 3. Update Booking, 4. Delete Booking, 0. Return to MainMenu)
+        //Booking Menu Case 1 (Input: 1. CustomerID, RoomSize, Double/Single Room, AmountOfBeds, 0. Return to MainMenu)
+        //Booking Menu Case 2 (1. See booking by bookingID, 2. See all bookings, 0. Return to MainMenu)
+        //Booking Menu Case 3 (Input: BookingID, 1. NewBookingDate, 0. Return to MainMenu)
+        //Booking Menu Case 4 (Input: 1. BookingID, 0. Return to MainMenu)
+        //Booking Menu Case 0 (Return to MainMenu)
+        public static void ShowBookingMenu()
+        {
+            int choice;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Booking Menu");
+                Console.WriteLine("1. Register Booking");
+                Console.WriteLine("2. See Booking");
+                Console.WriteLine("3. Update Booking");
+                Console.WriteLine("4. Delete Booking");
+                Console.WriteLine("0. Return to MainMenu");
+
+                Console.Write("Enter your choice: ");
+                if (int.TryParse(Console.ReadLine(), out choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 0:
+                            Console.WriteLine("Returning to MainMenu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                }
+
+            } while (choice != 0);
+        }
     }
 }
