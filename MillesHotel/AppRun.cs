@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MillesHotel.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace MillesHotel
             {
                 dbContext.Database.Migrate();
             }
+
+            bool programRunning = true;
+            do
+            {
+                MainMenu.ShowMenu();
+            } while (programRunning);
         }
     }
 }
