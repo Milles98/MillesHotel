@@ -10,12 +10,7 @@ namespace MillesHotel
         {
             var appStart = new AppStart();
             appStart.Run();
-            //using (var context = new HotelDbContext())
-            //{
-            //    context.Database.Migrate();
 
-            //    context.SaveChanges();
-            //}
             //HotelLibrary
 
             //Interface:
