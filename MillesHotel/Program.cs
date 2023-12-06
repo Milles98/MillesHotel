@@ -8,8 +8,8 @@ namespace MillesHotel
     {
         static void Main(string[] args)
         {
-            var appRun = new AppRun();
-            appRun.Run();
+            var appStart = new AppStart();
+            appStart.Run();
             //using (var context = new HotelDbContext())
             //{
             //    context.Database.Migrate();
