@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillesHotel", "MillesHotel\MillesHotel.csproj", "{476CD87A-B6F0-4DB4-B91B-D52444BAC906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillesHotel", "MillesHotel\MillesHotel.csproj", "{476CD87A-B6F0-4DB4-B91B-D52444BAC906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillesHotelLibrary", "MillesHotelLibrary\MillesHotelLibrary.csproj", "{7467AE42-70D0-42E9-A212-7761C6311D64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{476CD87A-B6F0-4DB4-B91B-D52444BAC906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476CD87A-B6F0-4DB4-B91B-D52444BAC906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476CD87A-B6F0-4DB4-B91B-D52444BAC906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7467AE42-70D0-42E9-A212-7761C6311D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7467AE42-70D0-42E9-A212-7761C6311D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7467AE42-70D0-42E9-A212-7761C6311D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7467AE42-70D0-42E9-A212-7761C6311D64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

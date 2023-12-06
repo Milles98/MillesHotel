@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MillesHotel
 {
-    public class AppRun
+    public class AppStart
     {
         public void Run()
         {
