@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MillesHotel
 {
@@ -6,6 +8,12 @@ namespace MillesHotel
     {
         static void Main(string[] args)
         {
+            using (var context = new HotelDbContext())
+            {
+                context.Database.Migrate();
+
+                context.SaveChanges();
+            }
             //HotelLibrary
 
             //Interface:
@@ -29,7 +37,7 @@ namespace MillesHotel
 
             //Customer (Instance Variable: private List<Customer>)
             //Customer (Ctor: Customer = new List<Customer>)
-            //Customer (Properties: CustomerID(PK) Name, Age, Email, Phone, Country)
+            //Customer (Properties: CustomerID(PK) FirstName, LastName, Age, Email, Phone, Country)
             //CustomerService : ICustomer (Methods: CreateCustomer, GetCustomerID, UpdateCustomer, DeleteCustomer)
 
             //Booking (Instance Variable: private List<Booking>)
@@ -78,6 +86,10 @@ namespace MillesHotel
             //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
 
             //Library med BookingService, RoomService, CustomerService
+
+            //Skapa IsActive för softdelete
+
+            //customer provar skriva en bokstav
 
             //En map för CRUD
             //Eller 3 mappar för de 3 cases

@@ -10,6 +10,10 @@ namespace MillesHotel
 {
     public class HotelDbContext : DbContext
     {
+        public HotelDbContext()
+        {
+
+        }
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
         }
@@ -22,7 +26,7 @@ namespace MillesHotel
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=localhost;initial catalog=MillesHotel;integrated security=true");
+                optionsBuilder.UseSqlServer("server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True");
             }
         }
 

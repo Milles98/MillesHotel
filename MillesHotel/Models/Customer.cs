@@ -13,13 +13,14 @@ namespace MillesHotel.Entities
         {
             _customer = new List<Customer>();
         }
-        // [Key]
+        //[Key]
         public int CustomerID { get; set; }
-        public string CustomerName { get; set; }
-        public int Age { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Country { get; set; }
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
+        public int CustomerAge { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerPhone { get; set; }
+        public string CustomerCountry { get; set; }
 
     }
 }
