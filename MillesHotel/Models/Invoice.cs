@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace MillesHotel.Entities
         {
             _invoice = new List<Invoice>();
         }
-        // [Key]
+        [Key]
         public int InvoiceID { get; set; }
         public double InvoiceAmount { get; set; }
         public DateTime InvoiceDue { get; set; }
