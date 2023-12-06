@@ -8,12 +8,14 @@ namespace MillesHotel
     {
         static void Main(string[] args)
         {
-            using (var context = new HotelDbContext())
-            {
-                context.Database.Migrate();
+            var appRun = new AppRun();
+            appRun.Run();
+            //using (var context = new HotelDbContext())
+            //{
+            //    context.Database.Migrate();
 
-                context.SaveChanges();
-            }
+            //    context.SaveChanges();
+            //}
             //HotelLibrary
 
             //Interface:

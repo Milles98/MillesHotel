@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MillesHotel.Entities;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,13 @@ namespace MillesHotel
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True");
+                var connectionString = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build()
+                    .GetConnectionString("MillesHotelContextConnection");
+
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
-
     }
 }

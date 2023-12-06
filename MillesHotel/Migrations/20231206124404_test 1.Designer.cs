@@ -12,8 +12,8 @@ using MillesHotel;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231206083704_first test")]
-    partial class firsttest
+    [Migration("20231206124404_test 1")]
+    partial class test1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
