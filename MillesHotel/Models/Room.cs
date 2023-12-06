@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace MillesHotel.Entities
         {
             _rooms = new List<Room>();
         }
-        // [Key]
+        [Key]
         public int RoomID { get; set; }
         public int RoomSize { get; set; }
         public bool RoomType { get; set; }
