@@ -9,16 +9,19 @@ namespace MillesHotel.Entities
 {
     public class Booking
     {
-        private List<Booking> _booking;
-        public Booking()
-        {
-            _booking = new List<Booking>();
-        }
         [Key]
         public int BookingID { get; set; }
+
+        [Required]
         public DateTime BookingDate { get; set; }
 
-        List<Customer> customers = new List<Customer>();
-        //public int CustomerID (FK)
+        // Foreign key för att koppla till Customer
+        public int CustomerID { get; set; }
+        public Customer Customer { get; set; }
+
+        // Foreign key för att koppla till Room
+        public int RoomID { get; set; }
+        public Room Room { get; set; }
+
     }
 }

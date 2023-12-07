@@ -9,19 +9,27 @@ namespace MillesHotel.Entities
 {
     public class Customer
     {
-        private List<Customer> _customer;
-        public Customer()
-        {
-            _customer = new List<Customer>();
-        }
         [Key]
         public int CustomerID { get; set; }
+
+        [Required]
         public string CustomerFirstName { get; set; }
+
+        [Required]
         public string CustomerLastName { get; set; }
+
         public int CustomerAge { get; set; }
+
+        [Required]
         public string CustomerEmail { get; set; }
+
         public string CustomerPhone { get; set; }
+
         public string CustomerCountry { get; set; }
+
+        // Navigationsproperty (om det finns relationer)
+        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
 
     }
 }
