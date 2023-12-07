@@ -8,5 +8,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface ICustomerService
     {
+        public void AddCustomer();
+        public void ReadCustomer();
+        public void UpdateCustomer();
+        public void RemoveCustomer();
     }
 }

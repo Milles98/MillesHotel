@@ -8,5 +8,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IBookingService
     {
+        public void AddBooking();
+        public void ReadBooking();
+        public void UpdateBooking();
+        public void RemoveBooking();
     }
 }

@@ -8,5 +8,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IInvoiceService
     {
+        public void AddInvoice();
+        public void ReadInvoice();
+        public void UpdateInvoice();
+        public void RemoveInvoice();
     }
 }
