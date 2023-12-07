@@ -17,6 +17,8 @@ namespace MillesHotel.Entities
         [Key]
         public int BookingID { get; set; }
         public DateTime BookingDate { get; set; }
+
+        List<Customer> customers = new List<Customer>();
         //public int CustomerID (FK)
     }
 }

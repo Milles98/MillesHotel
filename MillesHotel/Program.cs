@@ -11,6 +11,8 @@ namespace MillesHotel
             var appStart = new AppStart();
             appStart.Run();
 
+            //kontrollera bokningar på tiderna som finns (svårast) sen lätt
+
             //HotelLibrary
 
             //Interface:
