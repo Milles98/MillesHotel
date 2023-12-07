@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MillesHotel.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +23,22 @@ namespace MillesHotel
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        var connectionString = new ConfigurationBuilder()
-        //            .AddJsonFile("appsettings.json")
-        //            .Build()
-        //            .GetConnectionString("MillesHotelContextConnection");
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Room)
+                .WithOne(r => r.Booking)
+                .HasForeignKey<Room>(r => r.BookingID);
+        }
 
-        //        optionsBuilder.UseSqlServer(connectionString);
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Om inte konfigurerat från appsettings.json, använd din hårdkodade anslutningssträng här.
+                var connectionString = "server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;";
+                optionsBuilder.UseSqlServer(connectionString);
+            }
+        }
     }
 }
