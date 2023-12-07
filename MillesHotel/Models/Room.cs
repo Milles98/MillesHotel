@@ -9,18 +9,20 @@ namespace MillesHotel.Entities
 {
     public class Room
     {
-        private List<Room> _rooms;
-        public Room()
-        {
-            _rooms = new List<Room>();
-        }
         [Key]
         public int RoomID { get; set; }
+
+        [Required]
         public int RoomSize { get; set; }
-        public bool RoomType { get; set; }
+
+        [Required]
+        public bool RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
+
         public bool ExtraBeds { get; set; }
-        //public int InvoiceID (FK)
-        //public int BookingID (FK)
+
+        // Foreign key för att koppla till Booking
+        public int BookingID { get; set; }
+        public Booking Booking { get; set; }
 
     }
 }

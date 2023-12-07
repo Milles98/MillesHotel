@@ -23,17 +23,17 @@ namespace MillesHotel
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connectionString = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json")
-                    .Build()
-                    .GetConnectionString("MillesHotelContextConnection");
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        var connectionString = new ConfigurationBuilder()
+        //            .AddJsonFile("appsettings.json")
+        //            .Build()
+        //            .GetConnectionString("MillesHotelContextConnection");
 
-                optionsBuilder.UseSqlServer(connectionString);
-            }
-        }
+        //        optionsBuilder.UseSqlServer(connectionString);
+        //    }
+        //}
     }
 }

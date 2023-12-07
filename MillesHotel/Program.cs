@@ -8,21 +8,28 @@ namespace MillesHotel
     {
         static void Main(string[] args)
         {
-            var appStart = new AppStart();
-            appStart.Run();
+            var app = new App();
+            app.Build();
+
+            //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 
             //kontrollera bokningar på tiderna som finns (svårast) sen lätt
 
-            //HotelLibrary
-
-            //Interface:
             //IServiceStrategy
 
+            //HotelLibrary
+
+            //Interfaces:
+            //IBookingService
+            //ICustomerService
+            //IInvoiceService
+            //IRoomService
+
             //Classes:
-            //RoomServiceStrategy : IServiceStrategy
-            //CustomerServiceStrategy : IServiceStrategy
-            //BookingServiceStrategy : IServiceStrategy
-            //InvoiceServiceStrategy : IServiceStrategy
+            //RoomService : IRoomService
+            //CustomerService : ICustomerService
+            //BookingService : IBookingService
+            //InvoiceService : IInvoiceService
 
             //Classes:
 
@@ -48,12 +55,6 @@ namespace MillesHotel
             //Invoice (Ctor: Invoice = new List<Invoice>)
             //Invoice (Properties: InvoiceID(PK), InvoiceAmount, InvoiceDue, CustomerID(FK)
             //InvoiceService : IInvoice (Methods: CreateInvoice, GetInvoiceID, UpdateInvoice, DeleteInvoice)
-
-            //Interface:
-            //IRoom
-            //ICustomer
-            //IBooking
-            //IInvoice
 
             //MainMenu (Switch case, 1. Booking, 2. Customer, 3. Room, 4. Invoice, 0. Exit Program)
 

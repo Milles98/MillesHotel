@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MillesHotel
 {
-    public class AppStart
+    public class App
     {
-        public void Run()
+        public void Build()
         {
 
             DbConfiguration.StartDatabase();
