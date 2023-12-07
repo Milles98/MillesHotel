@@ -12,14 +12,15 @@ namespace MillesHotel
     {
         public static void StartDatabase()
         {
-            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             var config = builder.Build();
 
             var connectionString = config.GetConnectionString("MillesHotelContextConnection");
-            var options = new DbContextOptionsBuilder<HotelDbContext>();
-            options.UseSqlServer(connectionString);
 
-            using (var dbContext = new HotelDbContext(options.Options))
+            var optionsBuilder = new DbContextOptionsBuilder<HotelDbContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+
+            using (var dbContext = new HotelDbContext(optionsBuilder.Options))
             {
                 dbContext.Database.Migrate();
             }
