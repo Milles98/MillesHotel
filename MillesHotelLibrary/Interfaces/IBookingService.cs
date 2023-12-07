@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillesHotelLibrary.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IBookingService
     {
-        public void AddBooking();
-        public void ReadBooking();
-        public void UpdateBooking();
-        public void RemoveBooking();
+        Booking CreateBooking(Booking newBooking);
+        Booking GetBookingByID(int bookingID);
+        void UpdateBooking(Booking updatedBooking);
+        void DeleteBooking(int bookingID);
     }
 }
