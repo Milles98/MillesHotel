@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillesHotelLibrary.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IRoomService
     {
-        public void AddRoom();
-        public void ReadRoom();
-        public void UpdateRoom();
-        public void RemoveRoom();
+        Room CreateRoom(Room newRoom);
+        Room GetRoomByID(int roomID);
+        void UpdateRoom(Room updatedRoom);
+        void DeleteRoom(int roomID);
     }
 }
