@@ -8,5 +8,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IRoomService
     {
+        public void AddRoom();
+        public void ReadRoom();
+        public void UpdateRoom();
+        public void RemoveRoom();
     }
 }
