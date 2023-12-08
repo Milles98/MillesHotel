@@ -12,7 +12,7 @@ using MillesHotel;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231207162102_test")]
+    [Migration("20231208085619_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -38,6 +38,9 @@ namespace MillesHotel.Migrations
 
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RoomID")
                         .HasColumnType("int");
@@ -80,6 +83,9 @@ namespace MillesHotel.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
@@ -102,6 +108,9 @@ namespace MillesHotel.Migrations
                     b.Property<DateTime>("InvoiceDue")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.HasKey("InvoiceID");
 
                     b.HasIndex("CustomerID");
@@ -121,6 +130,9 @@ namespace MillesHotel.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("ExtraBeds")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("RoomSize")

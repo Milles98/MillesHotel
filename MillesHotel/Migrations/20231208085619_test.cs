@@ -22,7 +22,8 @@ namespace MillesHotel.Migrations
                     CustomerAge = table.Column<int>(type: "int", nullable: false),
                     CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerCountry = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CustomerCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,6 +37,7 @@ namespace MillesHotel.Migrations
                     BookingID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     RoomID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -58,6 +60,7 @@ namespace MillesHotel.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceAmount = table.Column<double>(type: "float", nullable: false),
                     InvoiceDue = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -80,6 +83,7 @@ namespace MillesHotel.Migrations
                     RoomSize = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<bool>(type: "bit", nullable: false),
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BookingID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -12,7 +12,7 @@ namespace MillesHotel
     {
         public static DbContextOptionsBuilder<HotelDbContext> StartDatabase()
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             var config = builder.Build();
 
             var connectionString = config.GetConnectionString("MillesHotelContextConnection");
