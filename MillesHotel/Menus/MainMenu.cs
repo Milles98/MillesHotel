@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace MillesHotel.Menus
     public static class MainMenu
     {
         //MainMenu (Switch case, 1. Booking, 2. Customer, 3. Room, 4. Invoice, 0. Exit Program)
-        public static void ShowMenu()
+        public static void ShowMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
             int choice;
 
@@ -29,16 +30,16 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
-                            BookingMenu.ShowBookingMenu();
+                            BookingMenu.ShowBookingMenu(options);
                             break;
                         case 2:
-                            CustomerMenu.ShowCustomerMenu();
+                            CustomerMenu.ShowCustomerMenu(options);
                             break;
                         case 3:
-                            RoomMenu.ShowRoomMenu();
+                            RoomMenu.ShowRoomMenu(options);
                             break;
                         case 4:
-                            InvoiceMenu.ShowInvoiceMenu();
+                            InvoiceMenu.ShowInvoiceMenu(options);
                             break;
                         case 0:
                             Console.WriteLine("Exiting program...");

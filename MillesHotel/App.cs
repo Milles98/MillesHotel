@@ -11,7 +11,7 @@ namespace MillesHotel
 {
     public class App
     {
-        public void Build()
+        public void Build(DbContextOptionsBuilder<HotelDbContext> options)
         {
 
             DbConfiguration.StartDatabase();
@@ -19,7 +19,7 @@ namespace MillesHotel
             bool programRunning = true;
             do
             {
-                MainMenu.ShowMenu();
+                MainMenu.ShowMenu(options);
             } while (programRunning);
         }
     }
