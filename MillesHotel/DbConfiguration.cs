@@ -10,7 +10,7 @@ namespace MillesHotel
 {
     public static class DbConfiguration
     {
-        public static void StartDatabase()
+        public static DbContextOptionsBuilder<HotelDbContext> StartDatabase()
         {
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             var config = builder.Build();
@@ -24,6 +24,8 @@ namespace MillesHotel
             {
                 dbContext.Database.Migrate();
             }
+
+            return optionsBuilder;
         }
 
         //Lägg till dataseeding metod skapa rum och kunder kanske bokningar idk

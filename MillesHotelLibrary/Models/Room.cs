@@ -19,6 +19,7 @@ namespace MillesHotelLibrary.Models
         public bool RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
 
         public bool ExtraBeds { get; set; }
+        public bool IsActive { get; set; }
 
         // Foreign key för att koppla till Booking
         public int BookingID { get; set; }

@@ -26,6 +26,7 @@ namespace MillesHotelLibrary.Models
         public string CustomerPhone { get; set; }
 
         public string CustomerCountry { get; set; }
+        public bool IsActive { get; set; }
 
         // Navigationsproperty (om det finns relationer)
         public ICollection<Booking> Bookings { get; set; }

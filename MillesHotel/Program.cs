@@ -9,7 +9,8 @@ namespace MillesHotel
         static void Main(string[] args)
         {
             var app = new App();
-            app.Build();
+            var temp = DbConfiguration.StartDatabase();
+            app.Build(temp);
 
             //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 

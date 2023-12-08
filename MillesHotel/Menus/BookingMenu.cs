@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace MillesHotel.Menus
         //Booking Menu Case 3 (Input: BookingID, 1. NewBookingDate, 0. Return to MainMenu)
         //Booking Menu Case 4 (Input: 1. BookingID, 0. Return to MainMenu)
         //Booking Menu Case 0 (Return to MainMenu)
-        public static void ShowBookingMenu()
+        public static void ShowBookingMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
             int choice;
 
