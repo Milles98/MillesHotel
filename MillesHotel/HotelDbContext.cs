@@ -31,14 +31,12 @@ namespace MillesHotel
                 .HasForeignKey<Room>(r => r.BookingID);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        // Om inte konfigurerat från appsettings.json, använd din hårdkodade anslutningssträng här.
-        //        var connectionString = "server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;";
-        //        optionsBuilder.UseSqlServer(connectionString);
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("MillesHotelContextConnection");
+            }
+        }
     }
 }
