@@ -13,9 +13,6 @@ namespace MillesHotel
     {
         public void Build(DbContextOptionsBuilder<HotelDbContext> options)
         {
-
-            DbConfiguration.StartDatabase();
-
             bool programRunning = true;
             do
             {

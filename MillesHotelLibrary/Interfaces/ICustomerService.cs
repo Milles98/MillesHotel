@@ -1,5 +1,4 @@
-﻿using MillesHotel.Models;
-using MillesHotelLibrary.Services;
+﻿using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +9,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface ICustomerService
     {
-        Customer CreateCustomer(Customer newCustomer);
-        Customer GetCustomerByID(int customerID);
-        void UpdateCustomer(Customer updatedCustomer);
-        void DeleteCustomer(int customerID);
+        void CreateCustomer();
+        void GetCustomerByID();
+        void UpdateCustomer();
+        void DeleteCustomer();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MillesHotelLibrary.Interfaces;
-using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +9,21 @@ namespace MillesHotelLibrary.Services
 {
     public class RoomService : IRoomService
     {
-        private List<Room> rooms = new List<Room>();
 
-        public Room CreateRoom(Room newRoom)
+        public void CreateRoom()
         {
-            return newRoom;
         }
 
-        public Room GetRoomByID(int roomID)
+        public void GetRoomByID()
         {
-            return rooms[roomID];
         }
 
-        public void UpdateRoom(Room updatedRoom)
+        public void UpdateRoom()
         {
 
         }
 
-        public void DeleteRoom(int roomID)
+        public void DeleteRoom()
         {
 
         }

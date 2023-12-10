@@ -1,5 +1,4 @@
-﻿using MillesHotel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +8,9 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IInvoiceService
     {
-        Invoice CreateInvoice(Invoice newInvoice);
-        Invoice GetInvoiceByID(int invoiceID);
-        void UpdateInvoice(Invoice updatedInvoice);
-        void DeleteInvoice(int invoiceID);
+        void CreateInvoice();
+        void GetInvoiceByID();
+        void UpdateInvoice();
+        void DeleteInvoice();
     }
 }
