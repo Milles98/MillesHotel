@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace MillesHotel.Menus
         //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
         public static void ShowInvoiceMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
+            InvoiceService invoiceService = new InvoiceService();
             int choice;
 
             do
@@ -34,12 +36,16 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
+                            invoiceService.CreateInvoice();
                             break;
                         case 2:
+                            invoiceService.GetInvoiceByID();
                             break;
                         case 3:
+                            invoiceService.UpdateInvoice();
                             break;
                         case 4:
+                            invoiceService.DeleteInvoice();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
