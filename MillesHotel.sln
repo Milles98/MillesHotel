@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillesHotel", "MillesHotel\MillesHotel.csproj", "{476CD87A-B6F0-4DB4-B91B-D52444BAC906}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MillesHotelLibrary", "MillesHotelLibrary\MillesHotelLibrary.csproj", "{7467AE42-70D0-42E9-A212-7761C6311D64}"
-	ProjectSection(ProjectDependencies) = postProject
-		{476CD87A-B6F0-4DB4-B91B-D52444BAC906} = {476CD87A-B6F0-4DB4-B91B-D52444BAC906}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

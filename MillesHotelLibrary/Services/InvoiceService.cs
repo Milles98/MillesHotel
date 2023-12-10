@@ -1,5 +1,4 @@
 ﻿using MillesHotelLibrary.Interfaces;
-using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +9,21 @@ namespace MillesHotelLibrary.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        private List<Invoice> invoices = new List<Invoice>();
 
-        public Invoice CreateInvoice(Invoice newInvoice)
+        public void CreateInvoice()
         {
-            return newInvoice;
         }
 
-        public Invoice GetInvoiceByID(int invoiceID)
+        public void GetInvoiceByID()
         {
-            return invoices[invoiceID];
         }
 
-        public void UpdateInvoice(Invoice updatedInvoice)
+        public void UpdateInvoice()
         {
 
         }
 
-        public void DeleteInvoice(int invoiceID)
+        public void DeleteInvoice()
         {
 
         }
