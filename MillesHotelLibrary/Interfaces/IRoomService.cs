@@ -1,4 +1,4 @@
-﻿using MillesHotelLibrary.Models;
+﻿using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

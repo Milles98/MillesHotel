@@ -12,7 +12,7 @@ using MillesHotel;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231208085619_test")]
+    [Migration("20231208093544_test")]
     partial class test
     {
         /// <inheritdoc />

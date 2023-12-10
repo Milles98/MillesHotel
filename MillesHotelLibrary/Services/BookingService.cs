@@ -1,10 +1,11 @@
 ﻿using MillesHotelLibrary.Interfaces;
-using MillesHotelLibrary.Models;
+using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MillesHotel.Models;
 
 namespace MillesHotelLibrary.Services
 {
