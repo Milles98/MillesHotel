@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace MillesHotel.Menus
         //Customer Menu Case 0 (Return to MainMenu)
         public static void ShowCustomerMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
+            CustomerService customerService = new CustomerService();
             int choice;
 
             do
@@ -35,12 +37,16 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
+                            customerService.CreateCustomer();
                             break;
                         case 2:
+                            customerService.GetCustomerByID();
                             break;
                         case 3:
+                            customerService.UpdateCustomer();
                             break;
                         case 4:
+                            customerService.DeleteCustomer();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
