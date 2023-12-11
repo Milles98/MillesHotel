@@ -83,8 +83,6 @@ namespace MillesHotel.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomSize = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<int>(type: "int", nullable: false),
-                    ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BookingID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
