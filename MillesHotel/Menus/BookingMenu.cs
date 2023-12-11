@@ -25,12 +25,14 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
-                Console.WriteLine("Booking Menu");
-                Console.WriteLine("1. Register Booking");
-                Console.WriteLine("2. See Booking");
-                Console.WriteLine("3. Update Booking");
-                Console.WriteLine("4. Delete Booking");
-                Console.WriteLine("0. Return to MainMenu");
+                Console.WriteLine("╭──────────────────────╮");
+                Console.WriteLine("│Booking Menu          │");
+                Console.WriteLine("│1. Register Booking   │");
+                Console.WriteLine("│2. See Booking        │");
+                Console.WriteLine("│3. Update Booking     │");
+                Console.WriteLine("│4. Delete Booking     │");
+                Console.WriteLine("│0. Return to MainMenu │");
+                Console.WriteLine("╰──────────────────────╯");
 
                 Console.Write("Enter your choice: ");
                 if (int.TryParse(Console.ReadLine(), out choice))

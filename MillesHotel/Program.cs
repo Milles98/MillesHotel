@@ -9,10 +9,11 @@ namespace MillesHotel
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             var app = new App();
             var temp = DbConfiguration.StartDatabase();
             app.Build(temp);
-
 
             //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 

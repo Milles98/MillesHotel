@@ -18,12 +18,14 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
-                Console.WriteLine("Main Menu");
-                Console.WriteLine("1. Booking");
-                Console.WriteLine("2. Customer");
-                Console.WriteLine("3. Room");
-                Console.WriteLine("4. Invoice");
-                Console.WriteLine("0. Exit Program");
+                Console.WriteLine("╭────────────────╮");
+                Console.WriteLine("│Main Menu       │");
+                Console.WriteLine("│1. Booking      │");
+                Console.WriteLine("│2. Customer     │");
+                Console.WriteLine("│3. Room         │");
+                Console.WriteLine("│4. Invoice      │");
+                Console.WriteLine("│0. Exit Program │");
+                Console.WriteLine("╰────────────────╯");
 
                 Console.Write("Enter your choice: ");
                 if (int.TryParse(Console.ReadLine(), out choice))

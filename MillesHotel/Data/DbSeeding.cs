@@ -50,10 +50,10 @@ namespace MillesHotel.Data
 
                 var rooms = new List<Room>
                 {
-                    new Room { RoomSize = 2, RoomType = true, ExtraBeds = false, IsActive = true, BookingID = bookings[0].BookingID },
-                    new Room { RoomSize = 1, RoomType = false, ExtraBeds = true, IsActive = true, BookingID = bookings[1].BookingID },
-                    new Room { RoomSize = 2, RoomType = false, ExtraBeds = true, IsActive = true, BookingID = bookings[2].BookingID },
-                    new Room { RoomSize = 1, RoomType = true, ExtraBeds = false, IsActive = true, BookingID = bookings[3].BookingID }
+                    new Room { RoomSize = 2, RoomType = RoomType.SingleRoom, ExtraBeds = false, IsActive = true, BookingID = bookings[0].BookingID },
+                    new Room { RoomSize = 1, RoomType = RoomType.DoubleRoom, ExtraBeds = true, IsActive = true, BookingID = bookings[1].BookingID },
+                    new Room { RoomSize = 2, RoomType = RoomType.SingleRoom, ExtraBeds = false, IsActive = true, BookingID = bookings[2].BookingID },
+                    new Room { RoomSize = 1, RoomType = RoomType.DoubleRoom, ExtraBeds = true, IsActive = true, BookingID = bookings[3].BookingID }
                 };
 
                 dbContext.Rooms.AddRange(rooms);
