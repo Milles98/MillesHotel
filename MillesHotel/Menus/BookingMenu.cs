@@ -49,7 +49,7 @@ namespace MillesHotel.Menus
                             bookingService.UpdateBooking();
                             break;
                         case 4:
-                            bookingService.DeleteBooking();
+                            bookingService.SoftDeleteBooking();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");

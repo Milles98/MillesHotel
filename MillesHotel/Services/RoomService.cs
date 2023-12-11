@@ -123,23 +123,23 @@ namespace MillesHotel.Services
             Console.ReadKey();
         }
 
-        public void DeleteRoom()
+        public void SoftDeleteRoom()
         {
             foreach (var rooms in _dbContext.Rooms)
             {
-                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}");
+                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}, IsActive: {rooms.IsActive}");
             }
 
-            Console.Write("Enter room ID to delete: ");
+            Console.Write("Enter room ID to soft delete: ");
             int roomId = Convert.ToInt32(Console.ReadLine());
 
             var room = _dbContext.Rooms.Find(roomId);
 
             if (room != null)
             {
-                _dbContext.Rooms.Remove(room);
+                room.IsActive = false;
                 _dbContext.SaveChanges();
-                Console.WriteLine("Room deleted successfully.");
+                Console.WriteLine("Room soft deleted successfully.");
             }
             else
             {
