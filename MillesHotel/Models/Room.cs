@@ -16,7 +16,7 @@ namespace MillesHotel.Models
         public int RoomSize { get; set; }
 
         [Required]
-        public bool RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
+        public RoomType RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
 
         public bool ExtraBeds { get; set; }
         public bool IsActive { get; set; }
@@ -24,6 +24,13 @@ namespace MillesHotel.Models
         // Foreign key för att koppla till Booking
         public int? BookingID { get; set; }
         public Booking Booking { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
 
+    }
+
+    public enum RoomType
+    {
+        SingleRoom,
+        DoubleRoom
     }
 }

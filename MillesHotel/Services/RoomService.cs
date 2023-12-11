@@ -23,8 +23,8 @@ namespace MillesHotel.Services
             Console.Write("Enter room size: ");
             if (int.TryParse(Console.ReadLine(), out int roomSize))
             {
-                Console.Write("Enter room type (Double Room - true, Single Room - false): ");
-                if (bool.TryParse(Console.ReadLine(), out bool roomType))
+                Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
+                if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
                 {
                     Console.Write("Does the room have extra beds? (true/false): ");
                     bool extraBeds = bool.Parse(Console.ReadLine());
@@ -66,7 +66,7 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine($"Room ID: {room.RoomID}");
                 Console.WriteLine($"Room Size: {room.RoomSize}");
-                Console.WriteLine($"Room Type: {(room.RoomType ? "Double Room" : "Single Room")}");
+                Console.WriteLine($"Room Type: {room.RoomType}");
                 Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
                 Console.WriteLine($"Is Active: {room.IsActive}");
             }
@@ -92,7 +92,7 @@ namespace MillesHotel.Services
                 if (int.TryParse(Console.ReadLine(), out int newRoomSize))
                 {
                     Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
-                    if (bool.TryParse(Console.ReadLine(), out bool newRoomType))
+                    if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                     {
                         Console.Write("Does the room have extra beds? (true/false): ");
                         bool newExtraBeds = bool.Parse(Console.ReadLine());
