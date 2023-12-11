@@ -37,7 +37,7 @@ namespace MillesHotel.Services
                     .ToList();
 
                 var availableRooms = _dbContext.Rooms
-                    .AsEnumerable() // Switch to client evaluation
+                    .AsEnumerable()
                     .Where(r => !r.IsActive)
                     .Where(r => !bookedRoomIds.Contains(r.RoomID))
                     .ToList();
@@ -83,8 +83,8 @@ namespace MillesHotel.Services
                                 InvoiceAmount = invoiceAmount,
                                 InvoiceDue = newBooking.BookingEndDate,
                                 IsActive = true,
-                                CustomerID = customerId, // Assuming the invoice is associated with the customer
-                                Customer = newBooking.Customer, // Set the customer navigation property
+                                CustomerID = customerId,
+                                Customer = newBooking.Customer,
                             };
 
                             newBooking.Invoice = newInvoice;
