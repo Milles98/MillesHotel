@@ -31,7 +31,8 @@ namespace MillesHotel.Services
 
                 var newBooking = new Booking
                 {
-                    BookingDate = bookingDate,
+                    BookingStartDate = bookingDate,
+                    BookingEndDate = bookingDate.AddDays(7),
                     IsActive = true,
                     CustomerID = customerId,
                     RoomID = roomId
@@ -45,10 +46,19 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invalid date format. Booking not created.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void GetBookingByID()
         {
+            foreach (var bookingID in _dbContext.Bookings)
+            {
+                Console.WriteLine($"BookingID: {bookingID.BookingID}");
+
+            }
+
             Console.Write("Enter booking ID: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
 
@@ -57,7 +67,8 @@ namespace MillesHotel.Services
             if (booking != null)
             {
                 Console.WriteLine($"Booking ID: {booking.BookingID}");
-                Console.WriteLine($"Booking Date: {booking.BookingDate}");
+                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate}");
+                Console.WriteLine($"Booking End Date: {booking.BookingEndDate}");
                 Console.WriteLine($"Is Active: {booking.IsActive}");
                 Console.WriteLine($"Customer ID: {booking.CustomerID}");
                 Console.WriteLine($"Room ID: {booking.RoomID}");
@@ -66,10 +77,15 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Booking not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void UpdateBooking()
         {
+            PrintAllBookings();
+
             Console.Write("Enter booking ID to update: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
 
@@ -80,7 +96,7 @@ namespace MillesHotel.Services
                 Console.Write("Enter new booking date (yyyy-mm-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
                 {
-                    booking.BookingDate = newBookingDate;
+                    booking.BookingStartDate = newBookingDate;
                     _dbContext.SaveChanges();
                     Console.WriteLine("Booking information updated successfully.");
                 }
@@ -93,10 +109,15 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Booking not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void DeleteBooking()
         {
+            PrintAllBookings();
+
             Console.Write("Enter booking ID to delete: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
 
@@ -111,6 +132,23 @@ namespace MillesHotel.Services
             else
             {
                 Console.WriteLine("Booking not found.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void PrintAllBookings()
+        {
+            foreach (var booking in _dbContext.Bookings)
+            {
+                Console.WriteLine($"BookingID: {booking.BookingID}");
+                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate}");
+                Console.WriteLine($"Booking End Date: {booking.BookingEndDate}");
+                Console.WriteLine($"Is Active: {booking.IsActive}");
+                Console.WriteLine($"CustomerID: {booking.CustomerID}");
+                Console.WriteLine($"RoomID: {booking.RoomID}");
+                Console.WriteLine();
             }
         }
 

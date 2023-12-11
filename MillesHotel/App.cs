@@ -14,12 +14,33 @@ namespace MillesHotel
     {
         public void Build(DbContextOptionsBuilder<HotelDbContext> options)
         {
+            UpdateBookingStatus(options);
+
             bool programRunning = true;
             do
             {
                 MainMenu.ShowMenu(options);
             } while (programRunning);
 
+        }
+
+        private static void UpdateBookingStatus(DbContextOptionsBuilder<HotelDbContext> options)
+        {
+            using (var dbContext = new HotelDbContext(options.Options))
+            {
+                var bookings = dbContext.Bookings.ToList();
+
+                foreach (var booking in bookings)
+                {
+                    // Om BookingEndDate har passerat dagens datum
+                    if (booking.BookingEndDate < DateTime.Now)
+                    {
+                        booking.IsActive = false;
+                    }
+                }
+
+                dbContext.SaveChanges();
+            }
         }
     }
 }

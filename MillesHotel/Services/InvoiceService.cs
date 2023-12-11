@@ -50,6 +50,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invalid amount format. Invoice not created.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void GetInvoiceByID()
@@ -71,6 +74,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invoice not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void UpdateInvoice()
@@ -107,6 +113,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invoice not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void DeleteInvoice()
@@ -126,6 +135,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invoice not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
     }
 }

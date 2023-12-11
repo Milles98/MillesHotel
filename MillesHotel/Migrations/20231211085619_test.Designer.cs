@@ -12,7 +12,7 @@ using MillesHotel.Data;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231211082415_test")]
+    [Migration("20231211085619_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -33,7 +33,10 @@ namespace MillesHotel.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingID"));
 
-                    b.Property<DateTime>("BookingDate")
+                    b.Property<DateTime>("BookingEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("BookingStartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerID")

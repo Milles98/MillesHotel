@@ -50,6 +50,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invalid room size format. Room not created.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void GetRoomByID()
@@ -71,6 +74,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Room not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void UpdateRoom()
@@ -111,6 +117,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Room not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void DeleteRoom()
@@ -130,6 +139,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Room not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
     }

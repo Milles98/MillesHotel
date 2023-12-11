@@ -21,13 +21,13 @@ namespace MillesHotel.Data
                 var customers = new List<Customer>
                 {
                     new Customer { CustomerFirstName = "Stefan", CustomerLastName = "Löfven", CustomerAge = 64,
-                CustomerEmail = "steffe@riksdagen.se", CustomerPhone = "08-2353123", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "steffe@riksdagen.se", CustomerPhone = "08-2353123", CustomerCountry = "Sweden", IsActive = true },
                     new Customer { CustomerFirstName = "Mille", CustomerLastName = "Elfver", CustomerAge = 25,
-                CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
                     new Customer { CustomerFirstName = "Richard", CustomerLastName = "Chalk", CustomerAge = 35,
-                CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
                     new Customer { CustomerFirstName = "Bill", CustomerLastName = "Gates", CustomerAge = 75,
-                CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", CustomerCountry = "USA", IsActive = true }
+                        CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", CustomerCountry = "USA", IsActive = true }
                 };
 
                 dbContext.Customers.AddRange(customers);
@@ -35,10 +35,14 @@ namespace MillesHotel.Data
 
                 var bookings = new List<Booking>
                 {
-                    new Booking { BookingDate = DateTime.Now, IsActive = true, CustomerID = customers[0].CustomerID },
-                    new Booking { BookingDate = DateTime.Now, IsActive = true, CustomerID = customers[1].CustomerID },
-                    new Booking { BookingDate = DateTime.Now, IsActive = true, CustomerID = customers[2].CustomerID },
-                    new Booking { BookingDate = DateTime.Now, IsActive = true, CustomerID = customers[3].CustomerID }
+                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                        IsActive = true, CustomerID = customers[0].CustomerID },
+                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                        IsActive = true, CustomerID = customers[1].CustomerID },
+                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                        IsActive = true, CustomerID = customers[2].CustomerID },
+                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                        IsActive = true, CustomerID = customers[3].CustomerID }
                 };
 
                 dbContext.Bookings.AddRange(bookings);

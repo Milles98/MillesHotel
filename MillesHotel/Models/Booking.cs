@@ -13,7 +13,8 @@ namespace MillesHotel.Models
         public int BookingID { get; set; }
 
         [Required]
-        public DateTime BookingDate { get; set; }
+        public DateTime BookingStartDate { get; set; }
+        public DateTime BookingEndDate { get; set; }
         public bool IsActive { get; set; }
 
         // Foreign key för att koppla till Customer
