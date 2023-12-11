@@ -31,51 +31,83 @@ namespace MillesHotel.Services
                 Console.Write("Enter customer ID: ");
                 int customerId = Convert.ToInt32(Console.ReadLine());
 
-                foreach (var room in _dbContext.Rooms)
+                var bookedRoomIds = _dbContext.Bookings
+                    .Where(b => bookingDate < b.BookingEndDate && b.BookingStartDate < bookingDate.AddDays(7))
+                    .Select(b => b.RoomID)
+                    .ToList();
+
+                var availableRooms = _dbContext.Rooms
+                    .AsEnumerable() // Switch to client evaluation
+                    .Where(r => !r.IsActive)
+                    .Where(r => !bookedRoomIds.Contains(r.RoomID))
+                    .ToList();
+
+                if (availableRooms.Any())
                 {
-                    Console.WriteLine($"RoomID: {room.RoomID} Roomtype: {room.RoomType}, Available: {room.IsActive}");
-                }
-
-                Console.Write("Enter room ID: ");
-                int roomId = Convert.ToInt32(Console.ReadLine());
-
-                // Check if the room is available
-                var selectedRoom = _dbContext.Rooms.Find(roomId);
-
-                if (selectedRoom != null && selectedRoom.IsActive)
-                {
-                    var newBooking = new Booking
+                    Console.WriteLine("Available Rooms:");
+                    foreach (var room in availableRooms)
                     {
-                        BookingStartDate = bookingDate,
-                        BookingEndDate = bookingDate.AddDays(7),
-                        IsActive = true,
-                        CustomerID = customerId,
-                        RoomID = roomId
-                    };
+                        Console.WriteLine($"RoomID: {room.RoomID} Roomtype: {room.RoomType}");
+                    }
 
-                    // Calculate InvoiceAmount based on the number of nights booked
-                    var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
+                    Console.Write("Enter room ID: ");
+                    int roomId = Convert.ToInt32(Console.ReadLine());
 
-                    var newInvoice = new Invoice
+                    // Check if the room is available
+                    var selectedRoom = _dbContext.Rooms.Find(roomId);
+
+                    if (selectedRoom != null && !selectedRoom.IsActive)
                     {
-                        InvoiceAmount = invoiceAmount,
-                        InvoiceDue = newBooking.BookingEndDate,
-                        IsActive = true,
-                        CustomerID = customerId, // Assuming the invoice is associated with the customer
-                        Customer = newBooking.Customer, // Set the customer navigation property
-                    };
+                        // Check if there are any overlapping bookings for the selected room
+                        var isRoomAvailable = !_dbContext.Bookings
+                            .Where(b => b.RoomID == roomId && b.IsActive &&
+                            !(bookingDate < b.BookingEndDate && b.BookingStartDate < bookingDate.AddDays(7)))
+                            .Any();
 
-                    newBooking.Invoice = newInvoice;
+                        if (isRoomAvailable)
+                        {
+                            var newBooking = new Booking
+                            {
+                                BookingStartDate = bookingDate,
+                                BookingEndDate = bookingDate.AddDays(7),
+                                IsActive = true,
+                                CustomerID = customerId,
+                                RoomID = roomId
+                            };
 
-                    _dbContext.Bookings.Add(newBooking);
-                    _dbContext.Invoices.Add(newInvoice);
+                            // Calculate InvoiceAmount based on the number of nights booked
+                            var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
 
-                    _dbContext.SaveChanges();
-                    Console.WriteLine("Booking created successfully.");
+                            var newInvoice = new Invoice
+                            {
+                                InvoiceAmount = invoiceAmount,
+                                InvoiceDue = newBooking.BookingEndDate,
+                                IsActive = true,
+                                CustomerID = customerId, // Assuming the invoice is associated with the customer
+                                Customer = newBooking.Customer, // Set the customer navigation property
+                            };
+
+                            newBooking.Invoice = newInvoice;
+
+                            _dbContext.Bookings.Add(newBooking);
+                            _dbContext.Invoices.Add(newInvoice);
+
+                            _dbContext.SaveChanges();
+                            Console.WriteLine("Booking created successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The room is not available for the selected dates. Booking not created.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid room selection or the room is not available. Booking not created.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid room selection or the room is not available. Booking not created.");
+                    Console.WriteLine("No rooms are available for the selected dates. Booking not created.");
                 }
             }
             else

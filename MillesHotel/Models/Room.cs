@@ -23,8 +23,8 @@ namespace MillesHotel.Models
         {
             get
             {
-                // Returnera true om det finns någon pågående bokning
-                return Bookings?.Any(b => b.IsActive) ?? false;
+                // Check if there are any active bookings that overlap with the specified date range
+                return Bookings?.Any(b => b.IsActive && BookingDatesOverlap(b, DateTime.Now, DateTime.Now.AddDays(7))) ?? false;
             }
         }
 
@@ -32,6 +32,12 @@ namespace MillesHotel.Models
         public int? BookingID { get; set; }
         public Booking Booking { get; set; }
         public ICollection<Booking> Bookings { get; set; }
+
+        public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)
+        {
+            // Check if the booking overlaps with the specified date range
+            return !(booking.BookingEndDate <= start || booking.BookingStartDate >= end);
+        }
 
     }
 
