@@ -30,7 +30,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│1. Register Room      │");
                 Console.WriteLine("│2. See Room           │");
                 Console.WriteLine("│3. Update Room        │");
-                Console.WriteLine("│4. Delete Room        │");
+                Console.WriteLine("│4. Soft Delete Room   │");
                 Console.WriteLine("│0. Return to MainMenu │");
                 Console.WriteLine("╰──────────────────────╯");
 
