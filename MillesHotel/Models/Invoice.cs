@@ -21,10 +21,10 @@ namespace MillesHotel.Models
 
         // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
         // Foreign key för att koppla till Booking
         public int? BookingID { get; set; }  // Nullable because it's optional
-        public Booking Booking { get; set; }
+        public Booking? Booking { get; set; }
 
     }
 }
