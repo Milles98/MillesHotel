@@ -1,15 +1,20 @@
-﻿using MillesHotelLibrary.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace MillesHotelLibrary.Services
+namespace MillesHotel.Services
 {
-    public class BookingService : IBookingService
+    public class BookingService
     {
+        private readonly HotelDbContext _dbContext;
+
+        public BookingService(DbContextOptionsBuilder<HotelDbContext> options)
+        {
+            _dbContext = new HotelDbContext(options.Options);
+        }
 
         public void CreateBooking()
         {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MillesHotelLibrary.Services;
+using MillesHotel.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace MillesHotel.Menus
         //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
         public static void ShowInvoiceMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
-            InvoiceService invoiceService = new InvoiceService();
+            InvoiceService invoiceService = new InvoiceService(options);
             int choice;
 
             do

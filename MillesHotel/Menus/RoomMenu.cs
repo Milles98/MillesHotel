@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MillesHotelLibrary.Services;
+using MillesHotel.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace MillesHotel.Menus
         //Room Menu Case 0 (Return to MainMenu)
         public static void ShowRoomMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
-            RoomService roomService = new RoomService();
+            RoomService roomService = new RoomService(options);
             int choice;
 
             do
