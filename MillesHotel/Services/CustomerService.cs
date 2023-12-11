@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotel.Data;
 using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
@@ -59,16 +60,88 @@ namespace MillesHotel.Services
 
         public void GetCustomerByID()
         {
+            Console.Write("Input Customer ID: ");
+            int customerId = Convert.ToInt32(Console.ReadLine());
+
+            var customer = _dbContext.Customers.Find(customerId);
+
+            if (customer != null)
+            {
+                Console.WriteLine($"Customer ID: {customer.CustomerID}");
+                Console.WriteLine($"First Name: {customer.CustomerFirstName}");
+                Console.WriteLine($"Last Name: {customer.CustomerLastName}");
+                Console.WriteLine($"Age: {customer.CustomerAge}");
+                Console.WriteLine($"Email: {customer.CustomerEmail}");
+                Console.WriteLine($"Phone: {customer.CustomerPhone}");
+                Console.WriteLine($"Country: {customer.CustomerCountry}");
+                Console.WriteLine($"Is Active: {customer.IsActive}");
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
         }
 
         public void UpdateCustomer()
         {
+            Console.Write("Input Customer ID: ");
+            int customerId = Convert.ToInt32(Console.ReadLine());
 
+            var customer = _dbContext.Customers.Find(customerId);
+
+            if (customer != null)
+            {
+                Console.Write("Enter new customer first name: ");
+                customer.CustomerFirstName = Console.ReadLine();
+
+                Console.Write("Enter new customer last name: ");
+                customer.CustomerLastName = Console.ReadLine();
+
+                Console.Write("Enter new customer age: ");
+                if (int.TryParse(Console.ReadLine(), out int age))
+                {
+                    customer.CustomerAge = age;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid age input. Age not updated.");
+                }
+
+                Console.Write("Enter new customer email: ");
+                customer.CustomerEmail = Console.ReadLine();
+
+                Console.Write("Enter new customer phone: ");
+                customer.CustomerPhone = Console.ReadLine();
+
+                Console.Write("Enter new customer country: ");
+                customer.CustomerCountry = Console.ReadLine();
+
+                _dbContext.SaveChanges();
+                Console.WriteLine("Customer information updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
         }
 
         public void DeleteCustomer()
         {
+            Console.Write("Input Customer ID: ");
+            int customerId = Convert.ToInt32(Console.ReadLine());
 
+            var customer = _dbContext.Customers.Find(customerId);
+
+            if (customer != null)
+            {
+                _dbContext.Customers.Remove(customer);
+                _dbContext.SaveChanges();
+                Console.WriteLine("Customer deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
         }
 
     }

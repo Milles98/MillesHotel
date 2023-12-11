@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotel.Data;
 using MillesHotel.Services;
 using System;
 using System.Collections.Generic;

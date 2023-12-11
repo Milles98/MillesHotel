@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MillesHotel.Data;
 using MillesHotel.Menus;
 using System;
 using System.Collections.Generic;

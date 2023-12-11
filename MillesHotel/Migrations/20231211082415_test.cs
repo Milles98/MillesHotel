@@ -39,7 +39,7 @@ namespace MillesHotel.Migrations
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: false)
+                    RoomID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +84,7 @@ namespace MillesHotel.Migrations
                     RoomType = table.Column<bool>(type: "bit", nullable: false),
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    BookingID = table.Column<int>(type: "int", nullable: false)
+                    BookingID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,8 +93,7 @@ namespace MillesHotel.Migrations
                         name: "FK_Rooms_Bookings_BookingID",
                         column: x => x.BookingID,
                         principalTable: "Bookings",
-                        principalColumn: "BookingID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BookingID");
                 });
 
             migrationBuilder.CreateIndex(
@@ -111,7 +110,8 @@ namespace MillesHotel.Migrations
                 name: "IX_Rooms_BookingID",
                 table: "Rooms",
                 column: "BookingID",
-                unique: true);
+                unique: true,
+                filter: "[BookingID] IS NOT NULL");
         }
 
         /// <inheritdoc />

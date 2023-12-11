@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillesHotel
+namespace MillesHotel.Data
 {
     public static class DbConfiguration
     {
@@ -23,6 +23,7 @@ namespace MillesHotel
             using (var dbContext = new HotelDbContext(optionsBuilder.Options))
             {
                 dbContext.Database.Migrate();
+                DbSeeding.SeedData(dbContext);
             }
 
             return optionsBuilder;
