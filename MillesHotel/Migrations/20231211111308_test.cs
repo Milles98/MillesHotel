@@ -62,7 +62,8 @@ namespace MillesHotel.Migrations
                     BookingEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: true)
+                    RoomID = table.Column<int>(type: "int", nullable: true),
+                    InvoiceID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,6 +74,11 @@ namespace MillesHotel.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Invoices_InvoiceID",
+                        column: x => x.InvoiceID,
+                        principalTable: "Invoices",
+                        principalColumn: "InvoiceID");
                 });
 
             migrationBuilder.CreateTable(
@@ -99,6 +105,11 @@ namespace MillesHotel.Migrations
                 name: "IX_Bookings_CustomerID",
                 table: "Bookings",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_InvoiceID",
+                table: "Bookings",
+                column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomID",
@@ -133,14 +144,22 @@ namespace MillesHotel.Migrations
                 table: "Bookings");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Invoices_Customers_CustomerID",
+                table: "Invoices");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Bookings_Invoices_InvoiceID",
+                table: "Bookings");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Bookings_Rooms_RoomID",
                 table: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

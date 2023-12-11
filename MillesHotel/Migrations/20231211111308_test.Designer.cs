@@ -12,7 +12,7 @@ using MillesHotel.Data;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231211110807_test")]
+    [Migration("20231211111308_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -42,6 +42,9 @@ namespace MillesHotel.Migrations
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InvoiceID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -51,6 +54,8 @@ namespace MillesHotel.Migrations
                     b.HasKey("BookingID");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("InvoiceID");
 
                     b.HasIndex("RoomID");
 
@@ -157,11 +162,17 @@ namespace MillesHotel.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MillesHotel.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceID");
+
                     b.HasOne("MillesHotel.Models.Room", null)
                         .WithMany("Bookings")
                         .HasForeignKey("RoomID");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("MillesHotel.Models.Invoice", b =>
