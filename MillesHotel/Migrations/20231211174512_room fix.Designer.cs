@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MillesHotel.Data;
 
@@ -11,9 +12,11 @@ using MillesHotel.Data;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231211174512_room fix")]
+    partial class roomfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +52,6 @@ namespace MillesHotel.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("RoomID");
-
                     b.ToTable("Bookings");
                 });
 
@@ -66,6 +67,7 @@ namespace MillesHotel.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerCountry")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustomerEmail")
@@ -81,6 +83,7 @@ namespace MillesHotel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustomerPhone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -162,10 +165,6 @@ namespace MillesHotel.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MillesHotel.Models.Room", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomID");
-
                     b.Navigation("Customer");
                 });
 
@@ -197,9 +196,11 @@ namespace MillesHotel.Migrations
 
             modelBuilder.Entity("MillesHotel.Models.Booking", b =>
                 {
-                    b.Navigation("Invoice");
+                    b.Navigation("Invoice")
+                        .IsRequired();
 
-                    b.Navigation("Room");
+                    b.Navigation("Room")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MillesHotel.Models.Customer", b =>
@@ -207,11 +208,6 @@ namespace MillesHotel.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Invoices");
-                });
-
-            modelBuilder.Entity("MillesHotel.Models.Room", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

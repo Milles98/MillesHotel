@@ -130,17 +130,31 @@ namespace MillesHotel.Services
             Console.Write("Enter booking ID: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
 
-            var booking = _dbContext.Bookings.Include(b => b.Room).FirstOrDefault(b => b.BookingID == bookingId);
+            var booking = _dbContext.Bookings
+                .Include(b => b.Room)
+                .Include(b => b.Customer)
+                .Include(b => b.Invoice)
+                .FirstOrDefault(b => b.BookingID == bookingId);
 
             if (booking != null)
             {
-                Console.WriteLine($"Booking ID: {booking.BookingID}");
-                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate}");
-                Console.WriteLine($"Booking End Date: {booking.BookingEndDate}");
+                Console.WriteLine($"\nBooking ID: {booking.BookingID}");
+                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
+                Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
+
+                if (booking.Invoice != null)
+                {
+                    Console.WriteLine($"\nAmount Due: {booking.Invoice?.InvoiceAmount.ToString("C2") ?? "N/A"}");
+                }
+
+                Console.WriteLine($"\nRoom ID: {booking.RoomID}");
                 Console.WriteLine($"Room Type: {booking.Room?.RoomType ?? RoomType.SingleRoom}");
-                Console.WriteLine($"Is Active: {booking.IsActive}");
-                Console.WriteLine($"Customer ID: {booking.CustomerID}");
-                Console.WriteLine($"Room ID: {booking.Room?.RoomID ?? 0}");
+
+                if (booking.Customer != null)
+                {
+                    Console.WriteLine($"\nCustomer ID: {booking.CustomerID}" +
+                        $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}\n");
+                }
             }
             else
             {
