@@ -19,31 +19,42 @@ namespace MillesHotel.Data
             if (!dbContext.Rooms.Any())
             {
                 var customers = new List<Customer>
-                {
-                    new Customer { CustomerFirstName = "Stefan", CustomerLastName = "Löfven", CustomerAge = 64,
-                        CustomerEmail = "steffe@riksdagen.se", CustomerPhone = "08-2353123", CustomerCountry = "Sweden", IsActive = true },
-                    new Customer { CustomerFirstName = "Mille", CustomerLastName = "Elfver", CustomerAge = 25,
-                        CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
-                    new Customer { CustomerFirstName = "Richard", CustomerLastName = "Chalk", CustomerAge = 35,
-                        CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
-                    new Customer { CustomerFirstName = "Bill", CustomerLastName = "Gates", CustomerAge = 75,
-                        CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", CustomerCountry = "USA", IsActive = true }
-                };
+        {
+            new Customer { CustomerFirstName = "Stefan", CustomerLastName = "Löfven", CustomerAge = 64,
+                CustomerEmail = "steffe@riksdagen.se", CustomerPhone = "08-2353123", CustomerCountry = "Sweden", IsActive = true },
+            new Customer { CustomerFirstName = "Mille", CustomerLastName = "Elfver", CustomerAge = 25,
+                CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
+            new Customer { CustomerFirstName = "Richard", CustomerLastName = "Chalk", CustomerAge = 35,
+                CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
+            new Customer { CustomerFirstName = "Bill", CustomerLastName = "Gates", CustomerAge = 75,
+                CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", CustomerCountry = "USA", IsActive = true }
+        };
 
                 dbContext.Customers.AddRange(customers);
                 dbContext.SaveChanges();
 
+                var rooms = new List<Room>
+        {
+            new Room { RoomSize = 1, RoomType = RoomType.SingleRoom },
+            new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom },
+            new Room { RoomSize = 1, RoomType = RoomType.SingleRoom },
+            new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom }
+        };
+
+                dbContext.Rooms.AddRange(rooms);
+                dbContext.SaveChanges();
+
                 var bookings = new List<Booking>
-                {
-                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
-                        IsActive = true, CustomerID = customers[0].CustomerID },
-                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
-                        IsActive = true, CustomerID = customers[1].CustomerID },
-                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
-                        IsActive = true, CustomerID = customers[2].CustomerID },
-                    new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
-                        IsActive = true, CustomerID = customers[3].CustomerID }
-                };
+        {
+            new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                IsActive = true, CustomerID = customers[0].CustomerID, RoomID = rooms[0].RoomID },
+            new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                IsActive = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
+            new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                IsActive = true, CustomerID = customers[2].CustomerID, RoomID = rooms[2].RoomID },
+            new Booking { BookingStartDate = DateTime.Now, BookingEndDate = DateTime.Now.AddDays(7),
+                IsActive = true, CustomerID = customers[3].CustomerID, RoomID = rooms[3].RoomID }
+        };
 
                 dbContext.Bookings.AddRange(bookings);
                 dbContext.SaveChanges();
@@ -61,23 +72,13 @@ namespace MillesHotel.Data
                         IsActive = true,
                         CustomerID = booking.CustomerID,
                         Customer = booking.Customer,
+                        BookingID = booking.BookingID,
                     };
 
                     invoices.Add(invoice);
                 }
 
                 dbContext.Invoices.AddRange(invoices);
-                dbContext.SaveChanges();
-
-                var rooms = new List<Room>
-                {
-                    new Room { RoomSize = 1, RoomType = RoomType.SingleRoom, BookingID = bookings[0].BookingID },
-                    new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom, BookingID = bookings[1].BookingID },
-                    new Room { RoomSize = 1, RoomType = RoomType.SingleRoom, BookingID = bookings[2].BookingID },
-                    new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom, BookingID = bookings[3].BookingID }
-                };
-
-                dbContext.Rooms.AddRange(rooms);
                 dbContext.SaveChanges();
             }
         }
