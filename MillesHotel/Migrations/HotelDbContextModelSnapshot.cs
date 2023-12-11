@@ -49,6 +49,8 @@ namespace MillesHotel.Migrations
 
                     b.HasIndex("CustomerID");
 
+                    b.HasIndex("RoomID");
+
                     b.ToTable("Bookings");
                 });
 
@@ -138,8 +140,8 @@ namespace MillesHotel.Migrations
                     b.Property<int>("RoomSize")
                         .HasColumnType("int");
 
-                    b.Property<bool>("RoomType")
-                        .HasColumnType("bit");
+                    b.Property<int>("RoomType")
+                        .HasColumnType("int");
 
                     b.HasKey("RoomID");
 
@@ -157,6 +159,10 @@ namespace MillesHotel.Migrations
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MillesHotel.Models.Room", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("RoomID");
 
                     b.Navigation("Customer");
                 });
@@ -192,6 +198,11 @@ namespace MillesHotel.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Invoices");
+                });
+
+            modelBuilder.Entity("MillesHotel.Models.Room", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }
