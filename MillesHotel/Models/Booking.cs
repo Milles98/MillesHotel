@@ -4,12 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillesHotelLibrary;
-using MillesHotelLibrary.Interfaces;
 
 namespace MillesHotel.Models
 {
-    public class Booking : IBooking
+    public class Booking
     {
         [Key]
         public int BookingID { get; set; }
