@@ -34,7 +34,6 @@ namespace MillesHotel.Services
                         RoomSize = roomSize,
                         RoomType = roomType,
                         ExtraBeds = extraBeds,
-                        IsActive = true
                     };
 
                     _dbContext.Rooms.Add(newRoom);
