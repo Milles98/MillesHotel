@@ -56,6 +56,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Invalid age input. Please enter a valid number.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void GetCustomerByID()
@@ -80,6 +83,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Customer not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void UpdateCustomer()
@@ -123,6 +129,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Customer not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         public void DeleteCustomer()
@@ -142,6 +151,9 @@ namespace MillesHotel.Services
             {
                 Console.WriteLine("Customer not found.");
             }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
     }
