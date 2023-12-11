@@ -57,6 +57,11 @@ namespace MillesHotel.Services
 
         public void GetInvoiceByID()
         {
+            foreach (var showInvoice in _dbContext.Invoices)
+            {
+                Console.WriteLine($"CustomerID: {showInvoice.InvoiceID}");
+            }
+
             Console.Write("Enter invoice ID: ");
             int invoiceId = Convert.ToInt32(Console.ReadLine());
 
@@ -81,6 +86,11 @@ namespace MillesHotel.Services
 
         public void UpdateInvoice()
         {
+            foreach (var showInvoice in _dbContext.Invoices)
+            {
+                Console.WriteLine($"CustomerID: {showInvoice.InvoiceID}");
+            }
+
             Console.Write("Enter invoice ID to update: ");
             int invoiceId = Convert.ToInt32(Console.ReadLine());
 
@@ -118,18 +128,23 @@ namespace MillesHotel.Services
             Console.ReadKey();
         }
 
-        public void DeleteInvoice()
+        public void SoftDeleteInvoice()
         {
-            Console.Write("Enter invoice ID to delete: ");
+            foreach (var showInvoice in _dbContext.Invoices)
+            {
+                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
+            }
+
+            Console.Write("Enter invoice ID to soft delete: ");
             int invoiceId = Convert.ToInt32(Console.ReadLine());
 
             var invoice = _dbContext.Invoices.Find(invoiceId);
 
             if (invoice != null)
             {
-                _dbContext.Invoices.Remove(invoice);
+                invoice.IsActive = false;
                 _dbContext.SaveChanges();
-                Console.WriteLine("Invoice deleted successfully.");
+                Console.WriteLine("Invoice soft deleted successfully.");
             }
             else
             {

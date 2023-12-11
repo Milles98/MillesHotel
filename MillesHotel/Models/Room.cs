@@ -26,6 +26,17 @@ namespace MillesHotel.Models
                 // Check if there are any active bookings that overlap with the specified date range
                 return Bookings?.Any(b => b.IsActive && BookingDatesOverlap(b, DateTime.Now, DateTime.Now.AddDays(7))) ?? false;
             }
+            set
+            {
+                // Set IsActive for all bookings related to this room
+                if (Bookings != null)
+                {
+                    foreach (var booking in Bookings)
+                    {
+                        booking.IsActive = value;
+                    }
+                }
+            }
         }
 
         // Foreign key för att koppla till Booking

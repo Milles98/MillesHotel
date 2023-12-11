@@ -63,6 +63,11 @@ namespace MillesHotel.Services
 
         public void GetCustomerByID()
         {
+            foreach (var showCustomer in _dbContext.Customers)
+            {
+                Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
+            }
+
             Console.Write("Input Customer ID: ");
             int customerId = Convert.ToInt32(Console.ReadLine());
 
@@ -90,6 +95,11 @@ namespace MillesHotel.Services
 
         public void UpdateCustomer()
         {
+            foreach (var showCustomer in _dbContext.Customers)
+            {
+                Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
+            }
+
             Console.Write("Input Customer ID: ");
             int customerId = Convert.ToInt32(Console.ReadLine());
 
@@ -134,8 +144,13 @@ namespace MillesHotel.Services
             Console.ReadKey();
         }
 
-        public void DeleteCustomer()
+        public void SoftDeleteCustomer()
         {
+            foreach (var showCustomer in _dbContext.Customers)
+            {
+                Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
+            }
+
             Console.Write("Input Customer ID: ");
             int customerId = Convert.ToInt32(Console.ReadLine());
 
@@ -143,9 +158,9 @@ namespace MillesHotel.Services
 
             if (customer != null)
             {
-                _dbContext.Customers.Remove(customer);
+                customer.IsActive = false;
                 _dbContext.SaveChanges();
-                Console.WriteLine("Customer deleted successfully.");
+                Console.WriteLine("Customer soft deleted successfully.");
             }
             else
             {

@@ -183,20 +183,20 @@ namespace MillesHotel.Services
             Console.ReadKey();
         }
 
-        public void DeleteBooking()
+        public void SoftDeleteBooking()
         {
             PrintAllBookings();
 
-            Console.Write("Enter booking ID to delete: ");
+            Console.Write("Enter booking ID to soft delete: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
 
             var booking = _dbContext.Bookings.Find(bookingId);
 
             if (booking != null)
             {
-                _dbContext.Bookings.Remove(booking);
+                booking.IsActive = false;
                 _dbContext.SaveChanges();
-                Console.WriteLine("Booking deleted successfully.");
+                Console.WriteLine("Booking soft deleted successfully.");
             }
             else
             {
