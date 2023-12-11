@@ -26,9 +26,6 @@ namespace MillesHotel.Services
                 Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
                 if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
                 {
-                    Console.Write("Does the room have extra beds? (true/false): ");
-                    bool extraBeds = bool.Parse(Console.ReadLine());
-
                     var newRoom = new Room
                     {
                         RoomSize = roomSize,
@@ -85,6 +82,12 @@ namespace MillesHotel.Services
 
         public void UpdateRoom()
         {
+            foreach (var rooms in _dbContext.Rooms)
+            {
+                Console.WriteLine($"BookingID: {rooms.RoomID}");
+
+            }
+
             Console.Write("Enter room ID to update: ");
             int roomId = Convert.ToInt32(Console.ReadLine());
 
@@ -124,6 +127,12 @@ namespace MillesHotel.Services
 
         public void DeleteRoom()
         {
+            foreach (var rooms in _dbContext.Rooms)
+            {
+                Console.WriteLine($"BookingID: {rooms.RoomID}");
+
+            }
+
             Console.Write("Enter room ID to delete: ");
             int roomId = Convert.ToInt32(Console.ReadLine());
 
