@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MillesHotel.Models;
 
-namespace MillesHotel
+namespace MillesHotel.Data
 {
     public class HotelDbContext : DbContext
     {

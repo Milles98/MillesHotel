@@ -22,7 +22,7 @@ namespace MillesHotel.Models
         public bool IsActive { get; set; }
 
         // Foreign key för att koppla till Booking
-        public int BookingID { get; set; }
+        public int? BookingID { get; set; }
         public Booking Booking { get; set; }
 
     }

@@ -21,7 +21,7 @@ namespace MillesHotel.Models
         public Customer Customer { get; set; }
 
         // Foreign key för att koppla till Room
-        public int RoomID { get; set; }
+        public int? RoomID { get; set; }
         public Room Room { get; set; }
 
     }

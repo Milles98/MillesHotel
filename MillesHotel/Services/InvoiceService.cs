@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotel.Data;
+using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +20,112 @@ namespace MillesHotel.Services
 
         public void CreateInvoice()
         {
+            Console.Write("Enter invoice amount: ");
+            if (double.TryParse(Console.ReadLine(), out double invoiceAmount))
+            {
+                Console.Write("Enter invoice due date (yyyy-mm-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue))
+                {
+                    Console.Write("Enter customer ID: ");
+                    int customerId = Convert.ToInt32(Console.ReadLine());
+
+                    var newInvoice = new Invoice
+                    {
+                        InvoiceAmount = invoiceAmount,
+                        InvoiceDue = invoiceDue,
+                        IsActive = true,
+                        CustomerID = customerId
+                    };
+
+                    _dbContext.Invoices.Add(newInvoice);
+                    _dbContext.SaveChanges();
+                    Console.WriteLine("Invoice created successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid date format. Invoice not created.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid amount format. Invoice not created.");
+            }
         }
 
         public void GetInvoiceByID()
         {
+            Console.Write("Enter invoice ID: ");
+            int invoiceId = Convert.ToInt32(Console.ReadLine());
+
+            var invoice = _dbContext.Invoices.Find(invoiceId);
+
+            if (invoice != null)
+            {
+                Console.WriteLine($"Invoice ID: {invoice.InvoiceID}");
+                Console.WriteLine($"Invoice Amount: {invoice.InvoiceAmount}");
+                Console.WriteLine($"Invoice Due: {invoice.InvoiceDue}");
+                Console.WriteLine($"Is Active: {invoice.IsActive}");
+                Console.WriteLine($"Customer ID: {invoice.CustomerID}");
+            }
+            else
+            {
+                Console.WriteLine("Invoice not found.");
+            }
         }
 
         public void UpdateInvoice()
         {
+            Console.Write("Enter invoice ID to update: ");
+            int invoiceId = Convert.ToInt32(Console.ReadLine());
 
+            var invoice = _dbContext.Invoices.Find(invoiceId);
+
+            if (invoice != null)
+            {
+                Console.Write("Enter new invoice amount: ");
+                if (double.TryParse(Console.ReadLine(), out double newInvoiceAmount))
+                {
+                    Console.Write("Enter new invoice due date (yyyy-mm-dd): ");
+                    if (DateTime.TryParse(Console.ReadLine(), out DateTime newInvoiceDue))
+                    {
+                        invoice.InvoiceAmount = newInvoiceAmount;
+                        invoice.InvoiceDue = newInvoiceDue;
+                        _dbContext.SaveChanges();
+                        Console.WriteLine("Invoice information updated successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date format. Invoice information not updated.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount format. Invoice information not updated.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invoice not found.");
+            }
         }
 
         public void DeleteInvoice()
         {
+            Console.Write("Enter invoice ID to delete: ");
+            int invoiceId = Convert.ToInt32(Console.ReadLine());
 
+            var invoice = _dbContext.Invoices.Find(invoiceId);
+
+            if (invoice != null)
+            {
+                _dbContext.Invoices.Remove(invoice);
+                _dbContext.SaveChanges();
+                Console.WriteLine("Invoice deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invoice not found.");
+            }
         }
     }
 }
