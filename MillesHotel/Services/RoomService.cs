@@ -54,8 +54,7 @@ namespace MillesHotel.Services
         {
             foreach (var rooms in _dbContext.Rooms)
             {
-                Console.WriteLine($"BookingID: {rooms.RoomID}");
-
+                Console.WriteLine($"RoomID: {rooms.RoomID}");
             }
 
             Console.Write("Enter room ID: ");
@@ -84,8 +83,7 @@ namespace MillesHotel.Services
         {
             foreach (var rooms in _dbContext.Rooms)
             {
-                Console.WriteLine($"BookingID: {rooms.RoomID}");
-
+                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}");
             }
 
             Console.Write("Enter room ID to update: ");
@@ -129,8 +127,7 @@ namespace MillesHotel.Services
         {
             foreach (var rooms in _dbContext.Rooms)
             {
-                Console.WriteLine($"BookingID: {rooms.RoomID}");
-
+                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}");
             }
 
             Console.Write("Enter room ID to delete: ");
