@@ -12,7 +12,7 @@ using MillesHotel.Data;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231211104739_test")]
+    [Migration("20231211110807_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -133,12 +133,6 @@ namespace MillesHotel.Migrations
 
                     b.Property<int?>("BookingID")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ExtraBeds")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int>("RoomSize")
                         .HasColumnType("int");

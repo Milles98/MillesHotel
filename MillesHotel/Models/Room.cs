@@ -16,9 +16,9 @@ namespace MillesHotel.Models
         public int RoomSize { get; set; }
 
         [Required]
-        public RoomType RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
+        public RoomType RoomType { get; set; }
 
-        public bool ExtraBeds { get; set; }
+        public bool ExtraBeds => RoomType == RoomType.DoubleRoom;
         public bool IsActive
         {
             get

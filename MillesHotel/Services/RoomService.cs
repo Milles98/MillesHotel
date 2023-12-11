@@ -33,7 +33,6 @@ namespace MillesHotel.Services
                     {
                         RoomSize = roomSize,
                         RoomType = roomType,
-                        ExtraBeds = extraBeds,
                     };
 
                     _dbContext.Rooms.Add(newRoom);
@@ -56,6 +55,12 @@ namespace MillesHotel.Services
 
         public void GetRoomByID()
         {
+            foreach (var rooms in _dbContext.Rooms)
+            {
+                Console.WriteLine($"BookingID: {rooms.RoomID}");
+
+            }
+
             Console.Write("Enter room ID: ");
             int roomId = Convert.ToInt32(Console.ReadLine());
 
@@ -93,12 +98,8 @@ namespace MillesHotel.Services
                     Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                     {
-                        Console.Write("Does the room have extra beds? (true/false): ");
-                        bool newExtraBeds = bool.Parse(Console.ReadLine());
-
                         room.RoomSize = newRoomSize;
                         room.RoomType = newRoomType;
-                        room.ExtraBeds = newExtraBeds;
                         _dbContext.SaveChanges();
                         Console.WriteLine("Room information updated successfully.");
                     }

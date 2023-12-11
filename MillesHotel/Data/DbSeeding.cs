@@ -48,12 +48,33 @@ namespace MillesHotel.Data
                 dbContext.Bookings.AddRange(bookings);
                 dbContext.SaveChanges();
 
+                var invoices = new List<Invoice>();
+
+                foreach (var booking in bookings)
+                {
+                    var invoiceAmount = 1000 * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+
+                    var invoice = new Invoice
+                    {
+                        InvoiceAmount = invoiceAmount,
+                        InvoiceDue = booking.BookingEndDate,
+                        IsActive = true,
+                        CustomerID = booking.CustomerID,
+                        Customer = booking.Customer,
+                    };
+
+                    invoices.Add(invoice);
+                }
+
+                dbContext.Invoices.AddRange(invoices);
+                dbContext.SaveChanges();
+
                 var rooms = new List<Room>
                 {
-                    new Room { RoomSize = 2, RoomType = RoomType.SingleRoom, ExtraBeds = false, BookingID = bookings[0].BookingID },
-                    new Room { RoomSize = 1, RoomType = RoomType.DoubleRoom, ExtraBeds = true, BookingID = bookings[1].BookingID },
-                    new Room { RoomSize = 2, RoomType = RoomType.SingleRoom, ExtraBeds = false, BookingID = bookings[2].BookingID },
-                    new Room { RoomSize = 1, RoomType = RoomType.DoubleRoom, ExtraBeds = true, BookingID = bookings[3].BookingID }
+                    new Room { RoomSize = 1, RoomType = RoomType.SingleRoom, BookingID = bookings[0].BookingID },
+                    new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom, BookingID = bookings[1].BookingID },
+                    new Room { RoomSize = 1, RoomType = RoomType.SingleRoom, BookingID = bookings[2].BookingID },
+                    new Room { RoomSize = 2, RoomType = RoomType.DoubleRoom, BookingID = bookings[3].BookingID }
                 };
 
                 dbContext.Rooms.AddRange(rooms);
