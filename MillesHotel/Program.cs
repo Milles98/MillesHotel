@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MillesHotel.Data;
+using MillesHotelLibrary.Data;
 
 namespace MillesHotel
 {
@@ -10,8 +10,6 @@ namespace MillesHotel
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            //Lägg models i library med services
 
             var app = new App();
             var temp = DbConfiguration.StartDatabase();

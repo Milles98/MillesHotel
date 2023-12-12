@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillesHotel.Data
+namespace MillesHotelLibrary.Data
 {
     public static class DbConfiguration
     {

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillesHotel.Models;
 
-namespace MillesHotel.Data
+namespace MillesHotelLibrary.Data
 {
     public class HotelDbContext : DbContext
     {

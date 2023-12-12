@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MillesHotel.Data;
+using MillesHotelLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

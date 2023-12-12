@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MillesHotel.Data;
-using MillesHotel.Services;
+using MillesHotelLibrary.Data;
+using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,7 @@ namespace MillesHotel.Menus
         public static void ShowBookingMenu(DbContextOptionsBuilder<HotelDbContext> options)
         {
             BookingService bookingService = new BookingService(options);
+
             int choice;
 
             do
