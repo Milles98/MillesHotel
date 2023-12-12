@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MillesHotel.Menus
 {
-    public class AdminMenu
+    public static class AdminMenu
     {
 
         //Kanske visa länder osv 
