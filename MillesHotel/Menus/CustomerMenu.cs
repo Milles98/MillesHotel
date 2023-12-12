@@ -29,6 +29,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Customer Menu           │");
                 Console.WriteLine("│1. Register Customer    │");
                 Console.WriteLine("│2. See Customer         │");
+                Console.WriteLine("│See all Customers       │");
                 Console.WriteLine("│3. Update Customer      │");
                 Console.WriteLine("│4. Soft Delete Customer │");
                 Console.WriteLine("│0. Return to MainMenu   │");
