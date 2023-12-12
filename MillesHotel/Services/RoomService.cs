@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotel.Data;
+using MillesHotel.Interfaces;
 using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MillesHotel.Services
 {
-    public class RoomService
+    public class RoomService : IRoomService
     {
         private readonly HotelDbContext _dbContext;
 
