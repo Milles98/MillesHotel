@@ -30,7 +30,7 @@ namespace MillesHotel.Services
                     Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
                 }
 
-                Console.Write("Enter customer ID: ");
+                Console.Write("Enter Customer ID: ");
                 int customerId = Convert.ToInt32(Console.ReadLine());
 
                 var bookedRoomIds = _dbContext.Bookings
@@ -167,9 +167,26 @@ namespace MillesHotel.Services
             Console.ReadKey();
         }
 
+        public void GetAllBookings()
+        {
+            var bookings = _dbContext.Bookings.ToList();
+            foreach (var booking in bookings)
+            {
+                Console.WriteLine("Booking ID: " + booking.BookingID);
+                Console.WriteLine("Start Date: " + booking.BookingStartDate);
+                Console.WriteLine("End Date: " + booking.BookingEndDate);
+                Console.WriteLine($"Is Active: {booking.IsActive}");
+                Console.WriteLine("Customer ID: " + booking.CustomerID);
+                Console.WriteLine("Room ID: " + booking.RoomID);
+                Console.WriteLine();
+            }
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
         public void UpdateBooking()
         {
-            PrintAllBookings();
+            GetAllBookings();
 
             Console.Write("Enter booking ID to update: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
@@ -201,7 +218,7 @@ namespace MillesHotel.Services
 
         public void SoftDeleteBooking()
         {
-            PrintAllBookings();
+            GetAllBookings();
 
             Console.Write("Enter booking ID to soft delete: ");
             int bookingId = Convert.ToInt32(Console.ReadLine());
@@ -221,20 +238,6 @@ namespace MillesHotel.Services
 
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
-        }
-
-        public void PrintAllBookings()
-        {
-            foreach (var booking in _dbContext.Bookings)
-            {
-                Console.WriteLine($"BookingID: {booking.BookingID}");
-                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate}");
-                Console.WriteLine($"Booking End Date: {booking.BookingEndDate}");
-                Console.WriteLine($"Is Active: {booking.IsActive}");
-                Console.WriteLine($"CustomerID: {booking.CustomerID}");
-                Console.WriteLine($"RoomID: {booking.RoomID}");
-                Console.WriteLine();
-            }
         }
 
     }

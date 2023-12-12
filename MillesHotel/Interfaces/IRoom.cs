@@ -25,7 +25,7 @@ namespace MillesHotel.Interfaces
         public Booking? Booking { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
 
-        public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)
+        public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end);
 
     }
 
