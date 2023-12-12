@@ -10,7 +10,7 @@ namespace MillesHotelLibrary.Data
 {
     public static class DbConfiguration
     {
-        public static DbContextOptionsBuilder<HotelDbContext> StartDatabase()
+        public static DbContextOptions<HotelDbContext> StartDatabase()
         {
             var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             var config = builder.Build();
@@ -26,7 +26,7 @@ namespace MillesHotelLibrary.Data
                 DbSeeding.SeedData(dbContext);
             }
 
-            return optionsBuilder;
+            return optionsBuilder.Options;
         }
     }
 }

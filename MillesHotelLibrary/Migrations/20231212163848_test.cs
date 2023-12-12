@@ -31,6 +31,21 @@ namespace MillesHotelLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    RoomID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomSize = table.Column<int>(type: "int", nullable: false),
+                    RoomType = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.RoomID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
@@ -51,6 +66,11 @@ namespace MillesHotelLibrary.Migrations
                         principalTable: "Customers",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Rooms_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Rooms",
+                        principalColumn: "RoomID");
                 });
 
             migrationBuilder.CreateTable(
@@ -81,27 +101,6 @@ namespace MillesHotelLibrary.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Rooms",
-                columns: table => new
-                {
-                    RoomID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomSize = table.Column<int>(type: "int", nullable: false),
-                    RoomType = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    BookingID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomID);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Bookings_BookingID",
-                        column: x => x.BookingID,
-                        principalTable: "Bookings",
-                        principalColumn: "BookingID");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_CustomerID",
                 table: "Bookings",
@@ -123,44 +122,22 @@ namespace MillesHotelLibrary.Migrations
                 name: "IX_Invoices_CustomerID",
                 table: "Invoices",
                 column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rooms_BookingID",
-                table: "Rooms",
-                column: "BookingID",
-                unique: true,
-                filter: "[BookingID] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Bookings_Rooms_RoomID",
-                table: "Bookings",
-                column: "RoomID",
-                principalTable: "Rooms",
-                principalColumn: "RoomID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Bookings_Customers_CustomerID",
-                table: "Bookings");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Bookings_Rooms_RoomID",
-                table: "Bookings");
-
             migrationBuilder.DropTable(
                 name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
-
-            migrationBuilder.DropTable(
-                name: "Bookings");
         }
     }
 }

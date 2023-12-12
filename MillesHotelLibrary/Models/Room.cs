@@ -40,9 +40,6 @@ namespace MillesHotelLibrary.Models
             }
         }
 
-        // Foreign key för att koppla till Booking
-        public int? BookingID { get; set; }
-        public Booking? Booking { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
 
         public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)

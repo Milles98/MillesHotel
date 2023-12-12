@@ -12,8 +12,8 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231212115234_test")]
-    partial class test
+    [Migration("20231212164604_test 2")]
+    partial class test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,9 +136,6 @@ namespace MillesHotelLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomID"));
 
-                    b.Property<int?>("BookingID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -149,10 +146,6 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("RoomID");
-
-                    b.HasIndex("BookingID")
-                        .IsUnique()
-                        .HasFilter("[BookingID] IS NOT NULL");
 
                     b.ToTable("Rooms");
                 });
@@ -165,11 +158,13 @@ namespace MillesHotelLibrary.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MillesHotelLibrary.Models.Room", null)
+                    b.HasOne("MillesHotelLibrary.Models.Room", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomID");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Invoice", b =>
@@ -189,20 +184,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("MillesHotelLibrary.Models.Room", b =>
-                {
-                    b.HasOne("MillesHotelLibrary.Models.Booking", "Booking")
-                        .WithOne("Room")
-                        .HasForeignKey("MillesHotelLibrary.Models.Room", "BookingID");
-
-                    b.Navigation("Booking");
-                });
-
             modelBuilder.Entity("MillesHotelLibrary.Models.Booking", b =>
                 {
                     b.Navigation("Invoice");
-
-                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
