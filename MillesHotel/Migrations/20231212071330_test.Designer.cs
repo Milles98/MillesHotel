@@ -12,8 +12,8 @@ using MillesHotel.Data;
 namespace MillesHotel.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231211170808_update")]
-    partial class update
+    [Migration("20231212071330_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +69,6 @@ namespace MillesHotel.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerCountry")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustomerEmail")
@@ -85,7 +84,6 @@ namespace MillesHotel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CustomerPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -202,11 +200,9 @@ namespace MillesHotel.Migrations
 
             modelBuilder.Entity("MillesHotel.Models.Booking", b =>
                 {
-                    b.Navigation("Invoice")
-                        .IsRequired();
+                    b.Navigation("Invoice");
 
-                    b.Navigation("Room")
-                        .IsRequired();
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("MillesHotel.Models.Customer", b =>

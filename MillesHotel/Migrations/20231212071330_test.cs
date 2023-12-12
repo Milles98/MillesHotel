@@ -21,8 +21,8 @@ namespace MillesHotel.Migrations
                     CustomerLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerAge = table.Column<int>(type: "int", nullable: false),
                     CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerCountry = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerCountry = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -89,6 +89,7 @@ namespace MillesHotel.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomSize = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BookingID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
