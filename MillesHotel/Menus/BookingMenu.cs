@@ -29,9 +29,9 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Booking Menu           │");
                 Console.WriteLine("│1. Register Booking    │");
                 Console.WriteLine("│2. See Booking         │");
-                Console.WriteLine("│See all Bookings       │");
-                Console.WriteLine("│3. Update Booking      │");
-                Console.WriteLine("│4. Soft Delete Booking │");
+                Console.WriteLine("│3. See all Bookings    │");
+                Console.WriteLine("│4. Update Booking      │");
+                Console.WriteLine("│5. Soft Delete Booking │");
                 Console.WriteLine("│0. Return to MainMenu  │");
                 Console.WriteLine("╰───────────────────────╯");
 
@@ -47,14 +47,15 @@ namespace MillesHotel.Menus
                             bookingService.GetBookingByID();
                             break;
                         case 3:
-                            bookingService.UpdateBooking();
-                            break;
-                        case 4:
-                            bookingService.SoftDeleteBooking();
-                            break;
-                        case 5:
                             bookingService.GetAllBookings();
                             break;
+                        case 4:
+                            bookingService.UpdateBooking();
+                            break;
+                        case 5:
+                            bookingService.SoftDeleteBooking();
+                            break;
+
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
                             break;

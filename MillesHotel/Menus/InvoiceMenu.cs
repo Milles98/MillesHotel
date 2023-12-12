@@ -28,9 +28,9 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Invoice Menu           │");
                 Console.WriteLine("│1. Register Invoice    │");
                 Console.WriteLine("│2. See Invoice         │");
-                Console.WriteLine("│See all Invoices       │");
-                Console.WriteLine("│3. Update Invoice      │");
-                Console.WriteLine("│4. Soft Delete Invoice │");
+                Console.WriteLine("│3. See all Invoices    │");
+                Console.WriteLine("│4. Update Invoice      │");
+                Console.WriteLine("│5. Soft Delete Invoice │");
                 Console.WriteLine("│0. Return to MainMenu  │");
                 Console.WriteLine("╰───────────────────────╯");
 
@@ -46,9 +46,11 @@ namespace MillesHotel.Menus
                             invoiceService.GetInvoiceByID();
                             break;
                         case 3:
-                            invoiceService.UpdateInvoice();
                             break;
                         case 4:
+                            invoiceService.UpdateInvoice();
+                            break;
+                        case 5:
                             invoiceService.SoftDeleteInvoice();
                             break;
                         case 0:
