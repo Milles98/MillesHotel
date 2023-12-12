@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MillesHotel.Data;
-using MillesHotel.Services;
+using MillesHotelLibrary.Data;
+using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

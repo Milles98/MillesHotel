@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MillesHotel.Migrations
+namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
     public partial class test : Migration

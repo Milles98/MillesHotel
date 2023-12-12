@@ -12,6 +12,6 @@ namespace MillesHotelLibrary.Interfaces
         void CreateBooking();
         void GetBookingByID();
         void UpdateBooking();
-        void DeleteBooking();
+        void SoftDeleteBooking();
     }
 }
