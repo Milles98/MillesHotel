@@ -24,6 +24,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│2. Customer     │");
                 Console.WriteLine("│3. Room         │");
                 Console.WriteLine("│4. Invoice      │");
+                Console.WriteLine("│5. Admin        │");
                 Console.WriteLine("│0. Exit Program │");
                 Console.WriteLine("╰────────────────╯");
 
@@ -43,6 +44,10 @@ namespace MillesHotel.Menus
                             break;
                         case 4:
                             InvoiceMenu.ShowInvoiceMenu(options);
+                            break;
+                        case 5:
+                            Console.WriteLine("Under construction...");
+                            Console.ReadKey();
                             break;
                         case 0:
                             Console.WriteLine("Exiting program...");
