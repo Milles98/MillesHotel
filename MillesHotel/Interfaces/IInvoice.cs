@@ -1,4 +1,4 @@
-﻿using MillesHotel.Interfaces;
+﻿using MillesHotel.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillesHotel.Models
+namespace MillesHotel.Interfaces
 {
-    public class Invoice : IInvoice
+    public interface IInvoice
     {
         [Key]
         public int InvoiceID { get; set; }
@@ -26,6 +26,5 @@ namespace MillesHotel.Models
         // Foreign key för att koppla till Booking
         public int? BookingID { get; set; }  // Nullable because it's optional
         public Booking? Booking { get; set; }
-
     }
 }

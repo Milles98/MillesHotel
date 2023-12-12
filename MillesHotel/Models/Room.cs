@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillesHotel.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MillesHotel.Models
 {
-    public class Room
+    public class Room : IRoom
     {
         [Key]
         public int RoomID { get; set; }
@@ -49,7 +50,6 @@ namespace MillesHotel.Models
             // Check if the booking overlaps with the specified date range
             return !(booking.BookingEndDate <= start || booking.BookingStartDate >= end);
         }
-
     }
 
     public enum RoomType
