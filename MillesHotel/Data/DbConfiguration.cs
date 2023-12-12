@@ -28,7 +28,5 @@ namespace MillesHotel.Data
 
             return optionsBuilder;
         }
-
-        //Lägg till dataseeding metod skapa rum och kunder kanske bokningar idk
     }
 }
