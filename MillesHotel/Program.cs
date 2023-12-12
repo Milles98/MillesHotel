@@ -11,6 +11,8 @@ namespace MillesHotel
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            //Lägg models i library med services
+
             var app = new App();
             var temp = DbConfiguration.StartDatabase();
             app.Build(temp);
