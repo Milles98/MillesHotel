@@ -1,4 +1,4 @@
-﻿using MillesHotelLibrary.Models;
+﻿using MillesHotelLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillesHotelLibrary.Interfaces
+namespace MillesHotelLibrary.Models
 {
-    public interface ICustomer
+    public class Customer : ICustomer
     {
         [Key]
         public int CustomerID { get; set; }
@@ -32,5 +32,6 @@ namespace MillesHotelLibrary.Interfaces
         // Navigationsproperty (om det finns relationer)
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<Invoice>? Invoices { get; set; }
+
     }
 }

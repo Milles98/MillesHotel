@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillesHotelLibrary.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,16 +10,22 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IRoom
     {
+        [Key]
         public int RoomID { get; set; }
 
+        [Required]
         public int RoomSize { get; set; }
 
-        public bool RoomType { get; set; } // Antag att detta representerar Double Room (true) eller Single Room (false)
+        [Required]
 
-        public bool ExtraBeds { get; set; }
         public bool IsActive { get; set; }
 
         // Foreign key för att koppla till Booking
-        public int BookingID { get; set; }
+        public int? BookingID { get; set; }
+        public Booking? Booking { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
+
+        public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end);
+
     }
 }
