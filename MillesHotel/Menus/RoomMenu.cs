@@ -17,9 +17,9 @@ namespace MillesHotel.Menus
         //Room Menu Case 3 (Input: RoomID, 1. NewRoomSize, 2. NewDouble/SingleRoom, 3. Extrabeds, 0. Return to MainMenu)
         //Room Menu Case 4 (Input: 1. RoomID, 0. Return to MainMenu)
         //Room Menu Case 0 (Return to MainMenu)
-        public static void ShowRoomMenu(DbContextOptionsBuilder<HotelDbContext> options)
+        public static void ShowRoomMenu(HotelDbContext dbContext)
         {
-            RoomService roomService = new RoomService(options);
+            RoomService roomService = new RoomService(dbContext);
             int choice;
 
             do

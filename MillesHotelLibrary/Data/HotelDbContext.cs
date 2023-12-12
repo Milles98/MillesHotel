@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,18 @@ namespace MillesHotelLibrary.Data
 {
     public class HotelDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
+
+        public HotelDbContext(DbContextOptions<HotelDbContext> options, IConfiguration configuration)
+            : base(options)
+        {
+            _configuration = configuration;
+        }
         public HotelDbContext()
         {
 
         }
+
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
         }
@@ -24,35 +33,14 @@ namespace MillesHotelLibrary.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the relationship between Booking and Invoice
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Invoice)
-                .WithOne(i => i.Booking)
-                .HasForeignKey<Invoice>(i => i.BookingID)
-                .IsRequired(false);  // Add this line to make the relationship optional
-
             // Configure the relationship between Booking and Room
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Room)
-                .WithOne(r => r.Booking)
-                .HasForeignKey<Room>(r => r.BookingID)
-                .IsRequired(false);  // Add this line to make the relationship optional
-
-            // Configure the relationship between Invoice and Customer
-            modelBuilder.Entity<Invoice>()
-                .HasOne(i => i.Customer)
-                .WithMany()
-                .HasForeignKey(i => i.CustomerID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Explicitly specify the foreign key property for the Booking relationship
-            modelBuilder.Entity<Invoice>()
-                .HasOne(i => i.Booking)
-                .WithOne(b => b.Invoice)
-                .HasForeignKey<Invoice>(i => i.BookingID)
+                .WithMany(r => r.Bookings)
+                .HasForeignKey(b => b.RoomID)
                 .IsRequired(false);
 
-            // Explicitly specify the foreign key property for the Customer relationship
+            // Configure the relationship between Invoice and Customer
             modelBuilder.Entity<Invoice>()
                 .HasOne(i => i.Customer)
                 .WithMany(c => c.Invoices)
@@ -62,9 +50,10 @@ namespace MillesHotelLibrary.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured && _configuration != null)
             {
-                optionsBuilder.UseSqlServer("MillesHotelContextConnection");
+                // Pass the actual connection string, not the connection string name
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MillesHotelContextConnection"));
             }
         }
     }

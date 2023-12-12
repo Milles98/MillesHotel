@@ -11,7 +11,7 @@ namespace MillesHotel.Menus
     public static class MainMenu
     {
         //MainMenu (Switch case, 1. Booking, 2. Customer, 3. Room, 4. Invoice, 0. Exit Program)
-        public static void ShowMenu(DbContextOptionsBuilder<HotelDbContext> options)
+        public static void ShowMenu(HotelDbContext dbContext)
         {
             int choice;
 
@@ -34,16 +34,16 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
-                            BookingMenu.ShowBookingMenu(options);
+                            BookingMenu.ShowBookingMenu(dbContext);
                             break;
                         case 2:
-                            CustomerMenu.ShowCustomerMenu(options);
+                            CustomerMenu.ShowCustomerMenu(dbContext);
                             break;
                         case 3:
-                            RoomMenu.ShowRoomMenu(options);
+                            RoomMenu.ShowRoomMenu(dbContext);
                             break;
                         case 4:
-                            InvoiceMenu.ShowInvoiceMenu(options);
+                            InvoiceMenu.ShowInvoiceMenu(dbContext);
                             break;
                         case 5:
                             Console.WriteLine("Under construction...");

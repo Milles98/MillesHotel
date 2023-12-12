@@ -12,7 +12,7 @@ namespace MillesHotel
 {
     public class App
     {
-        public void Build(DbContextOptionsBuilder<HotelDbContext> options)
+        public void Build(HotelDbContext options)
         {
             UpdateBookingStatus(options);
 
@@ -24,23 +24,20 @@ namespace MillesHotel
 
         }
 
-        private static void UpdateBookingStatus(DbContextOptionsBuilder<HotelDbContext> options)
+        private static void UpdateBookingStatus(HotelDbContext dbContext)
         {
-            using (var dbContext = new HotelDbContext(options.Options))
+            var bookings = dbContext.Bookings.ToList();
+
+            foreach (var booking in bookings)
             {
-                var bookings = dbContext.Bookings.ToList();
-
-                foreach (var booking in bookings)
+                // Om BookingEndDate har passerat dagens datum
+                if (booking.BookingEndDate < DateTime.Now)
                 {
-                    // Om BookingEndDate har passerat dagens datum
-                    if (booking.BookingEndDate < DateTime.Now)
-                    {
-                        booking.IsActive = false;
-                    }
+                    booking.IsActive = false;
                 }
-
-                dbContext.SaveChanges();
             }
+
+            dbContext.SaveChanges();
         }
     }
 }

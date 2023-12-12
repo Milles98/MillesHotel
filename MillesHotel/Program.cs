@@ -12,8 +12,9 @@ namespace MillesHotel
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             var app = new App();
-            var temp = DbConfiguration.StartDatabase();
-            app.Build(temp);
+            var dbContextOptions = DbConfiguration.StartDatabase();
+            var dbContext = new HotelDbContext(dbContextOptions);
+            app.Build(dbContext);
 
             //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 

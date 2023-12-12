@@ -17,9 +17,9 @@ namespace MillesHotel.Menus
         //Customer Menu Case 3 (Input: CustomerID, 1. NewCustomerName, 2. NewCustomerAge, 3. NewCustomerEmail, 4. NewCustomerCountry, 0. Return to MainMenu)
         //Customer Menu Case 4 (Input: 1. CustomerID, 0. Return to MainMenu)
         //Customer Menu Case 0 (Return to MainMenu)
-        public static void ShowCustomerMenu(DbContextOptionsBuilder<HotelDbContext> options)
+        public static void ShowCustomerMenu(HotelDbContext dbContext)
         {
-            CustomerService customerService = new CustomerService(options);
+            CustomerService customerService = new CustomerService(dbContext);
             int choice;
 
             do

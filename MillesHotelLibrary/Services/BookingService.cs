@@ -14,9 +14,9 @@ namespace MillesHotelLibrary.Services
     {
         private readonly HotelDbContext _dbContext;
 
-        public BookingService(DbContextOptionsBuilder<HotelDbContext> options)
+        public BookingService(HotelDbContext dbContext)
         {
-            _dbContext = new HotelDbContext(options.Options);
+            _dbContext = dbContext;
         }
 
         public void CreateBooking()
