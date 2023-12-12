@@ -12,8 +12,8 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231212163848_test")]
-    partial class test
+    [Migration("20231212172101_test 2.0")]
+    partial class test20
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

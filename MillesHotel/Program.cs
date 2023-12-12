@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MillesHotelLibrary.Data;
@@ -11,10 +12,13 @@ namespace MillesHotel
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var app = new App();
-            var dbContextOptions = DbConfiguration.StartDatabase();
-            var dbContext = new HotelDbContext(dbContextOptions);
-            app.Build(dbContext);
+            var dbContext = DbConfiguration.StartDatabase();
+            var app = new App(dbContext);
+            app.Build();
+
+            //var dbContextOptions = DbConfiguration.StartDatabase();
+            //var dbContext = new HotelDbContext(dbContextOptions);
+            //app.Build(dbContext);
 
             //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 

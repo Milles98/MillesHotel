@@ -1,4 +1,5 @@
-﻿using MillesHotelLibrary.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace MillesHotelLibrary.Data
 {
-    public static class DbSeeding
+    public class DbSeeding
     {
-        public static void SeedData(HotelDbContext dbContext)
+        public void SeedData(HotelDbContext dbContext)
         {
+            dbContext.Database.Migrate();
             SeedRooms(dbContext);
+            dbContext.SaveChanges();
         }
 
-        private static void SeedRooms(HotelDbContext dbContext)
+        private void SeedRooms(HotelDbContext dbContext)
         {
             if (!dbContext.Rooms.Any())
             {

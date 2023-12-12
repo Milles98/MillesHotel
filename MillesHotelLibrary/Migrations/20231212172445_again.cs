@@ -5,7 +5,7 @@
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class testagane : Migration
+    public partial class again : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

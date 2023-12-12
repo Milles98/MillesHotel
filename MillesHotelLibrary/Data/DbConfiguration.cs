@@ -10,23 +10,20 @@ namespace MillesHotelLibrary.Data
 {
     public static class DbConfiguration
     {
-        public static DbContextOptions<HotelDbContext> StartDatabase()
+        public static HotelDbContext StartDatabase()
         {
             var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
             var config = builder.Build();
 
+            var options = new DbContextOptionsBuilder<HotelDbContext>();
             var connectionString = config.GetConnectionString("MillesHotelContextConnection");
+            options.UseSqlServer(connectionString);
 
-            var optionsBuilder = new DbContextOptionsBuilder<HotelDbContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            var dbContext = new HotelDbContext(options.Options);
+            var dbSeeding = new DbSeeding();
+            dbSeeding.SeedData(dbContext);
 
-            using (var dbContext = new HotelDbContext(optionsBuilder.Options))
-            {
-                dbContext.Database.Migrate();
-                DbSeeding.SeedData(dbContext);
-            }
-
-            return optionsBuilder.Options;
+            return dbContext;
         }
     }
 }
