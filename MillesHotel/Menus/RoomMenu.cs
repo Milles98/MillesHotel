@@ -29,9 +29,9 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Room Menu             │");
                 Console.WriteLine("│1. Register Room      │");
                 Console.WriteLine("│2. See Room           │");
-                Console.WriteLine("│See all Rooms         │");
-                Console.WriteLine("│3. Update Room        │");
-                Console.WriteLine("│4. Soft Delete Room   │");
+                Console.WriteLine("│3. See all Rooms      │");
+                Console.WriteLine("│4. Update Room        │");
+                Console.WriteLine("│5. Soft Delete Room   │");
                 Console.WriteLine("│0. Return to MainMenu │");
                 Console.WriteLine("╰──────────────────────╯");
 
@@ -47,9 +47,11 @@ namespace MillesHotel.Menus
                             roomService.GetRoomByID();
                             break;
                         case 3:
-                            roomService.UpdateRoom();
                             break;
                         case 4:
+                            roomService.UpdateRoom();
+                            break;
+                        case 5:
                             roomService.SoftDeleteRoom();
                             break;
                         case 0:

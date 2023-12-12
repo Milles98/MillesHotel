@@ -29,9 +29,9 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Customer Menu           │");
                 Console.WriteLine("│1. Register Customer    │");
                 Console.WriteLine("│2. See Customer         │");
-                Console.WriteLine("│See all Customers       │");
-                Console.WriteLine("│3. Update Customer      │");
-                Console.WriteLine("│4. Soft Delete Customer │");
+                Console.WriteLine("│3. See all Customers    │");
+                Console.WriteLine("│4. Update Customer      │");
+                Console.WriteLine("│5. Soft Delete Customer │");
                 Console.WriteLine("│0. Return to MainMenu   │");
                 Console.WriteLine("╰────────────────────────╯");
 
@@ -47,9 +47,11 @@ namespace MillesHotel.Menus
                             customerService.GetCustomerByID();
                             break;
                         case 3:
-                            customerService.UpdateCustomer();
                             break;
                         case 4:
+                            customerService.UpdateCustomer();
+                            break;
+                        case 5:
                             customerService.SoftDeleteCustomer();
                             break;
                         case 0:
