@@ -11,13 +11,6 @@ namespace MillesHotelLibrary.Data
 {
     public class HotelDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public HotelDbContext(DbContextOptions<HotelDbContext> options, IConfiguration configuration)
-            : base(options)
-        {
-            _configuration = configuration;
-        }
         public HotelDbContext()
         {
 
@@ -50,10 +43,9 @@ namespace MillesHotelLibrary.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured && _configuration != null)
+            if (!optionsBuilder.IsConfigured)
             {
-                // Pass the actual connection string, not the connection string name
-                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MillesHotelContextConnection"));
+                optionsBuilder.UseSqlServer(@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;");
             }
         }
     }

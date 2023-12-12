@@ -12,19 +12,25 @@ namespace MillesHotel
 {
     public class App
     {
-        public void Build(HotelDbContext options)
+        private readonly HotelDbContext _dbContext;
+
+        public App(HotelDbContext dbContext)
         {
-            UpdateBookingStatus(options);
+            _dbContext = dbContext;
+        }
+        public void Build()
+        {
+            UpdateBookingStatus(_dbContext);
 
             bool programRunning = true;
             do
             {
-                MainMenu.ShowMenu(options);
+                MainMenu.ShowMenu(_dbContext);
             } while (programRunning);
 
         }
 
-        private static void UpdateBookingStatus(HotelDbContext dbContext)
+        private void UpdateBookingStatus(HotelDbContext dbContext)
         {
             var bookings = dbContext.Bookings.ToList();
 

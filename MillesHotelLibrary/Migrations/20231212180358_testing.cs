@@ -5,7 +5,7 @@
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class test2 : Migration
+    public partial class testing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
