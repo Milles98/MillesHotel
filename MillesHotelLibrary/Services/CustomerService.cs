@@ -76,6 +76,7 @@ namespace MillesHotelLibrary.Services
 
             if (customer != null)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Customer ID: {customer.CustomerID}");
                 Console.WriteLine($"First Name: {customer.CustomerFirstName}");
                 Console.WriteLine($"Last Name: {customer.CustomerLastName}");
@@ -94,56 +95,24 @@ namespace MillesHotelLibrary.Services
             Console.ReadKey();
         }
 
-        //public void UpdateCustomer()
-        //{
-        //    foreach (var showCustomer in _dbContext.Customers)
-        //    {
-        //        Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
-        //    }
+        public void GetAllBookings()
+        {
+            var customers = _dbContext.Customers.ToList();
 
-        //    Console.Write("Input Customer ID: ");
-        //    int customerId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("╭─────────────╮─────────────╮─────────────╮─────╮─────────────────────────╮───────────────╮─────────╮───────────╮");
+            Console.WriteLine("│Customer ID  │ First Name  │ Last Name   │ Age │ Email                   │ Phone         │ Country │ Is Active │");
+            Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┼───────────┤");
 
-        //    var customer = _dbContext.Customers.Find(customerId);
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│{customer.IsActive,-11}│");
+                Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┼───────────┤");
+            }
 
-        //    if (customer != null)
-        //    {
-        //        Console.Write("Enter new customer first name: ");
-        //        customer.CustomerFirstName = Console.ReadLine();
-
-        //        Console.Write("Enter new customer last name: ");
-        //        customer.CustomerLastName = Console.ReadLine();
-
-        //        Console.Write("Enter new customer age: ");
-        //        if (int.TryParse(Console.ReadLine(), out int age))
-        //        {
-        //            customer.CustomerAge = age;
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Invalid age input. Age not updated.");
-        //        }
-
-        //        Console.Write("Enter new customer email: ");
-        //        customer.CustomerEmail = Console.ReadLine();
-
-        //        Console.Write("Enter new customer phone: ");
-        //        customer.CustomerPhone = Console.ReadLine();
-
-        //        Console.Write("Enter new customer country: ");
-        //        customer.CustomerCountry = Console.ReadLine();
-
-        //        _dbContext.SaveChanges();
-        //        Console.WriteLine("Customer information updated successfully.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Customer not found.");
-        //    }
-
-        //    Console.WriteLine("Press any button to continue...");
-        //    Console.ReadKey();
-        //}
+            Console.WriteLine("╰─────────────╯─────────────╯─────────────╯─────╯─────────────────────────╯───────────────╯─────────╯───────────╯");
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
 
         public void SoftDeleteCustomer()
         {

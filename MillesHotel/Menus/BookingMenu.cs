@@ -49,9 +49,11 @@ namespace MillesHotel.Menus
                             break;
                         case 3:
                             bookingService.GetAllBookings();
+                            Console.WriteLine("Press any button to continue...");
+                            Console.ReadKey();
                             break;
                         case 4:
-                            bookingService.UpdateBooking();
+                            ShowUpdateBookingMenu(bookingService);
                             break;
                         case 5:
                             bookingService.SoftDeleteBooking();
@@ -71,6 +73,46 @@ namespace MillesHotel.Menus
                 }
 
             } while (choice != 0);
+        }
+
+        private static void ShowUpdateBookingMenu(BookingService bookingService)
+        {
+            int updateChoice;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("╭───────────────────────────────╮");
+                Console.WriteLine("│Update Booking Details         │");
+                Console.WriteLine("│1. Update Booking Start Date   │");
+                Console.WriteLine("│1. Update Booking End Date     │");
+                Console.WriteLine("│0. Return to Booking Menu      │");
+                Console.WriteLine("╰───────────────────────────────╯");
+
+                Console.Write("Enter your choice: ");
+                if (int.TryParse(Console.ReadLine(), out updateChoice))
+                {
+                    switch (updateChoice)
+                    {
+                        case 1:
+                            bookingService.UpdateBookingStartDate();
+                            break;
+                        case 2:
+                            break;
+                        case 0:
+                            Console.WriteLine("Returning to Booking Menu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                }
+
+            } while (updateChoice != 0);
         }
     }
 }

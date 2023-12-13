@@ -46,6 +46,7 @@ namespace MillesHotel.Menus
                             invoiceService.GetInvoiceByID();
                             break;
                         case 3:
+                            invoiceService.GetAllInvoices();
                             break;
                         case 4:
                             invoiceService.UpdateInvoice();
