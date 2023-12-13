@@ -85,7 +85,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Update Booking Details         │");
                 Console.WriteLine("│1. Update Booking Start Date   │");
-                Console.WriteLine("│1. Update Booking End Date     │");
+                Console.WriteLine("│2. Update Booking End Date     │");
                 Console.WriteLine("│0. Return to Booking Menu      │");
                 Console.WriteLine("╰───────────────────────────────╯");
 
@@ -98,6 +98,7 @@ namespace MillesHotel.Menus
                             bookingService.UpdateBookingStartDate();
                             break;
                         case 2:
+                            bookingService.UpdateBookingEndDate();
                             break;
                         case 0:
                             Console.WriteLine("Returning to Booking Menu...");
