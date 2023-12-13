@@ -38,10 +38,10 @@ namespace MillesHotelLibrary.Data
 
                 var rooms = new List<Room>
                 {
-                    new Room { RoomSize = 25, RoomType = RoomType.SingleRoom, RoomName = "Princess Suite" },
-                    new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName = "King Suite"  },
-                    new Room { RoomSize = 45, RoomType = RoomType.SingleRoom, RoomName = "Prince Suite"  },
-                    new Room { RoomSize = 145, RoomType = RoomType.DoubleRoom, RoomName = "Presidential Suite"  }
+                    new Room { RoomSize = 25, RoomType = RoomType.SingleRoom, RoomName = "Princess Suite", ExtraBeds = false },
+                    new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName = "King Suite", ExtraBeds = true  },
+                    new Room { RoomSize = 45, RoomType = RoomType.SingleRoom, RoomName = "Prince Suite", ExtraBeds = false  },
+                    new Room { RoomSize = 145, RoomType = RoomType.DoubleRoom, RoomName = "Presidential Suite", ExtraBeds = true  }
                 };
 
                 dbContext.Rooms.AddRange(rooms);
