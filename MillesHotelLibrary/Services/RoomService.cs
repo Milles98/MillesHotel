@@ -90,27 +90,22 @@ namespace MillesHotelLibrary.Services
         {
             var rooms = _dbContext.Rooms.ToList();
 
-            Console.WriteLine("╭───────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
-            Console.WriteLine("│ Room ID       | Room Size   | Room Type   | Extra Beds  | Is Active   │");
-            Console.WriteLine("├───────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
+            Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
+            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Is Active   │");
+            Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
 
             foreach (var room in rooms)
             {
-                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBeds,-13}│{room.IsActive,-13}│");
-                Console.WriteLine("├───────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
+                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBeds,-13}│{room.IsActive,-13}│");
+                Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
             }
 
-            Console.WriteLine("╰───────────────╯─────────────╯─────────────╯─────────────╯─────────────╯");
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
+            Console.WriteLine("╰───────────────╯───────────────────╯─────────────╯─────────────╯─────────────╯─────────────╯");
         }
 
         public void UpdateRoom()
         {
-            foreach (var rooms in _dbContext.Rooms)
-            {
-                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}");
-            }
+            GetAllRooms();
 
             Console.Write("Enter room ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))

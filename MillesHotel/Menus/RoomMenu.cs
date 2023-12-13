@@ -48,6 +48,8 @@ namespace MillesHotel.Menus
                             break;
                         case 3:
                             roomService.GetAllRooms();
+                            Console.WriteLine("Press any button to continue...");
+                            Console.ReadKey();
                             break;
                         case 4:
                             roomService.UpdateRoom();

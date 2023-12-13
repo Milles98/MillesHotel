@@ -385,7 +385,7 @@ namespace MillesHotelLibrary.Services
             Console.ReadKey();
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             try
             {
@@ -442,7 +442,7 @@ namespace MillesHotelLibrary.Services
             Console.ReadKey();
         }
 
-        private bool IsValidPhoneNumber(string phoneNumber)
+        public bool IsValidPhoneNumber(string phoneNumber)
         {
             return !string.IsNullOrEmpty(phoneNumber);
         }
