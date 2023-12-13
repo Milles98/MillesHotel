@@ -49,7 +49,7 @@ namespace MillesHotel.Menus
                         case 3:
                             break;
                         case 4:
-                            customerService.UpdateCustomer();
+                            ShowUpdateCustomerMenu(customerService);
                             break;
                         case 5:
                             customerService.SoftDeleteCustomer();
@@ -68,6 +68,63 @@ namespace MillesHotel.Menus
                 }
 
             } while (choice != 0);
+        }
+
+        private static void ShowUpdateCustomerMenu(CustomerService customerService)
+        {
+            int updateChoice;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("╭──────────────────────────╮");
+                Console.WriteLine("│Update Customer Details   │");
+                Console.WriteLine("│1. Update Name            │");
+                Console.WriteLine("│2. Update Last Name       │");
+                Console.WriteLine("│3. Update Age             │");
+                Console.WriteLine("│4. Update Email           │");
+                Console.WriteLine("│5. Update Phone           │");
+                Console.WriteLine("│6. Update Country         │");
+                Console.WriteLine("│0. Return to Customer Menu│");
+                Console.WriteLine("╰──────────────────────────╯");
+
+                Console.Write("Enter your choice: ");
+                if (int.TryParse(Console.ReadLine(), out updateChoice))
+                {
+                    switch (updateChoice)
+                    {
+                        case 1:
+                            customerService.UpdateCustomerFirstName();
+                            break;
+                        case 2:
+                            customerService.UpdateCustomerLastName();
+                            break;
+                        case 3:
+                            customerService.UpdateCustomerAge();
+                            break;
+                        case 4:
+                            customerService.UpdateCustomerEmail();
+                            break;
+                        case 5:
+                            customerService.UpdateCustomerPhone();
+                            break;
+                        case 6:
+                            customerService.UpdateCustomerCountry();
+                            break;
+                        case 0:
+                            Console.WriteLine("Returning to Customer Menu...");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                }
+
+            } while (updateChoice != 0);
         }
     }
 }
