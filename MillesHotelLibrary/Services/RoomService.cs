@@ -21,30 +21,54 @@ namespace MillesHotelLibrary.Services
 
         public void CreateRoom()
         {
-            Console.Write("Enter room size: ");
-            if (int.TryParse(Console.ReadLine(), out int roomSize))
-            {
-                Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
-                if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
-                {
-                    var newRoom = new Room
-                    {
-                        RoomSize = roomSize,
-                        RoomType = roomType,
-                    };
+            Console.Write("Enter room name (max 19 characters): ");
+            string roomName = Console.ReadLine();
 
-                    _dbContext.Rooms.Add(newRoom);
-                    _dbContext.SaveChanges();
-                    Console.WriteLine("Room created successfully.");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid room type format. Room not created.");
-                }
+            if (roomName.Length > 19)
+            {
+                Console.WriteLine("Room name exceeds maximum length (19 characters). Room not created.");
             }
             else
             {
-                Console.WriteLine("Invalid room size format. Please enter a valid number.");
+                Console.Write("Enter room size: ");
+                if (int.TryParse(Console.ReadLine(), out int roomSize) && roomSize <= 10000)
+                {
+                    Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
+                    if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
+                    {
+                        bool extraBeds = roomType == RoomType.DoubleRoom;
+
+                        if (extraBeds)
+                        {
+                            Console.Write("Do you want extra beds (true/false)? ");
+                            if (!bool.TryParse(Console.ReadLine(), out extraBeds))
+                            {
+                                Console.WriteLine("Invalid input for extra beds. Room not created.");
+                                return;
+                            }
+                        }
+
+                        var newRoom = new Room
+                        {
+                            RoomName = roomName,
+                            RoomSize = roomSize,
+                            RoomType = roomType,
+                            ExtraBeds = extraBeds,
+                        };
+
+                        _dbContext.Rooms.Add(newRoom);
+                        _dbContext.SaveChanges();
+                        Console.WriteLine("Room created successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid room type format. Room not created.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid room size format or room size exceeds maximum (10,000). Please enter a valid number.");
+                }
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -67,6 +91,7 @@ namespace MillesHotelLibrary.Services
                 {
                     Console.WriteLine();
                     Console.WriteLine($"Room ID: {room.RoomID}");
+                    Console.WriteLine($"Room Name: {room.RoomName}");
                     Console.WriteLine($"Room Size: {room.RoomSize}");
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
@@ -91,7 +116,7 @@ namespace MillesHotelLibrary.Services
             var rooms = _dbContext.Rooms.ToList();
 
             Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
-            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Is Active   │");
+            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Occupied    │");
             Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
 
             foreach (var room in rooms)
@@ -114,12 +139,16 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
+                    Console.Write("Enter new room name: ");
+                    string newRoomName = Console.ReadLine();
+
                     Console.Write("Enter new room size: ");
                     if (int.TryParse(Console.ReadLine(), out int newRoomSize))
                     {
                         Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
                         if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                         {
+                            room.RoomName = newRoomName;
                             room.RoomSize = newRoomSize;
                             room.RoomType = newRoomType;
                             _dbContext.SaveChanges();
