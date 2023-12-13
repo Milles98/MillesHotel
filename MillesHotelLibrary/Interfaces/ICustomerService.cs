@@ -11,12 +11,15 @@ namespace MillesHotelLibrary.Interfaces
     {
         void CreateCustomer();
         void GetCustomerByID();
+        void GetAllBookings();
         void SoftDeleteCustomer();
         void UpdateCustomerFirstName();
         void UpdateCustomerLastName();
         void UpdateCustomerAge();
         void UpdateCustomerEmail();
+        bool IsValidEmail(string email);
         void UpdateCustomerPhone();
+        bool IsValidPhoneNumber(string phoneNumber);
         void UpdateCustomerCountry();
     }
 }
