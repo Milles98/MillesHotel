@@ -10,6 +10,7 @@ namespace MillesHotelLibrary.Interfaces
     {
         void CreateRoom();
         void GetRoomByID();
+        void GetAllRooms();
         void UpdateRoom();
         void SoftDeleteRoom();
     }
