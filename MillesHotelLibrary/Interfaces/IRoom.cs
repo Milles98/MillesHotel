@@ -12,6 +12,7 @@ namespace MillesHotelLibrary.Interfaces
     {
         [Key]
         public int RoomID { get; set; }
+        public string RoomName { get; set; }
 
         [Required]
         public int RoomSize { get; set; }

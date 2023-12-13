@@ -47,7 +47,7 @@ namespace MillesHotelLibrary.Services
                             Console.WriteLine("Available Rooms:");
                             foreach (var room in availableRooms)
                             {
-                                Console.WriteLine($"RoomID: {room.RoomID} Roomtype: {room.RoomType}");
+                                Console.WriteLine($"RoomID: {room.RoomID}, Roomtype: {room.RoomType}, Room Size: {room.RoomSize}kvm, Room Name: {room.RoomName}");
                             }
 
                             Console.Write("Enter room ID: ");

@@ -13,6 +13,8 @@ namespace MillesHotelLibrary.Models
         [Key]
         public int RoomID { get; set; }
 
+        public string RoomName { get; set; }
+
         [Required]
         public int RoomSize { get; set; }
 
@@ -48,7 +50,6 @@ namespace MillesHotelLibrary.Models
             return !(booking.BookingEndDate <= start || booking.BookingStartDate >= end);
         }
     }
-
     public enum RoomType
     {
         SingleRoom,
