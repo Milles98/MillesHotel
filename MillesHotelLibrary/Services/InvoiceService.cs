@@ -70,9 +70,10 @@ namespace MillesHotelLibrary.Services
 
             if (invoice != null)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Invoice ID: {invoice.InvoiceID}");
-                Console.WriteLine($"Invoice Amount: {invoice.InvoiceAmount}");
-                Console.WriteLine($"Invoice Due: {invoice.InvoiceDue}");
+                Console.WriteLine($"Invoice Amount: {invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
+                Console.WriteLine($"Invoice Due: {invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
                 Console.WriteLine($"Is Active: {invoice.IsActive}");
                 Console.WriteLine($"Customer ID: {invoice.CustomerID}");
             }
@@ -81,6 +82,25 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine("Invoice not found.");
             }
 
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void GetAllInvoices()
+        {
+            var invoices = _dbContext.Invoices.ToList();
+
+            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│");
+            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤");
+
+            foreach (var invoice in invoices)
+            {
+                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│");
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤");
+            }
+
+            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯");
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }

@@ -162,21 +162,23 @@ namespace MillesHotelLibrary.Services
         public void GetAllBookings()
         {
             var bookings = _dbContext.Bookings.ToList();
+
+            Console.WriteLine("╭─────────────╮───────────────────╮───────────────────╮────────────╮─────────────╮──────────╮");
+            Console.WriteLine("│ Booking ID  │ Start Date        │ End Date          │ Is Active  │ Customer ID │ Room ID  │");
+            Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼────────────┼─────────────┼──────────┤");
+
             foreach (var booking in bookings)
             {
-                Console.WriteLine("Booking ID: " + booking.BookingID);
-                Console.WriteLine("Start Date: " + booking.BookingStartDate);
-                Console.WriteLine("End Date: " + booking.BookingEndDate);
-                Console.WriteLine($"Is Active: {booking.IsActive}");
-                Console.WriteLine("Customer ID: " + booking.CustomerID);
-                Console.WriteLine("Room ID: " + booking.RoomID);
-                Console.WriteLine();
+                Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.IsActive,-12}│{booking.CustomerID,-13}│{booking.RoomID,-10}│");
+                Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼────────────┼─────────────┼──────────┤");
             }
+
+            Console.WriteLine("╰─────────────╯───────────────────╯───────────────────╯────────────╯─────────────╯──────────╯");
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
 
-        public void UpdateBooking()
+        public void UpdateBookingStartDate()
         {
             GetAllBookings();
 
@@ -187,10 +189,42 @@ namespace MillesHotelLibrary.Services
 
             if (booking != null)
             {
-                Console.Write("Enter new booking date (yyyy-mm-dd): ");
+                Console.Write("Enter new booking start date (yyyy-mm-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
                 {
                     booking.BookingStartDate = newBookingDate;
+                    _dbContext.SaveChanges();
+                    Console.WriteLine("Booking information updated successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid date format. Booking information not updated.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Booking not found.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void UpdateBookingEndDate()
+        {
+            GetAllBookings();
+
+            Console.Write("Enter booking ID to update: ");
+            int bookingId = Convert.ToInt32(Console.ReadLine());
+
+            var booking = _dbContext.Bookings.Find(bookingId);
+
+            if (booking != null)
+            {
+                Console.Write("Enter new booking end date (yyyy-mm-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                {
+                    booking.BookingEndDate = newBookingDate;
                     _dbContext.SaveChanges();
                     Console.WriteLine("Booking information updated successfully.");
                 }

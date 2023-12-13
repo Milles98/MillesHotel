@@ -47,6 +47,7 @@ namespace MillesHotel.Menus
                             customerService.GetCustomerByID();
                             break;
                         case 3:
+                            customerService.GetAllBookings();
                             break;
                         case 4:
                             ShowUpdateCustomerMenu(customerService);

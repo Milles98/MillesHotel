@@ -65,6 +65,7 @@ namespace MillesHotelLibrary.Services
 
             if (room != null)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Room ID: {room.RoomID}");
                 Console.WriteLine($"Room Size: {room.RoomSize}");
                 Console.WriteLine($"Room Type: {room.RoomType}");
@@ -76,6 +77,25 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine("Room not found.");
             }
 
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void GetAllRooms()
+        {
+            var rooms = _dbContext.Rooms.ToList();
+
+            Console.WriteLine("╭───────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
+            Console.WriteLine("│ Room ID       | Room Size   | Room Type   | Extra Beds  | Is Active   │");
+            Console.WriteLine("├───────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
+
+            foreach (var room in rooms)
+            {
+                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBeds,-13}│{room.IsActive,-13}│");
+                Console.WriteLine("├───────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
+            }
+
+            Console.WriteLine("╰───────────────╯─────────────╯─────────────╯─────────────╯─────────────╯");
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }

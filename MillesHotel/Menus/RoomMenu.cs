@@ -47,6 +47,7 @@ namespace MillesHotel.Menus
                             roomService.GetRoomByID();
                             break;
                         case 3:
+                            roomService.GetAllRooms();
                             break;
                         case 4:
                             roomService.UpdateRoom();
