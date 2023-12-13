@@ -33,12 +33,9 @@ namespace MillesHotelLibrary.Services
                 int customerId = Convert.ToInt32(Console.ReadLine());
 
                 var availableRooms = _dbContext.Rooms
-                    .Where(room => !room.Bookings.Any(b =>
-                b.IsActive &&
-                bookingDate < b.BookingEndDate &&
-                b.BookingStartDate < bookingDate.AddDays(7)))
+                    .Where(room => room.Bookings.All(b =>
+                    bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(7)))
                     .ToList();
-
 
                 if (availableRooms.Any())
                 {
@@ -51,39 +48,50 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter room ID: ");
                     int roomId = Convert.ToInt32(Console.ReadLine());
 
-                    // Check if the room is available
                     var selectedRoom = availableRooms.FirstOrDefault(room => room.RoomID == roomId);
 
                     if (selectedRoom != null)
                     {
-                        var newBooking = new Booking
+
+                        var isRoomAvailable = selectedRoom.Bookings.All(b =>
+                            bookingDate >= b.BookingEndDate ||
+                            b.BookingStartDate >= bookingDate.AddDays(7));
+
+                        if (isRoomAvailable)
                         {
-                            BookingStartDate = bookingDate,
-                            BookingEndDate = bookingDate.AddDays(7),
-                            IsActive = true,
-                            CustomerID = customerId,
-                            RoomID = roomId
-                        };
 
-                        // Calculate InvoiceAmount based on the number of nights booked
-                        var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
+                            var newBooking = new Booking
+                            {
+                                BookingStartDate = bookingDate,
+                                BookingEndDate = bookingDate.AddDays(7),
+                                IsActive = true,
+                                CustomerID = customerId,
+                                RoomID = roomId
+                            };
 
-                        var newInvoice = new Invoice
+                            var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
+
+                            var newInvoice = new Invoice
+                            {
+                                InvoiceAmount = invoiceAmount,
+                                InvoiceDue = newBooking.BookingEndDate,
+                                IsActive = true,
+                                CustomerID = customerId,
+                                Customer = newBooking.Customer,
+                            };
+
+                            newBooking.Invoice = newInvoice;
+
+                            _dbContext.Bookings.Add(newBooking);
+                            _dbContext.Invoices.Add(newInvoice);
+
+                            _dbContext.SaveChanges();
+                            Console.WriteLine("Booking created successfully.");
+                        }
+                        else
                         {
-                            InvoiceAmount = invoiceAmount,
-                            InvoiceDue = newBooking.BookingEndDate,
-                            IsActive = true,
-                            CustomerID = customerId,
-                            Customer = newBooking.Customer,
-                        };
-
-                        newBooking.Invoice = newInvoice;
-
-                        _dbContext.Bookings.Add(newBooking);
-                        _dbContext.Invoices.Add(newInvoice);
-
-                        _dbContext.SaveChanges();
-                        Console.WriteLine("Booking created successfully.");
+                            Console.WriteLine("The room is not available for the selected dates. Booking not created.");
+                        }
                     }
                     else
                     {
