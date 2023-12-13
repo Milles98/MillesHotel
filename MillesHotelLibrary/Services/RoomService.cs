@@ -44,7 +44,7 @@ namespace MillesHotelLibrary.Services
             }
             else
             {
-                Console.WriteLine("Invalid room size format. Room not created.");
+                Console.WriteLine("Invalid room size format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -59,22 +59,27 @@ namespace MillesHotelLibrary.Services
             }
 
             Console.Write("Enter room ID: ");
-            int roomId = Convert.ToInt32(Console.ReadLine());
-
-            var room = _dbContext.Rooms.Find(roomId);
-
-            if (room != null)
+            if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                Console.WriteLine();
-                Console.WriteLine($"Room ID: {room.RoomID}");
-                Console.WriteLine($"Room Size: {room.RoomSize}");
-                Console.WriteLine($"Room Type: {room.RoomType}");
-                Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
-                Console.WriteLine($"Is Active: {room.IsActive}");
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Room ID: {room.RoomID}");
+                    Console.WriteLine($"Room Size: {room.RoomSize}");
+                    Console.WriteLine($"Room Type: {room.RoomType}");
+                    Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
+                    Console.WriteLine($"Is Active: {room.IsActive}");
+                }
+                else
+                {
+                    Console.WriteLine("Room not found.");
+                }
             }
             else
             {
-                Console.WriteLine("Room not found.");
+                Console.WriteLine("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -108,36 +113,41 @@ namespace MillesHotelLibrary.Services
             }
 
             Console.Write("Enter room ID to update: ");
-            int roomId = Convert.ToInt32(Console.ReadLine());
-
-            var room = _dbContext.Rooms.Find(roomId);
-
-            if (room != null)
+            if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                Console.Write("Enter new room size: ");
-                if (int.TryParse(Console.ReadLine(), out int newRoomSize))
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
                 {
-                    Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
-                    if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
+                    Console.Write("Enter new room size: ");
+                    if (int.TryParse(Console.ReadLine(), out int newRoomSize))
                     {
-                        room.RoomSize = newRoomSize;
-                        room.RoomType = newRoomType;
-                        _dbContext.SaveChanges();
-                        Console.WriteLine("Room information updated successfully.");
+                        Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
+                        if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
+                        {
+                            room.RoomSize = newRoomSize;
+                            room.RoomType = newRoomType;
+                            _dbContext.SaveChanges();
+                            Console.WriteLine("Room information updated successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid room type format. Room information not updated.");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Invalid room type format. Room information not updated.");
+                        Console.WriteLine("Invalid room size format. Room information not updated.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid room size format. Room information not updated.");
+                    Console.WriteLine("Room not found.");
                 }
             }
             else
             {
-                Console.WriteLine("Room not found.");
+                Console.WriteLine("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -152,19 +162,24 @@ namespace MillesHotelLibrary.Services
             }
 
             Console.Write("Enter room ID to soft delete: ");
-            int roomId = Convert.ToInt32(Console.ReadLine());
-
-            var room = _dbContext.Rooms.Find(roomId);
-
-            if (room != null)
+            if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                room.IsActive = false;
-                _dbContext.SaveChanges();
-                Console.WriteLine("Room soft deleted successfully.");
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    room.IsActive = false;
+                    _dbContext.SaveChanges();
+                    Console.WriteLine("Room soft deleted successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Room not found.");
+                }
             }
             else
             {
-                Console.WriteLine("Room not found.");
+                Console.WriteLine("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
