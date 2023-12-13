@@ -21,7 +21,7 @@ namespace MillesHotelLibrary.Services
 
         public void CreateBooking()
         {
-            Console.Write("Enter booking date (yyyy-mm-dd): ");
+            Console.Write("Enter booking date (yyyy-MM-dd): ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime bookingDate))
             {
                 foreach (var customerID in _dbContext.Customers)
@@ -30,82 +30,100 @@ namespace MillesHotelLibrary.Services
                 }
 
                 Console.Write("Enter Customer ID: ");
-                int customerId = Convert.ToInt32(Console.ReadLine());
-
-                var availableRooms = _dbContext.Rooms
-                    .Where(room => room.Bookings.All(b =>
-                    bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(7)))
-                    .ToList();
-
-                if (availableRooms.Any())
+                if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    Console.WriteLine("Available Rooms:");
-                    foreach (var room in availableRooms)
+                    var customerExists = _dbContext.Customers.Any(c => c.CustomerID == customerId);
+
+                    if (customerExists)
                     {
-                        Console.WriteLine($"RoomID: {room.RoomID} Roomtype: {room.RoomType}");
-                    }
+                        var availableRooms = _dbContext.Rooms
+                        .Where(room => room.Bookings.All(b =>
+                        bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(7)))
+                        .ToList();
 
-                    Console.Write("Enter room ID: ");
-                    int roomId = Convert.ToInt32(Console.ReadLine());
 
-                    var selectedRoom = availableRooms.FirstOrDefault(room => room.RoomID == roomId);
-
-                    if (selectedRoom != null)
-                    {
-
-                        var isRoomAvailable = selectedRoom.Bookings.All(b =>
-                            bookingDate >= b.BookingEndDate ||
-                            b.BookingStartDate >= bookingDate.AddDays(7));
-
-                        if (isRoomAvailable)
+                        if (availableRooms.Any())
                         {
-
-                            var newBooking = new Booking
+                            Console.WriteLine("Available Rooms:");
+                            foreach (var room in availableRooms)
                             {
-                                BookingStartDate = bookingDate,
-                                BookingEndDate = bookingDate.AddDays(7),
-                                IsActive = true,
-                                CustomerID = customerId,
-                                RoomID = roomId
-                            };
+                                Console.WriteLine($"RoomID: {room.RoomID} Roomtype: {room.RoomType}");
+                            }
 
-                            var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
-
-                            var newInvoice = new Invoice
+                            Console.Write("Enter room ID: ");
+                            if (int.TryParse(Console.ReadLine(), out int roomId))
                             {
-                                InvoiceAmount = invoiceAmount,
-                                InvoiceDue = newBooking.BookingEndDate,
-                                IsActive = true,
-                                CustomerID = customerId,
-                                Customer = newBooking.Customer,
-                            };
+                                var selectedRoom = availableRooms.FirstOrDefault(room => room.RoomID == roomId);
 
-                            newBooking.Invoice = newInvoice;
+                                if (selectedRoom != null)
+                                {
+                                    var isRoomAvailable = selectedRoom.Bookings.All(b =>
+                                        bookingDate >= b.BookingEndDate ||
+                                        b.BookingStartDate >= bookingDate.AddDays(7));
 
-                            _dbContext.Bookings.Add(newBooking);
-                            _dbContext.Invoices.Add(newInvoice);
+                                    if (isRoomAvailable)
+                                    {
+                                        var newBooking = new Booking
+                                        {
+                                            BookingStartDate = bookingDate,
+                                            BookingEndDate = bookingDate.AddDays(7),
+                                            IsActive = true,
+                                            CustomerID = customerId,
+                                            RoomID = roomId
+                                        };
 
-                            _dbContext.SaveChanges();
-                            Console.WriteLine("Booking created successfully.");
+                                        var invoiceAmount = 1000 * (newBooking.BookingEndDate - newBooking.BookingStartDate).TotalDays;
+
+                                        var newInvoice = new Invoice
+                                        {
+                                            InvoiceAmount = invoiceAmount,
+                                            InvoiceDue = newBooking.BookingEndDate,
+                                            IsActive = true,
+                                            CustomerID = customerId,
+                                            Customer = newBooking.Customer,
+                                        };
+
+                                        newBooking.Invoice = newInvoice;
+
+                                        _dbContext.Bookings.Add(newBooking);
+                                        _dbContext.Invoices.Add(newInvoice);
+
+                                        _dbContext.SaveChanges();
+                                        Console.WriteLine("Booking created successfully.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("The room is not available for the selected dates. Booking not created.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid room selection or the room is not available. Booking not created.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid room ID. Booking not created.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("The room is not available for the selected dates. Booking not created.");
+                            Console.WriteLine("No rooms are available for the selected dates. Booking not created.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Invalid room selection or the room is not available. Booking not created.");
+                        Console.WriteLine("Customer with the entered ID does not exist. Booking not created.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No rooms are available for the selected dates. Booking not created.");
+                    Console.WriteLine("Invalid Customer ID. Booking not created.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid date format. Booking not created.");
+                Console.WriteLine("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -114,45 +132,57 @@ namespace MillesHotelLibrary.Services
 
         public void GetBookingByID()
         {
-            foreach (var bookingID in _dbContext.Bookings)
+            try
             {
-                Console.WriteLine($"BookingID: {bookingID.BookingID}");
-
-            }
-
-            Console.Write("Enter booking ID: ");
-            int bookingId = Convert.ToInt32(Console.ReadLine());
-
-            var booking = _dbContext.Bookings
-                .Include(b => b.Room)
-                .Include(b => b.Customer)
-                .Include(b => b.Invoice)
-                .FirstOrDefault(b => b.BookingID == bookingId);
-
-            if (booking != null)
-            {
-                Console.WriteLine($"\nBooking ID: {booking.BookingID}");
-                Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
-                Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
-
-                if (booking.Invoice != null)
+                foreach (var bookingID in _dbContext.Bookings)
                 {
-                    Console.WriteLine($"\nAmount Due: {booking.Invoice?.InvoiceAmount.ToString("C2") ?? "N/A"}");
-                    Console.WriteLine($"Amount Due Date {booking.Invoice?.InvoiceDue.ToString("yyyy-MM-dd")}");
+                    Console.WriteLine($"BookingID: {bookingID.BookingID}");
                 }
 
-                Console.WriteLine($"\nRoom ID: {booking.RoomID}");
-                Console.WriteLine($"Room Type: {booking.Room?.RoomType ?? RoomType.SingleRoom}");
+                Console.Write("Enter booking ID: ");
 
-                if (booking.Customer != null)
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
-                    Console.WriteLine($"\nCustomer ID: {booking.CustomerID}" +
-                        $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}\n");
+                    var booking = _dbContext.Bookings
+                        .Include(b => b.Room)
+                        .Include(b => b.Customer)
+                        .Include(b => b.Invoice)
+                        .FirstOrDefault(b => b.BookingID == bookingId);
+
+                    if (booking != null)
+                    {
+                        Console.WriteLine($"\nBooking ID: {booking.BookingID}");
+                        Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
+                        Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
+
+                        if (booking.Invoice != null)
+                        {
+                            Console.WriteLine($"\nAmount Due: {booking.Invoice?.InvoiceAmount.ToString("C2") ?? "N/A"}");
+                            Console.WriteLine($"Amount Due Date {booking.Invoice?.InvoiceDue.ToString("yyyy-MM-dd")}");
+                        }
+
+                        Console.WriteLine($"\nRoom ID: {booking.RoomID}");
+                        Console.WriteLine($"Room Type: {booking.Room?.RoomType ?? RoomType.SingleRoom}");
+
+                        if (booking.Customer != null)
+                        {
+                            Console.WriteLine($"\nCustomer ID: {booking.CustomerID}" +
+                                $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Booking not found.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Booking not found.");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -178,30 +208,42 @@ namespace MillesHotelLibrary.Services
 
         public void UpdateBookingStartDate()
         {
-            GetAllBookings();
-
-            Console.Write("Enter booking ID to update: ");
-            int bookingId = Convert.ToInt32(Console.ReadLine());
-
-            var booking = _dbContext.Bookings.Find(bookingId);
-
-            if (booking != null)
+            try
             {
-                Console.Write("Enter new booking start date (yyyy-mm-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                GetAllBookings();
+
+                Console.Write("Enter booking ID to update: ");
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
-                    booking.BookingStartDate = newBookingDate;
-                    _dbContext.SaveChanges();
-                    Console.WriteLine("Booking information updated successfully.");
+                    var booking = _dbContext.Bookings.Find(bookingId);
+
+                    if (booking != null)
+                    {
+                        Console.Write("Enter new booking start date (yyyy-mm-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                        {
+                            booking.BookingStartDate = newBookingDate;
+                            _dbContext.SaveChanges();
+                            Console.WriteLine("Booking information updated successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid date format. Booking information not updated.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Booking not found.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid date format. Booking information not updated.");
+                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Booking not found.");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -210,30 +252,49 @@ namespace MillesHotelLibrary.Services
 
         public void UpdateBookingEndDate()
         {
-            GetAllBookings();
-
-            Console.Write("Enter booking ID to update: ");
-            int bookingId = Convert.ToInt32(Console.ReadLine());
-
-            var booking = _dbContext.Bookings.Find(bookingId);
-
-            if (booking != null)
+            try
             {
-                Console.Write("Enter new booking end date (yyyy-mm-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                GetAllBookings();
+
+                Console.Write("Enter booking ID to update: ");
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
-                    booking.BookingEndDate = newBookingDate;
-                    _dbContext.SaveChanges();
-                    Console.WriteLine("Booking information updated successfully.");
+                    var booking = _dbContext.Bookings.Find(bookingId);
+
+                    if (booking != null)
+                    {
+                        Console.Write("Enter new booking end date (yyyy-mm-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                        {
+                            if (newBookingDate >= booking.BookingStartDate)
+                            {
+                                booking.BookingEndDate = newBookingDate;
+                                _dbContext.SaveChanges();
+                                Console.WriteLine("Booking information updated successfully.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("End date must be equal to or later than the start date. Booking information not updated.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid date format. Booking information not updated.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Booking not found.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid date format. Booking information not updated.");
+                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Booking not found.");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -242,22 +303,34 @@ namespace MillesHotelLibrary.Services
 
         public void SoftDeleteBooking()
         {
-            GetAllBookings();
-
-            Console.Write("Enter booking ID to soft delete: ");
-            int bookingId = Convert.ToInt32(Console.ReadLine());
-
-            var booking = _dbContext.Bookings.Find(bookingId);
-
-            if (booking != null)
+            try
             {
-                booking.IsActive = false;
-                _dbContext.SaveChanges();
-                Console.WriteLine("Booking soft deleted successfully.");
+                GetAllBookings();
+
+                Console.Write("Enter booking ID to soft delete: ");
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
+                {
+                    var booking = _dbContext.Bookings.Find(bookingId);
+
+                    if (booking != null)
+                    {
+                        booking.IsActive = false;
+                        _dbContext.SaveChanges();
+                        Console.WriteLine("Booking soft deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Booking not found.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Booking not found.");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");

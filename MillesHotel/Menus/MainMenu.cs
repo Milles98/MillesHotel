@@ -62,6 +62,8 @@ namespace MillesHotel.Menus
                 {
                     Console.WriteLine("Invalid input. Please enter a number.");
                 }
+                Console.WriteLine("Press any button to continue...");
+                Console.ReadKey();
 
             } while (choice != 0);
         }
