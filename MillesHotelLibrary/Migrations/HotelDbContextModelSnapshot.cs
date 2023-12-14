@@ -136,6 +136,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<bool>("ExtraBeds")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ExtraBedsCount")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 

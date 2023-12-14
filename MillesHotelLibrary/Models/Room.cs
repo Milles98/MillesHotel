@@ -21,7 +21,10 @@ namespace MillesHotelLibrary.Models
         [Required]
         public RoomType RoomType { get; set; }
 
-        public bool ExtraBeds { get; set; }/*=> RoomType == RoomType.DoubleRoom;*/
+        public bool ExtraBeds { get; set; }
+
+        public int ExtraBedsCount { get; set; }
+
         public bool IsActive
         {
             get
