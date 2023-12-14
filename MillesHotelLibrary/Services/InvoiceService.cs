@@ -195,5 +195,47 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
+
+        //Applikationen skall kunna registrera en inkommen betalning på en faktura.
+        public void RegisterPayment(int invoiceId, double paymentAmount)
+        {
+            var invoice = _dbContext.Invoices.Find(invoiceId);
+
+            if (invoice != null && invoice.IsActive)
+            {
+                invoice.InvoiceAmount -= paymentAmount;
+
+                if (invoice.InvoiceAmount <= 0)
+                {
+                    invoice.IsActive = false;
+                }
+
+                _dbContext.SaveChanges();
+                Console.WriteLine("Payment registered successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invoice not found or not active.");
+            }
+        }
+
+        //Om inte en betalning registrerats inom 10 dagar efter att bokningen är gjord annulleras bokningen dvs den upphör att gälla.
+        public void CheckAndDeactivateOverdueBookings()
+        {
+            var overdueBookings = _dbContext.Bookings
+                .Where(b => b.IsActive && b.BookingStartDate <= DateTime.Now.AddDays(-10) && b.Invoice != null && b.Invoice.IsActive)
+                .ToList();
+
+            foreach (var booking in overdueBookings)
+            {
+                // Deactivate the booking
+                booking.IsActive = false;
+
+                // Deactivate the associated invoice
+                booking.Invoice.IsActive = false;
+            }
+
+            _dbContext.SaveChanges();
+        }
     }
 }

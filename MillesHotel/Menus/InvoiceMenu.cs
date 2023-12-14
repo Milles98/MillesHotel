@@ -54,6 +54,8 @@ namespace MillesHotel.Menus
                         case 5:
                             invoiceService.SoftDeleteInvoice();
                             break;
+                        case 6:
+                            break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
                             break;

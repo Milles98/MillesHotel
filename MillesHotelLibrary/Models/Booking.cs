@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,8 @@ namespace MillesHotelLibrary.Models
         public int? RoomID { get; set; }
         public Room? Room { get; set; }
         // Foreign key för att koppla till Invoice
+        //Till varje bokning skall det kopplas en betalning dvs en faktura.
+        public int? InvoiceID { get; set; }
         public Invoice? Invoice { get; set; }
 
     }

@@ -5,6 +5,7 @@ using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -208,6 +209,24 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
+        }
+
+        //Det skall gå att avboka ett rum eller ändra en bokning.
+
+        //Applikationen skall hantera bokningar och visa vilka rum som är lediga under en viss period.
+        //Det skall gå att söka på ett datum eller datumintervall och antal personer och få fram alla lediga rum som motsvarar sökningen.
+        public List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople)
+        {
+            var bookedRoomIds = _dbContext.Bookings
+                .Where(b => b.IsActive && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
+                .Select(b => b.RoomID)
+                .ToList();
+
+            var availableRooms = _dbContext.Rooms
+                .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.IsActive && r.RoomSize >= numPeople)
+                .ToList();
+
+            return availableRooms;
         }
 
     }
