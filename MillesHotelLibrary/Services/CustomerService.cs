@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
+using MillesHotelLibrary.ExtraServices;
 using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Models;
 using System;
@@ -56,21 +57,21 @@ namespace MillesHotelLibrary.Services
 
                         _dbContext.Customers.Add(newCustomer);
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Customer created successfully.");
+                        UserMessage.InputSuccessMessage("Customer created successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("First name, last name, and email must have a length of at least 2 characters.");
+                        UserMessage.ErrorMessage("First name, last name, and email must have a length of at least 2 characters.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid age input. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid age input. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -105,17 +106,17 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -160,21 +161,21 @@ namespace MillesHotelLibrary.Services
                     {
                         customer.IsActive = false;
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Customer soft deleted successfully.");
+                        UserMessage.InputSuccessMessage("Customer soft deleted successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -205,26 +206,26 @@ namespace MillesHotelLibrary.Services
                         {
                             customer.CustomerFirstName = newName;
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Customer name updated successfully.");
+                            UserMessage.InputSuccessMessage("Customer name updated successfully.");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid input for the new first name. Please enter a valid name with at least 2 characters.");
+                            UserMessage.ErrorMessage("Invalid input for the new first name. Please enter a valid name with at least 2 characters.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -255,26 +256,26 @@ namespace MillesHotelLibrary.Services
                         {
                             customer.CustomerLastName = newLastName;
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Customer last name updated successfully.");
+                            UserMessage.InputSuccessMessage("Customer last name updated successfully.");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid input for the new last name. Please enter a valid last name with at least 2 characters.");
+                            UserMessage.ErrorMessage("Invalid input for the new last name. Please enter a valid last name with at least 2 characters.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -305,31 +306,31 @@ namespace MillesHotelLibrary.Services
                             {
                                 customer.CustomerAge = newAge;
                                 _dbContext.SaveChanges();
-                                Console.WriteLine("Customer age updated successfully.");
+                                UserMessage.InputSuccessMessage("Customer age updated successfully.");
                             }
                             else
                             {
-                                Console.WriteLine("Invalid input for the new age. Please enter a valid age between 0 and 150.");
+                                UserMessage.ErrorMessage("Invalid input for the new age. Please enter a valid age between 0 and 150.");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Invalid input for the new age. Please enter a valid integer.");
+                            UserMessage.ErrorMessage("Invalid input for the new age. Please enter a valid integer.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -360,26 +361,26 @@ namespace MillesHotelLibrary.Services
                         {
                             customer.CustomerEmail = newEmail;
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Customer email updated successfully.");
+                            UserMessage.InputSuccessMessage("Customer email updated successfully.");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid email format. Please enter a valid email address.");
+                            UserMessage.ErrorMessage("Invalid email format. Please enter a valid email address.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Customer not found.");
+                        UserMessage.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid Customer ID.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -422,21 +423,21 @@ namespace MillesHotelLibrary.Services
                     {
                         customer.CustomerPhone = newPhone;
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Customer phone updated successfully.");
+                        UserMessage.InputSuccessMessage("Customer phone updated successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid phone number format. Customer phone not updated.");
+                        UserMessage.ErrorMessage("Invalid phone number format. Customer phone not updated.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Customer not found.");
+                    UserMessage.ErrorMessage("Customer not found.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Customer ID. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -471,21 +472,21 @@ namespace MillesHotelLibrary.Services
                     {
                         customer.CustomerCountry = newCountry;
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Customer country updated successfully.");
+                        UserMessage.InputSuccessMessage("Customer country updated successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid country input. Customer country not updated.");
+                        UserMessage.ErrorMessage("Invalid country input. Customer country not updated.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Customer not found.");
+                    UserMessage.ErrorMessage("Customer not found.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Customer ID. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
