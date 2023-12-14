@@ -12,7 +12,7 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231213154138_test")]
+    [Migration("20231214053218_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -42,6 +42,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InvoiceID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -51,6 +54,10 @@ namespace MillesHotelLibrary.Migrations
                     b.HasKey("BookingID");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("InvoiceID")
+                        .IsUnique()
+                        .HasFilter("[InvoiceID] IS NOT NULL");
 
                     b.HasIndex("RoomID");
 
@@ -102,9 +109,6 @@ namespace MillesHotelLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceID"));
 
-                    b.Property<int?>("BookingID")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
@@ -118,10 +122,6 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("InvoiceID");
-
-                    b.HasIndex("BookingID")
-                        .IsUnique()
-                        .HasFilter("[BookingID] IS NOT NULL");
 
                     b.HasIndex("CustomerID");
 
@@ -165,35 +165,30 @@ namespace MillesHotelLibrary.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MillesHotelLibrary.Models.Invoice", "Invoice")
+                        .WithOne("Booking")
+                        .HasForeignKey("MillesHotelLibrary.Models.Booking", "InvoiceID");
+
                     b.HasOne("MillesHotelLibrary.Models.Room", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomID");
 
                     b.Navigation("Customer");
 
+                    b.Navigation("Invoice");
+
                     b.Navigation("Room");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Invoice", b =>
                 {
-                    b.HasOne("MillesHotelLibrary.Models.Booking", "Booking")
-                        .WithOne("Invoice")
-                        .HasForeignKey("MillesHotelLibrary.Models.Invoice", "BookingID");
-
                     b.HasOne("MillesHotelLibrary.Models.Customer", "Customer")
                         .WithMany("Invoices")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Booking");
-
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("MillesHotelLibrary.Models.Booking", b =>
-                {
-                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
@@ -201,6 +196,11 @@ namespace MillesHotelLibrary.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Invoices");
+                });
+
+            modelBuilder.Entity("MillesHotelLibrary.Models.Invoice", b =>
+                {
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Room", b =>

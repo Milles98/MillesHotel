@@ -75,7 +75,7 @@ namespace MillesHotelLibrary.Data
                         IsActive = true,
                         CustomerID = booking.CustomerID,
                         Customer = booking.Customer,
-                        BookingID = booking.BookingID,
+                        //BookingID = booking.BookingID,
                     };
 
                     invoices.Add(invoice);
