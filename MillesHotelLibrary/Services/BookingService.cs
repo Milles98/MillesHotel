@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MillesHotelLibrary.ExtraServices;
 
 namespace MillesHotelLibrary.Services
 {
@@ -24,6 +25,12 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter booking date (yyyy-MM-dd): ");
             if (DateTime.TryParse(Console.ReadLine(), out DateTime bookingDate))
             {
+                if (bookingDate.Date < DateTime.Now.Date)
+                {
+                    UserMessage.ErrorMessage("Invalid booking date. Please enter a date equal to or later than today. Booking not created.");
+                    Console.ReadKey();
+                    return;
+                }
                 Console.Write("Enter number of nights: ");
                 if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0)
                 {
@@ -70,7 +77,7 @@ namespace MillesHotelLibrary.Services
                                         pricePerNight = 3500;
                                     }
 
-                                    Console.WriteLine($"RoomID: {room.RoomID}, Roomtype: {room.RoomType}, Room Size: {roomSize}kvm, Room Name: {room.RoomName}, Price per Night: {pricePerNight}kr");
+                                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-3}kvm, Price per Night: {pricePerNight,-4}kr");
                                 }
 
                                 Console.Write("Enter room ID: ");
@@ -131,30 +138,31 @@ namespace MillesHotelLibrary.Services
                                             _dbContext.Bookings.Add(newBooking);
                                             _dbContext.Invoices.Add(newInvoice);
 
-                                            Console.WriteLine($"Booking details:\n{newBooking}");
+                                            _dbContext.SaveChanges();
+                                            UserMessage.InputSuccessMessage("\nBooking created successfully.");
+
+                                            Console.WriteLine($"\nBooking details:\n{newBooking}");
                                             Console.WriteLine($"Invoice details:\n{newInvoice}");
 
-                                            _dbContext.SaveChanges();
-                                            Console.WriteLine("Booking created successfully.");
                                         }
                                         else
                                         {
-                                            Console.WriteLine("The room is not available for the selected dates. Booking not created.");
+                                            UserMessage.ErrorMessage("The room is not available for the selected dates. Booking not created.");
                                         }
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Invalid room selection or the room is not available. Booking not created.");
+                                        UserMessage.ErrorMessage("Invalid room selection or the room is not available. Booking not created.");
                                     }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Invalid room ID. Booking not created.");
+                                    UserMessage.ErrorMessage("Invalid room ID. Booking not created.");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("No rooms are available for the selected dates. Booking not created.");
+                                UserMessage.ErrorMessage("No rooms are available for the selected dates. Booking not created.");
                                 foreach (var nextDate in _dbContext.Bookings)
                                 {
                                     Console.WriteLine($"Next available dates: Room ID {nextDate.RoomID}, " +
@@ -164,25 +172,25 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            Console.WriteLine("Customer with the entered ID does not exist. Booking not created.");
+                            UserMessage.ErrorMessage("Customer with the entered ID does not exist. Booking not created.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Invalid Customer ID. Booking not created.");
+                        UserMessage.ErrorMessage("Invalid Customer ID. Booking not created.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid number of nights. Please enter a positive integer. Booking not created.");
+                    UserMessage.ErrorMessage("Invalid number of nights. Please enter a positive integer. Booking not created.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
+                UserMessage.ErrorMessage("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
 
@@ -228,17 +236,17 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        Console.WriteLine("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -280,26 +288,26 @@ namespace MillesHotelLibrary.Services
                         {
                             booking.BookingStartDate = newBookingDate;
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Booking information updated successfully.");
+                            UserMessage.InputSuccessMessage("Booking information updated successfully.");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid date format. Booking information not updated.");
+                            UserMessage.ErrorMessage("Invalid date format. Booking information not updated.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -326,31 +334,32 @@ namespace MillesHotelLibrary.Services
                             {
                                 booking.BookingEndDate = newBookingDate;
                                 _dbContext.SaveChanges();
+                                UserMessage.InputSuccessMessage("Booking information updated successfully.");
                                 Console.WriteLine("Booking information updated successfully.");
                             }
                             else
                             {
-                                Console.WriteLine("End date must be equal to or later than the start date. Booking information not updated.");
+                                UserMessage.ErrorMessage("End date must be equal to or later than the start date. Booking information not updated.");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Invalid date format. Booking information not updated.");
+                            UserMessage.ErrorMessage("Invalid date format. Booking information not updated.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -372,21 +381,21 @@ namespace MillesHotelLibrary.Services
                     {
                         booking.IsActive = false;
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Booking soft deleted successfully.");
+                        UserMessage.InputSuccessMessage("Booking soft deleted successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid booking ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
