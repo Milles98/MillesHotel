@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
+using MillesHotelLibrary.ExtraServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,13 +55,13 @@ namespace MillesHotel.Menus
                             Environment.Exit(0);
                             break;
                         default:
-                            Console.WriteLine("Invalid choice. Please try again.");
+                            UserMessage.ErrorMessage("Invalid choice. Please try again.");
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Please enter a number.");
+                    UserMessage.ErrorMessage("Invalid input. Please enter a number.");
                 }
                 Console.WriteLine("Press any button to continue...");
                 Console.ReadKey();
