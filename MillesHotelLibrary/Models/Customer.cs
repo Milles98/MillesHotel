@@ -40,7 +40,6 @@ namespace MillesHotelLibrary.Models
             }
         }
 
-        // Navigationsproperty (om det finns relationer)
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<Invoice>? Invoices { get; set; }
 
