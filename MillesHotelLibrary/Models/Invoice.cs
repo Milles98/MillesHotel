@@ -37,5 +37,10 @@ namespace MillesHotelLibrary.Models
         //public int? BookingID { get; set; }  // Nullable because it's optional
         public Booking? Booking { get; set; }
 
+        public override string ToString()
+        {
+            return $"Amount: {InvoiceAmount}kr, Due Date: {InvoiceDue.ToString("yyyy-MM-dd")}, CustomerID: {CustomerID}";
+        }
+
     }
 }
