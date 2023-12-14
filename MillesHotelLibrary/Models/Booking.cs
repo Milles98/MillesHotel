@@ -40,5 +40,10 @@ namespace MillesHotelLibrary.Models
         public int? InvoiceID { get; set; }
         public Invoice? Invoice { get; set; }
 
+        public override string ToString()
+        {
+            return $"Start Date: {BookingStartDate.ToString("yyyy-MM-dd")}, End Date: {BookingEndDate.ToString("yyyy-MM-dd")}, CustomerID: {CustomerID}, RoomID: {RoomID}";
+        }
+
     }
 }
