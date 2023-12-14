@@ -109,6 +109,11 @@ namespace MillesHotelLibrary.Services
                         else
                         {
                             Console.WriteLine("No rooms are available for the selected dates. Booking not created.");
+                            foreach (var nextDate in _dbContext.Bookings)
+                            {
+                                Console.WriteLine($"Next available dates: Room ID {nextDate.RoomID}, " +
+                                    $"Start Date: {nextDate.BookingStartDate.ToString("yyyy-MM-dd")}, End Date: {nextDate.BookingEndDate.ToString("yyyy-MM-dd")}");
+                            }
                         }
                     }
                     else

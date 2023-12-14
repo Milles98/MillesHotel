@@ -100,17 +100,17 @@ namespace MillesHotelLibrary.Services
         {
             var invoices = _dbContext.Invoices.ToList();
 
-            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│");
-            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤");
+            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid     │");
+            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
 
             foreach (var invoice in invoices)
             {
-                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│");
-                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤");
+                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│{invoice.IsActive,-12}│");
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
             }
 
-            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯");
+            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯────────────╯");
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
@@ -197,26 +197,50 @@ namespace MillesHotelLibrary.Services
         }
 
         //Applikationen skall kunna registrera en inkommen betalning på en faktura.
-        public void RegisterPayment(int invoiceId, double paymentAmount)
+        public void RegisterPayment()
         {
-            var invoice = _dbContext.Invoices.Find(invoiceId);
-
-            if (invoice != null && invoice.IsActive)
+            Console.Write("Enter invoice ID: ");
+            if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                invoice.InvoiceAmount -= paymentAmount;
 
-                if (invoice.InvoiceAmount <= 0)
+                var invoiceFind = _dbContext.Invoices.Find(invoiceId);
+
+                Console.WriteLine($"Amount Due: {invoiceFind.InvoiceAmount}");
+
+                Console.Write("Enter payment amount: ");
+                if (double.TryParse(Console.ReadLine(), out double paymentAmount))
                 {
-                    invoice.IsActive = false;
-                }
 
-                _dbContext.SaveChanges();
-                Console.WriteLine("Payment registered successfully.");
+                    var invoice = _dbContext.Invoices.Find(invoiceId);
+
+                    if (invoice != null && invoice.IsActive)
+                    {
+                        invoice.InvoiceAmount -= paymentAmount;
+
+                        if (invoice.InvoiceAmount <= 0)
+                        {
+                            invoice.IsActive = false;
+                        }
+
+                        _dbContext.SaveChanges();
+                        Console.WriteLine("Payment registered successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invoice not found or not active.");
+                    }
+                }
+                else
+                {
+
+                }
             }
             else
             {
-                Console.WriteLine("Invoice not found or not active.");
+
             }
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
 
         //Om inte en betalning registrerats inom 10 dagar efter att bokningen är gjord annulleras bokningen dvs den upphör att gälla.
