@@ -101,7 +101,7 @@ namespace MillesHotelLibrary.Services
             var invoices = _dbContext.Invoices.ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid     │");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Is Active  │");
             Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
 
             foreach (var invoice in invoices)
@@ -202,43 +202,51 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                var invoice = _dbContext.Invoices.Find(invoiceId);
 
-                var invoiceFind = _dbContext.Invoices.Find(invoiceId);
-
-                Console.WriteLine($"Amount Due: {invoiceFind.InvoiceAmount}");
-
-                Console.Write("Enter payment amount: ");
-                if (double.TryParse(Console.ReadLine(), out double paymentAmount))
+                if (invoice != null)
                 {
+                    Console.WriteLine($"Amount Due: {invoice.InvoiceAmount.ToString("C2")}");
 
-                    var invoice = _dbContext.Invoices.Find(invoiceId);
-
-                    if (invoice != null && invoice.IsActive)
+                    Console.Write("Enter payment amount: ");
+                    if (double.TryParse(Console.ReadLine(), out double paymentAmount))
                     {
-                        invoice.InvoiceAmount -= paymentAmount;
-
-                        if (invoice.InvoiceAmount <= 0)
+                        if (paymentAmount <= 0)
                         {
-                            invoice.IsActive = false;
+                            Console.WriteLine("Payment amount must be greater than zero.");
                         }
+                        else if (paymentAmount > invoice.InvoiceAmount)
+                        {
+                            Console.WriteLine("Payment amount cannot exceed the invoice amount.");
+                        }
+                        else
+                        {
+                            invoice.InvoiceAmount -= paymentAmount;
 
-                        _dbContext.SaveChanges();
-                        Console.WriteLine("Payment registered successfully.");
+                            if (invoice.InvoiceAmount <= 0)
+                            {
+                                invoice.IsActive = false;
+                            }
+
+                            _dbContext.SaveChanges();
+                            Console.WriteLine("Payment registered successfully.");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Invoice not found or not active.");
+                        Console.WriteLine("Invalid payment amount.");
                     }
                 }
                 else
                 {
-
+                    Console.WriteLine("Invoice not found or not active.");
                 }
             }
             else
             {
-
+                Console.WriteLine("Invalid invoice ID.");
             }
+
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }

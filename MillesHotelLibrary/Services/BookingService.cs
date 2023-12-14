@@ -57,9 +57,9 @@ namespace MillesHotelLibrary.Services
 
                                 if (selectedRoom != null)
                                 {
-                                    var isRoomAvailable = selectedRoom.Bookings.All(b =>
+                                    var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings.All(b =>
                                         bookingDate >= b.BookingEndDate ||
-                                        b.BookingStartDate >= bookingDate.AddDays(7));
+                                        b.BookingStartDate >= bookingDate.AddDays(7) || !b.IsActive);
 
                                     if (isRoomAvailable)
                                     {

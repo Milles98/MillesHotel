@@ -32,17 +32,17 @@ namespace MillesHotelLibrary.Services
             else
             {
                 Console.Write("Enter room size: ");
-                if (int.TryParse(Console.ReadLine(), out int roomSize) && roomSize <= 10000)
+                if (int.TryParse(Console.ReadLine(), out int roomSize) && roomSize <= 3000)
                 {
                     Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
                     {
-                        bool extraBeds = roomType == RoomType.DoubleRoom;
+                        int extraBedsCount = 0;
 
-                        if (extraBeds)
+                        if (roomType == RoomType.DoubleRoom && roomSize > 250)
                         {
-                            Console.Write("Do you want extra beds (true/false)? ");
-                            if (!bool.TryParse(Console.ReadLine(), out extraBeds))
+                            Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
+                            if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
                             {
                                 Console.WriteLine("Invalid input for extra beds. Room not created.");
                                 return;
@@ -54,7 +54,7 @@ namespace MillesHotelLibrary.Services
                             RoomName = roomName,
                             RoomSize = roomSize,
                             RoomType = roomType,
-                            ExtraBeds = extraBeds,
+                            ExtraBedsCount = extraBedsCount,
                         };
 
                         _dbContext.Rooms.Add(newRoom);
@@ -122,7 +122,7 @@ namespace MillesHotelLibrary.Services
 
             foreach (var room in rooms)
             {
-                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBeds,-13}│{room.IsActive,-13}│");
+                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBedsCount,-13}│{room.IsActive,-13}│");
                 Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
             }
 

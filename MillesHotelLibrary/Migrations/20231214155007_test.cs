@@ -40,6 +40,7 @@ namespace MillesHotelLibrary.Migrations
                     RoomSize = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<int>(type: "int", nullable: false),
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
+                    ExtraBedsCount = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

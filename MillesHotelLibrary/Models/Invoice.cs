@@ -18,7 +18,17 @@ namespace MillesHotelLibrary.Models
 
         [Required]
         public DateTime InvoiceDue { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive
+        {
+            get
+            {
+                return InvoiceAmount > 0 && DateTime.Now <= InvoiceDue;
+            }
+            set
+            {
+
+            }
+        }
 
         // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }
