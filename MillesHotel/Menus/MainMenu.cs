@@ -19,15 +19,23 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
-                Console.WriteLine("╭────────────────╮");
-                Console.WriteLine("│Main Menu       │");
-                Console.WriteLine("│1. Booking      │");
-                Console.WriteLine("│2. Customer     │");
-                Console.WriteLine("│3. Room         │");
-                Console.WriteLine("│4. Invoice      │");
-                Console.WriteLine("│5. Admin        │");
-                Console.WriteLine("│0. Exit Program │");
-                Console.WriteLine("╰────────────────╯");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(" __  __ _____ _      _      ______  _____   _    _  ____ _______ ______ _");
+                Console.WriteLine("|  \\/  |_   _| |    | |    |  ____|/ ____| | |  | |/ __ \\__   __|  ____| |");
+                Console.WriteLine("| \\  / | | | | |    | |    | |__  | (___   | |__| | |  | | | |  | |__  | |");
+                Console.WriteLine("| |\\/| | | | | |    | |    |  __|  \\___ \\  |  __  | |  | | | |  |  __| | |");
+                Console.WriteLine("| |  | |_| |_| |____| |____| |____ ____) | | |  | | |__| | | |  | |____| |____");
+                Console.WriteLine("|_|  |_|_____|______|______|______|_____/  |_|  |_|\\____/  |_|  |______|______|");
+                Console.ResetColor();
+                Console.WriteLine("╭──────────────────╮");
+                Console.WriteLine("│  Main Menu       │");
+                Console.WriteLine("│ 1. Booking       │");
+                Console.WriteLine("│ 2. Customer      │");
+                Console.WriteLine("│ 3. Room          │");
+                Console.WriteLine("│ 4. Invoice       │");
+                Console.WriteLine("│ 5. Admin         │");
+                Console.WriteLine("│ 0. Exit Program  │");
+                Console.WriteLine("╰──────────────────╯");
 
                 Console.Write("Enter your choice: ");
                 if (int.TryParse(Console.ReadLine(), out choice))
