@@ -22,7 +22,7 @@ namespace MillesHotelLibrary.Models
         {
             get
             {
-                return InvoiceAmount > 0 && DateTime.Now <= InvoiceDue;
+                return InvoiceAmount == 0 && DateTime.Now <= InvoiceDue;
             }
             set
             {
