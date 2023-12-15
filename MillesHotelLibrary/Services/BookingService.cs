@@ -401,6 +401,143 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
+        public void CancelBooking()
+        {
+            try
+            {
+                GetAllBookings();
+
+                Console.Write("Enter booking ID to cancel: ");
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
+                {
+                    var booking = _dbContext.Bookings.Find(bookingId);
+
+                    if (booking != null)
+                    {
+                        booking.IsActive = false;
+
+                        if (booking.Invoice != null)
+                        {
+                            booking.Invoice.IsActive = false;
+                        }
+
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Booking canceled successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Booking not found.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void ModifyBooking()
+        {
+            try
+            {
+                GetAllBookings();
+
+                Console.Write("Enter booking ID to modify: ");
+                if (int.TryParse(Console.ReadLine(), out int bookingId))
+                {
+                    var booking = _dbContext.Bookings
+                        .Include(b => b.Room)
+                        .Include(b => b.Customer)
+                        .Include(b => b.Invoice)
+                        .FirstOrDefault(b => b.BookingID == bookingId);
+
+                    if (booking != null)
+                    {
+                        Console.WriteLine($"Current Booking Information:\n{booking}");
+
+                        Console.Write("Enter new booking start date (yyyy-MM-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newStartDate))
+                        {
+                            Console.Write("Enter new booking end date (yyyy-MM-dd): ");
+                            if (DateTime.TryParse(Console.ReadLine(), out DateTime newEndDate))
+                            {
+                                if (newEndDate >= newStartDate)
+                                {
+                                    booking.BookingStartDate = newStartDate;
+                                    booking.BookingEndDate = newEndDate;
+
+                                    if (booking.Invoice != null)
+                                    {
+                                        var pricePerNight = CalculatePricePerNight(booking.Room?.RoomSize ?? 0);
+                                        var numberOfNights = (newEndDate - newStartDate).Days;
+
+                                        booking.Invoice.InvoiceAmount = pricePerNight * numberOfNights;
+                                        booking.Invoice.InvoiceDue = newEndDate;
+                                        booking.Invoice.IsActive = booking.Invoice.InvoiceAmount > 0;
+                                    }
+
+                                    _dbContext.SaveChanges();
+                                    UserMessage.InputSuccessMessage("Booking information modified successfully.");
+                                }
+                                else
+                                {
+                                    UserMessage.ErrorMessage("End date must be equal to or later than the start date. Booking information not modified.");
+                                }
+                            }
+                            else
+                            {
+                                UserMessage.ErrorMessage("Invalid date format. Booking information not modified.");
+                            }
+                        }
+                        else
+                        {
+                            UserMessage.ErrorMessage("Invalid date format. Booking information not modified.");
+                        }
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Booking not found.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        private int CalculatePricePerNight(int roomSize)
+        {
+            if (roomSize < 100)
+            {
+                return 750;
+            }
+            else if (roomSize < 1000)
+            {
+                return 1500;
+            }
+            else if (roomSize <= 3000)
+            {
+                return 3500;
+            }
+            else
+            {
+                return 3500;
+            }
+        }
+
 
     }
 }

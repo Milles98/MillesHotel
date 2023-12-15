@@ -54,9 +54,12 @@ namespace MillesHotel.Menus
                             Console.ReadKey();
                             break;
                         case 4:
-                            ShowUpdateBookingMenu(bookingService);
+                            bookingService.ModifyBooking();
                             break;
                         case 5:
+                            bookingService.CancelBooking();
+                            break;
+                        case 6:
                             bookingService.SoftDeleteBooking();
                             break;
 
