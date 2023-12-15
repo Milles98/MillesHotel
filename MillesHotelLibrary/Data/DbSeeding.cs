@@ -78,7 +78,7 @@ namespace MillesHotelLibrary.Data
                     {
                         InvoiceAmount = invoiceAmount,
                         InvoiceDue = booking.BookingEndDate,
-                        IsPaid = invoiceAmount > 0,
+                        IsPaid = false,
                         CustomerID = booking.CustomerID,
                         Customer = booking.Customer,
                     };
