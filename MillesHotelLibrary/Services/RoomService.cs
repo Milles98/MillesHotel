@@ -20,7 +20,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-
         public void CreateRoom()
         {
             Console.Write("Enter room name (max 19 characters): ");
@@ -76,7 +75,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetRoomByID()
         {
             foreach (var rooms in _dbContext.Rooms)
@@ -112,7 +110,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetAllRooms()
         {
             var rooms = _dbContext.Rooms.ToList();
@@ -129,8 +126,7 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("╰───────────────╯───────────────────╯─────────────╯─────────────╯─────────────╯─────────────╯");
         }
-
-        public void UpdateRoom()
+        public void UpdateRoomName()
         {
             GetAllRooms();
 
@@ -144,26 +140,15 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter new room name: ");
                     string newRoomName = Console.ReadLine();
 
-                    Console.Write("Enter new room size: ");
-                    if (int.TryParse(Console.ReadLine(), out int newRoomSize))
+                    if (!string.IsNullOrWhiteSpace(newRoomName))
                     {
-                        Console.Write("Enter new room type (Double Room - true, Single Room - false): ");
-                        if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
-                        {
-                            room.RoomName = newRoomName;
-                            room.RoomSize = newRoomSize;
-                            room.RoomType = newRoomType;
-                            _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Room information updated successfully.");
-                        }
-                        else
-                        {
-                            UserMessage.ErrorMessage("Invalid room type format. Room information not updated.");
-                        }
+                        room.RoomName = newRoomName;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Room name updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room size format. Room information not updated.");
+                        UserMessage.ErrorMessage("Invalid room name. Room name not updated.");
                     }
                 }
                 else
@@ -179,7 +164,157 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
+        public void UpdateRoomPrice()
+        {
+            GetAllRooms();
 
+            Console.Write("Enter room ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int roomId))
+            {
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    Console.Write("Enter new room price: ");
+                    if (int.TryParse(Console.ReadLine(), out int newRoomPrice))
+                    {
+                        if (newRoomPrice >= 0 && newRoomPrice <= 3500)
+                        {
+                            room.RoomPrice = newRoomPrice;
+                            _dbContext.SaveChanges();
+                            UserMessage.InputSuccessMessage("Room price updated successfully.");
+                        }
+                        else
+                        {
+                            UserMessage.ErrorMessage("Invalid room price. Room price not updated.");
+                        }
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Invalid input for room price. Room price not updated.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Room not found.");
+                }
+            }
+            else
+            {
+                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void UpdateRoomSize()
+        {
+            GetAllRooms();
+
+            Console.Write("Enter room ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int roomId))
+            {
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    Console.Write("Enter new room size: ");
+                    if (int.TryParse(Console.ReadLine(), out int newRoomSize) && newRoomSize <= 3000)
+                    {
+                        room.RoomSize = newRoomSize;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Room size updated successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Invalid room size. Room size not updated.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Room not found.");
+                }
+            }
+            else
+            {
+                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void UpdateRoomType()
+        {
+            GetAllRooms();
+
+            Console.Write("Enter room ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int roomId))
+            {
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    Console.Write("Enter new room type (SingleRoom/DoubleRoom): ");
+                    if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
+                    {
+                        room.RoomType = newRoomType;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Room type updated successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Invalid room type format. Room type not updated.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Room not found.");
+                }
+            }
+            else
+            {
+                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void AddExtraBeds()
+        {
+            GetAllRooms();
+
+            Console.Write("Enter room ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int roomId))
+            {
+                var room = _dbContext.Rooms.Find(roomId);
+
+                if (room != null)
+                {
+                    Console.Write("Enter number of extra beds: ");
+                    if (int.TryParse(Console.ReadLine(), out int extraBedsCount) && extraBedsCount >= 0)
+                    {
+                        room.ExtraBedsCount = extraBedsCount;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Extra beds added successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Invalid input for extra beds. Extra beds not added.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Room not found.");
+                }
+            }
+            else
+            {
+                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
         public void SoftDeleteRoom()
         {
             foreach (var rooms in _dbContext.Rooms)
@@ -211,7 +346,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         //Det skall gå att avboka ett rum eller ändra en bokning.
 
         //Applikationen skall hantera bokningar och visa vilka rum som är lediga under en viss period.

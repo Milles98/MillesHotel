@@ -54,7 +54,6 @@ namespace MillesHotel.Menus
                             break;
                         case 4:
                             ShowUpdateRoomMenu(roomService);
-                            //roomService.UpdateRoom();
                             break;
                         case 5:
                             roomService.SoftDeleteRoom();
@@ -85,9 +84,10 @@ namespace MillesHotel.Menus
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Update Room Details            │");
                 Console.WriteLine("│1. Update Room Name            │");
-                Console.WriteLine("│2. Update Room Size            │");
-                Console.WriteLine("│2. Update Room Type            │");
-                Console.WriteLine("│3. Add extra beds              │");
+                Console.WriteLine("│2. Update Room Price           │");
+                Console.WriteLine("│3. Update Room Size            │");
+                Console.WriteLine("│4. Update Room Type            │");
+                Console.WriteLine("│5. Add extra beds              │");
                 Console.WriteLine("│0. Return to Booking Menu      │");
                 Console.WriteLine("╰───────────────────────────────╯");
 
@@ -97,8 +97,19 @@ namespace MillesHotel.Menus
                     switch (updateChoice)
                     {
                         case 1:
+                            roomService.UpdateRoomName();
                             break;
                         case 2:
+                            roomService.UpdateRoomPrice();
+                            break;
+                        case 3:
+                            roomService.UpdateRoomSize();
+                            break;
+                        case 4:
+                            roomService.UpdateRoomType();
+                            break;
+                        case 5:
+                            roomService.AddExtraBeds();
                             break;
                         case 0:
                             Console.WriteLine("Returning to Room Menu...");
