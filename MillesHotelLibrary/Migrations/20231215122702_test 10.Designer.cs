@@ -12,7 +12,7 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231215121407_test 10")]
+    [Migration("20231215122702_test 10")]
     partial class test10
     {
         /// <inheritdoc />
@@ -152,6 +152,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("RoomPrice")
+                        .HasColumnType("float");
 
                     b.Property<int>("RoomSize")
                         .HasColumnType("int");

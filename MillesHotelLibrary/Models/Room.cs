@@ -25,6 +25,8 @@ namespace MillesHotelLibrary.Models
 
         public int ExtraBedsCount { get; set; }
 
+        public double RoomPrice { get; set; }
+
         public bool IsActive
         {
             get

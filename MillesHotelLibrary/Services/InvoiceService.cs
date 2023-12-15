@@ -227,6 +227,7 @@ namespace MillesHotelLibrary.Services
                             if (invoice.InvoiceAmount <= 0)
                             {
                                 invoice.IsPaid = true;
+                                invoice.IsActive = false;
                             }
 
                             _dbContext.SaveChanges();
