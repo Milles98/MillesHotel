@@ -57,11 +57,11 @@ namespace MillesHotelLibrary.Data
                 {
                     new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
                 IsActive = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
+                    new Booking { BookingStartDate = DateTime.Now.AddDays(3).Date, BookingEndDate = DateTime.Now.AddDays(10).Date,
                 IsActive = true, CustomerID = customers[3].CustomerID, RoomID = rooms[0].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
+                    new Booking { BookingStartDate = DateTime.Now.AddDays(5).Date, BookingEndDate = DateTime.Now.AddDays(9).Date,
                 IsActive = true, CustomerID = customers[2].CustomerID, RoomID = rooms[3].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
+                    new Booking { BookingStartDate = DateTime.Now.AddDays(2).Date, BookingEndDate = DateTime.Now.AddDays(7).Date,
                 IsActive = true, CustomerID = customers[0].CustomerID, RoomID = rooms[2].RoomID }
                 };
 
@@ -81,7 +81,6 @@ namespace MillesHotelLibrary.Data
                         IsActive = invoiceAmount > 0,
                         CustomerID = booking.CustomerID,
                         Customer = booking.Customer,
-                        //BookingID = booking.BookingID,
                     };
 
                     invoices.Add(invoice);
@@ -89,6 +88,11 @@ namespace MillesHotelLibrary.Data
 
                 dbContext.Invoices.AddRange(invoices);
                 dbContext.SaveChanges();
+
+                for (int i = 0; i < bookings.Count; i++)
+                {
+                    bookings[i].InvoiceID = invoices[i].InvoiceID;
+                }
             }
         }
     }
