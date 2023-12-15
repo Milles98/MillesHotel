@@ -155,13 +155,20 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customers.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
 
                     if (customer != null)
                     {
-                        customer.IsActive = false;
-                        _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Customer soft deleted successfully.");
+                        if (customer.Bookings == null || !customer.Bookings.Any())
+                        {
+                            customer.IsActive = false;
+                            _dbContext.SaveChanges();
+                            UserMessage.InputSuccessMessage("Customer soft deleted successfully.");
+                        }
+                        else
+                        {
+                            UserMessage.ErrorMessage("Cannot delete customer with associated bookings. Please remove bookings first.");
+                        }
                     }
                     else
                     {

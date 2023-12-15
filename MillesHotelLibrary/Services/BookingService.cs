@@ -77,7 +77,7 @@ namespace MillesHotelLibrary.Services
                                         pricePerNight = 3500;
                                     }
 
-                                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-3}kvm, Price per Night: {pricePerNight,-4}kr");
+                                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-5}kvm,  Price per Night: {pricePerNight,-5}kr");
                                 }
 
                                 Console.Write("Enter room ID: ");
