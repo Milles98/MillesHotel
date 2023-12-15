@@ -31,15 +31,15 @@ namespace MillesHotelLibrary.Services
             }
             else
             {
-                Console.Write("Enter room size: ");
-                if (int.TryParse(Console.ReadLine(), out int roomSize) && roomSize <= 3000)
+                Console.Write("Enter new room size (between 20 and 3000): ");
+                if (int.TryParse(Console.ReadLine(), out int roomSize) && (roomSize >= 20 && roomSize <= 3000))
                 {
                     Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
                     {
                         int extraBedsCount = 0;
 
-                        if (roomType == RoomType.DoubleRoom && roomSize > 250)
+                        if (roomType == RoomType.DoubleRoom && roomSize >= 250)
                         {
                             Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
                             if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
@@ -115,12 +115,12 @@ namespace MillesHotelLibrary.Services
             var rooms = _dbContext.Rooms.ToList();
 
             Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
-            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Occupied    │");
+            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Price       │");
             Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
 
             foreach (var room in rooms)
             {
-                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBedsCount,-13}│{room.IsActive,-13}│");
+                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBedsCount,-13}│{room.RoomPrice,-13}│");
                 Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
             }
 
@@ -137,10 +137,10 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
-                    Console.Write("Enter new room name: ");
+                    Console.Write("Enter new room name (max 19 characters): ");
                     string newRoomName = Console.ReadLine();
 
-                    if (!string.IsNullOrWhiteSpace(newRoomName))
+                    if (!string.IsNullOrWhiteSpace(newRoomName) && newRoomName.Length <= 19)
                     {
                         room.RoomName = newRoomName;
                         _dbContext.SaveChanges();
@@ -148,7 +148,7 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room name. Room name not updated.");
+                        UserMessage.ErrorMessage("Invalid room name. Room name must not be empty and should be 19 characters or less. Room name not updated.");
                     }
                 }
                 else
@@ -175,10 +175,11 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
+                    Console.WriteLine("Lowest: 250, Max: 3500");
                     Console.Write("Enter new room price: ");
                     if (int.TryParse(Console.ReadLine(), out int newRoomPrice))
                     {
-                        if (newRoomPrice >= 0 && newRoomPrice <= 3500)
+                        if (newRoomPrice >= 250 && newRoomPrice <= 3500)
                         {
                             room.RoomPrice = newRoomPrice;
                             _dbContext.SaveChanges();
@@ -218,8 +219,8 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
-                    Console.Write("Enter new room size: ");
-                    if (int.TryParse(Console.ReadLine(), out int newRoomSize) && newRoomSize <= 3000)
+                    Console.Write("Enter new room size (between 20 and 3000): ");
+                    if (int.TryParse(Console.ReadLine(), out int newRoomSize) && newRoomSize >= 20 && newRoomSize <= 3000)
                     {
                         room.RoomSize = newRoomSize;
                         _dbContext.SaveChanges();
@@ -227,7 +228,7 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room size. Room size not updated.");
+                        UserMessage.ErrorMessage("Invalid room size. Room size must be between 20 and 3000. Room size not updated.");
                     }
                 }
                 else
@@ -258,6 +259,12 @@ namespace MillesHotelLibrary.Services
                     if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                     {
                         room.RoomType = newRoomType;
+
+                        if (room.RoomType == RoomType.DoubleRoom && room.RoomSize >= 250)
+                        {
+                            AddExtraBeds(room);
+                        }
+
                         _dbContext.SaveChanges();
                         UserMessage.InputSuccessMessage("Room type updated successfully.");
                     }
@@ -279,41 +286,19 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        public void AddExtraBeds()
+        public void AddExtraBeds(Room room)
         {
-            GetAllRooms();
-
-            Console.Write("Enter room ID to update: ");
-            if (int.TryParse(Console.ReadLine(), out int roomId))
+            Console.Write("Enter number of extra beds (0, 1, or 2): ");
+            if (int.TryParse(Console.ReadLine(), out int extraBedsCount) && extraBedsCount >= 0 && extraBedsCount <= 2)
             {
-                var room = _dbContext.Rooms.Find(roomId);
-
-                if (room != null)
-                {
-                    Console.Write("Enter number of extra beds: ");
-                    if (int.TryParse(Console.ReadLine(), out int extraBedsCount) && extraBedsCount >= 0)
-                    {
-                        room.ExtraBedsCount = extraBedsCount;
-                        _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Extra beds added successfully.");
-                    }
-                    else
-                    {
-                        UserMessage.ErrorMessage("Invalid input for extra beds. Extra beds not added.");
-                    }
-                }
-                else
-                {
-                    UserMessage.ErrorMessage("Room not found.");
-                }
+                room.ExtraBedsCount = extraBedsCount;
+                _dbContext.SaveChanges();
+                UserMessage.InputSuccessMessage("Extra beds added successfully.");
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid input for extra beds. Please enter 0, 1, or 2 extra beds. Extra beds not added.");
             }
-
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
         }
         public void SoftDeleteRoom()
         {
