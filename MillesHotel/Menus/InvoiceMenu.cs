@@ -49,6 +49,8 @@ namespace MillesHotel.Menus
                             break;
                         case 3:
                             invoiceService.GetAllInvoices();
+                            Console.WriteLine("Press any button to continue...");
+                            Console.ReadKey();
                             break;
                         case 4:
                             invoiceService.UpdateInvoice();

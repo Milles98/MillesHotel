@@ -19,7 +19,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-
         public void CreateInvoice()
         {
             Console.Write("Enter invoice amount: ");
@@ -61,7 +60,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetInvoiceByID()
         {
             foreach (var showInvoice in _dbContext.Invoices)
@@ -96,7 +94,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetAllInvoices()
         {
             var invoices = _dbContext.Invoices.ToList();
@@ -112,10 +109,7 @@ namespace MillesHotelLibrary.Services
             }
 
             Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯────────────╯");
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
         }
-
         public void UpdateInvoice()
         {
             foreach (var showInvoice in _dbContext.Invoices)
@@ -164,13 +158,9 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void SoftDeleteInvoice()
         {
-            foreach (var showInvoice in _dbContext.Invoices)
-            {
-                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
-            }
+            GetAllInvoices();
 
             Console.Write("Enter invoice ID to soft delete: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
@@ -196,10 +186,11 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         //Applikationen skall kunna registrera en inkommen betalning på en faktura.
         public void RegisterPayment()
         {
+            GetAllInvoices();
+
             Console.Write("Enter invoice ID: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
@@ -252,7 +243,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         //Om inte en betalning registrerats inom 10 dagar efter att bokningen är gjord annulleras bokningen dvs den upphör att gälla.
         public void CheckAndDeactivateOverdueBookings()
         {

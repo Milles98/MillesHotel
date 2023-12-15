@@ -19,7 +19,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-
         public void CreateBooking()
         {
             Console.Write("Enter booking date (yyyy-MM-dd): ");
@@ -159,7 +158,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
         public void GetBookingByID()
         {
             try
@@ -218,7 +216,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetAllBookings()
         {
             var bookings = _dbContext.Bookings.ToList();
@@ -235,7 +232,6 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("╰─────────────╯───────────────────╯───────────────────╯────────────╯─────────────╯──────────╯");
         }
-
         public void UpdateBookingStartDate()
         {
             try
@@ -279,7 +275,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void UpdateBookingEndDate()
         {
             try
@@ -331,7 +326,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void SoftDeleteBooking()
         {
             try
@@ -495,7 +489,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         private void DisplayAvailableRooms(DateTime startDate, DateTime endDate)
         {
             var availableRooms = _dbContext.Rooms
