@@ -35,7 +35,7 @@ namespace MillesHotelLibrary.Models
         public Customer? Customer { get; set; }
         // Foreign key för att koppla till Booking
         //public int? BookingID { get; set; }  // Nullable because it's optional
-        public Booking? Booking { get; set; }
+        //public Booking? Booking { get; set; }
 
         public override string ToString()
         {
