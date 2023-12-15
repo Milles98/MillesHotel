@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
+using MillesHotelLibrary.ExtraServices;
 using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Models;
 using System;
@@ -40,21 +41,21 @@ namespace MillesHotelLibrary.Services
 
                         _dbContext.Invoices.Add(newInvoice);
                         _dbContext.SaveChanges();
-                        Console.WriteLine("Invoice created successfully.");
+                        UserMessage.InputSuccessMessage("Invoice created successfully.");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid customer ID format. Invoice not created.");
+                        UserMessage.ErrorMessage("Invalid customer ID format. Invoice not created.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid date format. Invoice not created.");
+                    UserMessage.ErrorMessage("Invalid date format. Invoice not created.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid amount format. Invoice not created.");
+                UserMessage.ErrorMessage("Invalid amount format. Invoice not created.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -84,12 +85,12 @@ namespace MillesHotelLibrary.Services
                 }
                 else
                 {
-                    Console.WriteLine("Invoice not found.");
+                    UserMessage.ErrorMessage("Invalid date format. Invoice not created.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid invoice ID format. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -138,26 +139,26 @@ namespace MillesHotelLibrary.Services
                             invoice.InvoiceAmount = newInvoiceAmount;
                             invoice.InvoiceDue = newInvoiceDue;
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Invoice information updated successfully.");
+                            UserMessage.InputSuccessMessage("Invoice information updated successfully.");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid date format. Invoice information not updated.");
+                            UserMessage.ErrorMessage("Invalid date format. Invoice information not updated.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Invalid amount format. Invoice information not updated.");
+                        UserMessage.ErrorMessage("Invalid amount format. Invoice information not updated.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invoice not found.");
+                    UserMessage.ErrorMessage("Invoice not found.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid invoice ID format. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -180,16 +181,16 @@ namespace MillesHotelLibrary.Services
                 {
                     invoice.IsActive = false;
                     _dbContext.SaveChanges();
-                    Console.WriteLine("Invoice soft deleted successfully.");
+                    UserMessage.InputSuccessMessage("Invoice soft deleted successfully.");
                 }
                 else
                 {
-                    Console.WriteLine("Invoice not found.");
+                    UserMessage.ErrorMessage("Invoice not found.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid invoice ID format. Please enter a valid number.");
+                UserMessage.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -213,11 +214,11 @@ namespace MillesHotelLibrary.Services
                     {
                         if (paymentAmount <= 0)
                         {
-                            Console.WriteLine("Payment amount must be greater than zero.");
+                            UserMessage.ErrorMessage("Payment amount must be greater than zero.");
                         }
                         else if (paymentAmount > invoice.InvoiceAmount)
                         {
-                            Console.WriteLine("Payment amount cannot exceed the invoice amount.");
+                            UserMessage.ErrorMessage("Payment amount cannot exceed the invoice amount.");
                         }
                         else
                         {
@@ -229,22 +230,22 @@ namespace MillesHotelLibrary.Services
                             }
 
                             _dbContext.SaveChanges();
-                            Console.WriteLine("Payment registered successfully.");
+                            UserMessage.InputSuccessMessage("Payment registered successfully.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Invalid payment amount.");
+                        UserMessage.ErrorMessage("Invalid payment amount.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invoice not found or not active.");
+                    UserMessage.ErrorMessage("Invoice not found or not active.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid invoice ID.");
+                UserMessage.ErrorMessage("Invalid invoice ID.");
             }
 
             Console.WriteLine("Press any button to continue...");
