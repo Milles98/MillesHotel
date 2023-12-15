@@ -103,26 +103,9 @@ namespace MillesHotelLibrary.Services
                                             };
 
                                             int roomSize = selectedRoom.RoomSize;
+                                            double roomPrice = selectedRoom.RoomPrice;
 
-                                            int pricePerNight;
-                                            if (roomSize < 100)
-                                            {
-                                                pricePerNight = 750;
-                                            }
-                                            else if (roomSize < 1000)
-                                            {
-                                                pricePerNight = 1500;
-                                            }
-                                            else if (roomSize <= 3000)
-                                            {
-                                                pricePerNight = 3500;
-                                            }
-                                            else
-                                            {
-                                                pricePerNight = 3500;
-                                            }
-
-                                            var invoiceAmount = pricePerNight * numberOfNights;
+                                            var invoiceAmount = roomPrice * numberOfNights;
 
                                             var newInvoice = new Invoice
                                             {
@@ -478,12 +461,15 @@ namespace MillesHotelLibrary.Services
 
                                         if (booking.Invoice != null)
                                         {
-                                            var pricePerNight = CalculatePricePerNight(booking.Room?.RoomSize ?? 0);
+                                            var roomSize = booking.Room?.RoomSize ?? 0;
+                                            var roomPrice = booking.Room?.RoomPrice ?? 0;
                                             var numberOfNights = (newEndDate - newStartDate).Days;
 
-                                            booking.Invoice.InvoiceAmount = pricePerNight * numberOfNights;
+                                            var invoiceAmount = roomPrice * numberOfNights;
+
+                                            booking.Invoice.InvoiceAmount = invoiceAmount;
                                             booking.Invoice.InvoiceDue = newEndDate;
-                                            booking.Invoice.IsPaid = booking.Invoice.InvoiceAmount > 0;
+                                            booking.Invoice.IsPaid = invoiceAmount > 0;
                                         }
 
                                         _dbContext.SaveChanges();
@@ -527,25 +513,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        private int CalculatePricePerNight(int roomSize)
-        {
-            if (roomSize < 100)
-            {
-                return 750;
-            }
-            else if (roomSize < 1000)
-            {
-                return 1500;
-            }
-            else if (roomSize <= 3000)
-            {
-                return 3500;
-            }
-            else
-            {
-                return 3500;
-            }
-        }
+
         private void DisplayAvailableRooms(DateTime startDate, DateTime endDate)
         {
             var availableRooms = _dbContext.Rooms
@@ -558,10 +526,10 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine("Available Rooms:");
                 foreach (var room in availableRooms)
                 {
-                    int roomSize = room.RoomSize;
-                    int pricePerNight = CalculatePricePerNight(roomSize);
+                    var roomSize = room.RoomSize;
+                    var roomPrice = room.RoomPrice;
 
-                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-5}kvm,  Price per Night: {pricePerNight,-5}kr");
+                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
                 }
             }
             else

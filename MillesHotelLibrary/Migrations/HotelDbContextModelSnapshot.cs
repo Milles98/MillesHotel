@@ -150,6 +150,9 @@ namespace MillesHotelLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("RoomPrice")
+                        .HasColumnType("float");
+
                     b.Property<int>("RoomSize")
                         .HasColumnType("int");
 

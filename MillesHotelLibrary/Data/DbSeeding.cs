@@ -42,12 +42,18 @@ namespace MillesHotelLibrary.Data
 
                 var rooms = new List<Room>
                 {
-                    new Room { RoomSize = 25, RoomType = RoomType.SingleRoom, RoomName = "Princess Suite", ExtraBeds = false },
-                    new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName = "King Suite", ExtraBeds = true, ExtraBedsCount = 2  },
-                    new Room { RoomSize = 45, RoomType = RoomType.SingleRoom, RoomName = "Prince Suite", ExtraBeds = false  },
-                    new Room { RoomSize = 145, RoomType = RoomType.DoubleRoom, RoomName = "Presidential Suite", ExtraBeds = true, ExtraBedsCount = 2  },
-                    new Room { RoomSize = 1450, RoomType = RoomType.DoubleRoom, RoomName = "Haunted Room", ExtraBeds = true, ExtraBedsCount = 1  },
-                    new Room { RoomSize = 450, RoomType = RoomType.SingleRoom, RoomName = "Disney Room", ExtraBeds = false  }
+                    new Room { RoomSize = 25, RoomType = RoomType.SingleRoom, RoomName =
+                    "Princess Suite", ExtraBeds = false, RoomPrice = 1000 },
+                    new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName =
+                    "King Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 2000 },
+                    new Room { RoomSize = 45, RoomType = RoomType.SingleRoom, RoomName =
+                    "Prince Suite", ExtraBeds = false, RoomPrice = 1200 },
+                    new Room { RoomSize = 145, RoomType = RoomType.DoubleRoom, RoomName =
+                    "Presidential Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 2500 },
+                    new Room { RoomSize = 1450, RoomType = RoomType.DoubleRoom, RoomName =
+                    "Haunted Room", ExtraBeds = true, ExtraBedsCount = 1, RoomPrice = 3500 },
+                    new Room { RoomSize = 450, RoomType = RoomType.SingleRoom, RoomName =
+                    "Disney Room", ExtraBeds = false, RoomPrice = 1800 }
                 };
 
                 dbContext.Rooms.AddRange(rooms);
