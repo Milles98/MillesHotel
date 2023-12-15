@@ -42,13 +42,13 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter Customer ID: ");
                     if (int.TryParse(Console.ReadLine(), out int customerId))
                     {
-                        var customerExists = _dbContext.Customers.Any(c => c.CustomerID == customerId);
+                        var customerExists = _dbContext.Customers.Any(c => c.CustomerID == customerId && c.CustomerAge >= 18);
 
                         if (customerExists)
                         {
                             var availableRooms = _dbContext.Rooms
-                                .Where(room => room.Bookings.All(b =>
-                                bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
+                                .Where(room => room.Bookings
+                                .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
                                 .ToList();
 
 
@@ -172,7 +172,8 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Customer with the entered ID does not exist. Booking not created.");
+                            UserMessage.ErrorMessage("Customer with the entered ID does not exist. Booking not created." +
+                                "\nOr customer age is less than 18!");
                         }
                     }
                     else
@@ -467,27 +468,34 @@ namespace MillesHotelLibrary.Services
                             Console.Write("Enter new booking end date (yyyy-MM-dd): ");
                             if (DateTime.TryParse(Console.ReadLine(), out DateTime newEndDate))
                             {
-                                if (newEndDate >= newStartDate)
+                                if (newStartDate.Date >= DateTime.Now.Date && newEndDate.Date >= DateTime.Now.Date)
                                 {
-                                    booking.BookingStartDate = newStartDate;
-                                    booking.BookingEndDate = newEndDate;
-
-                                    if (booking.Invoice != null)
+                                    if (newEndDate >= newStartDate)
                                     {
-                                        var pricePerNight = CalculatePricePerNight(booking.Room?.RoomSize ?? 0);
-                                        var numberOfNights = (newEndDate - newStartDate).Days;
+                                        booking.BookingStartDate = newStartDate;
+                                        booking.BookingEndDate = newEndDate;
 
-                                        booking.Invoice.InvoiceAmount = pricePerNight * numberOfNights;
-                                        booking.Invoice.InvoiceDue = newEndDate;
-                                        booking.Invoice.IsActive = booking.Invoice.InvoiceAmount > 0;
+                                        if (booking.Invoice != null)
+                                        {
+                                            var pricePerNight = CalculatePricePerNight(booking.Room?.RoomSize ?? 0);
+                                            var numberOfNights = (newEndDate - newStartDate).Days;
+
+                                            booking.Invoice.InvoiceAmount = pricePerNight * numberOfNights;
+                                            booking.Invoice.InvoiceDue = newEndDate;
+                                            booking.Invoice.IsActive = booking.Invoice.InvoiceAmount > 0;
+                                        }
+
+                                        _dbContext.SaveChanges();
+                                        UserMessage.InputSuccessMessage("Booking information modified successfully.");
                                     }
-
-                                    _dbContext.SaveChanges();
-                                    UserMessage.InputSuccessMessage("Booking information modified successfully.");
+                                    else
+                                    {
+                                        UserMessage.ErrorMessage("End date must be equal to or later than the start date. Booking information not modified.");
+                                    }
                                 }
                                 else
                                 {
-                                    UserMessage.ErrorMessage("End date must be equal to or later than the start date. Booking information not modified.");
+                                    UserMessage.ErrorMessage("Start and end dates must be equal to or later than today's date. Booking information not modified.");
                                 }
                             }
                             else
