@@ -35,7 +35,7 @@ namespace MillesHotelLibrary.Services
                         {
                             InvoiceAmount = invoiceAmount,
                             InvoiceDue = invoiceDue,
-                            IsActive = true,
+                            IsPaid = false,
                             CustomerID = customerId
                         };
 
@@ -80,7 +80,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Invoice ID: {invoice.InvoiceID}");
                     Console.WriteLine($"Invoice Amount: {invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
                     Console.WriteLine($"Invoice Due: {invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
-                    Console.WriteLine($"Is Active: {invoice.IsActive}");
+                    Console.WriteLine($"Is Paid: {invoice.IsPaid}");
                     Console.WriteLine($"Customer ID: {invoice.CustomerID}");
                 }
                 else
@@ -102,12 +102,12 @@ namespace MillesHotelLibrary.Services
             var invoices = _dbContext.Invoices.ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Is Active  │");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Is Paid    │");
             Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
 
             foreach (var invoice in invoices)
             {
-                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│{invoice.IsActive,-12}│");
+                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│{invoice.IsPaid,-12}│");
                 Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
             }
 
@@ -226,7 +226,7 @@ namespace MillesHotelLibrary.Services
 
                             if (invoice.InvoiceAmount <= 0)
                             {
-                                invoice.IsActive = false;
+                                invoice.IsPaid = true;
                             }
 
                             _dbContext.SaveChanges();
@@ -256,7 +256,7 @@ namespace MillesHotelLibrary.Services
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Bookings
-                .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now.AddDays(-10) && b.Invoice != null && b.Invoice.IsActive)
+                .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now.AddDays(-10) && b.Invoice != null && b.Invoice.IsPaid)
                 .ToList();
 
             foreach (var booking in overdueBookings)
@@ -266,6 +266,7 @@ namespace MillesHotelLibrary.Services
 
                 // Deactivate the associated invoice
                 booking.Invoice.IsActive = false;
+                booking.Invoice.IsPaid = false;
             }
 
             _dbContext.SaveChanges();
