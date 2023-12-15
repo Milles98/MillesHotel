@@ -33,7 +33,7 @@ namespace MillesHotelLibrary.Models
         {
             get
             {
-                return Bookings?.All(b => !b.IsBooked) ?? true;
+                return Bookings?.Any() ?? true;
             }
             set
             {

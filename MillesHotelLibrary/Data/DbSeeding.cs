@@ -63,7 +63,7 @@ namespace MillesHotelLibrary.Data
                 {
                     new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
                 IsBooked = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(3).Date, BookingEndDate = DateTime.Now.AddDays(10).Date,
+                    new Booking { BookingStartDate = DateTime.Now.Date, BookingEndDate = DateTime.Now.AddDays(10).Date,
                 IsBooked = true, CustomerID = customers[3].CustomerID, RoomID = rooms[0].RoomID },
                     new Booking { BookingStartDate = DateTime.Now.AddDays(5).Date, BookingEndDate = DateTime.Now.AddDays(9).Date,
                 IsBooked = true, CustomerID = customers[2].CustomerID, RoomID = rooms[3].RoomID },
