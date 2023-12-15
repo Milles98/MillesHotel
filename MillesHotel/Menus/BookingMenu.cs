@@ -27,15 +27,19 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
-                Console.WriteLine("╭───────────────────────╮");
-                Console.WriteLine("│Booking Menu           │");
-                Console.WriteLine("│1. Register Booking    │");
-                Console.WriteLine("│2. See Booking         │");
-                Console.WriteLine("│3. See all Bookings    │");
-                Console.WriteLine("│4. Update Booking      │");
-                Console.WriteLine("│5. Soft Delete Booking │");
-                Console.WriteLine("│0. Return to MainMenu  │");
-                Console.WriteLine("╰───────────────────────╯");
+                Console.WriteLine("╭──────────────────────────────╮");
+                Console.WriteLine("│Booking Menu                  │");
+                Console.WriteLine("│1. Register Booking           │");
+                Console.WriteLine("│2. See Booking                │");
+                Console.WriteLine("│3. See all Bookings           │");
+                Console.WriteLine("│4. Modify Booking             │");
+                Console.WriteLine("│5. Cancel Booking             │");
+                Console.WriteLine("│6. Search specific date       │");
+                Console.WriteLine("│7. Search date interval       │");
+                Console.WriteLine("│8. Search customer booking    │");
+                Console.WriteLine("│9. Soft Delete Booking        │");
+                Console.WriteLine("│0. Return to MainMenu         │");
+                Console.WriteLine("╰──────────────────────────────╯");
 
                 Console.Write("Enter your choice: ");
                 if (int.TryParse(Console.ReadLine(), out choice))
@@ -60,6 +64,15 @@ namespace MillesHotel.Menus
                             bookingService.CancelBooking();
                             break;
                         case 6:
+                            bookingService.SearchDateRoom();
+                            break;
+                        case 7:
+                            bookingService.SearchDateIntervalRoom();
+                            break;
+                        case 8:
+                            bookingService.SearchCustomerRoom();
+                            break;
+                        case 9:
                             bookingService.SoftDeleteBooking();
                             break;
 
