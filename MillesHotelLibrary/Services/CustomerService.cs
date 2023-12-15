@@ -19,7 +19,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-
         public void CreateCustomer()
         {
             try
@@ -77,7 +76,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetCustomerByID()
         {
             try
@@ -122,7 +120,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void GetAllBookings()
         {
             var customers = _dbContext.Customers.ToList();
@@ -141,7 +138,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         //Applikationen måste kontrollera om det finns bokningar innan den tar bort en kund.
         public void SoftDeleteCustomer()
         {
@@ -188,7 +184,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void UpdateCustomerFirstName()
         {
             try
@@ -238,7 +233,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void UpdateCustomerLastName()
         {
             try
@@ -288,7 +282,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void UpdateCustomerAge()
         {
             try
@@ -343,7 +336,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void UpdateCustomerEmail()
         {
             try
@@ -393,7 +385,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public bool IsValidEmail(string email)
         {
             try
@@ -406,7 +397,6 @@ namespace MillesHotelLibrary.Services
                 return false;
             }
         }
-
         public void UpdateCustomerPhone()
         {
             Console.WriteLine("Available CustomerIDs:");
@@ -450,12 +440,10 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public bool IsValidPhoneNumber(string phoneNumber)
         {
             return !string.IsNullOrEmpty(phoneNumber);
         }
-
         public void UpdateCustomerCountry()
         {
             Console.WriteLine("Available CustomerIDs:");
