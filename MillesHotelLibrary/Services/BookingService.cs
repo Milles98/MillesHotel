@@ -537,7 +537,100 @@ namespace MillesHotelLibrary.Services
                 return 3500;
             }
         }
+        private void DisplayAvailableRooms(DateTime startDate, DateTime endDate)
+        {
+            var availableRooms = _dbContext.Rooms
+                .Where(room => room.Bookings.All(b =>
+                    startDate >= b.BookingEndDate || endDate >= b.BookingStartDate || !b.IsActive))
+                .ToList();
 
+            if (availableRooms.Any())
+            {
+                Console.WriteLine("Available Rooms:");
+                foreach (var room in availableRooms)
+                {
+                    int roomSize = room.RoomSize;
+                    int pricePerNight = CalculatePricePerNight(roomSize);
+
+                    Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-5}kvm,  Price per Night: {pricePerNight,-5}kr");
+                }
+            }
+            else
+            {
+                UserMessage.ErrorMessage("No rooms are available for the selected dates.");
+            }
+        }
+        public void SearchDateRoom()
+        {
+            try
+            {
+                Console.Write("Enter date for room search (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime searchDate))
+                {
+                    DisplayAvailableRooms(searchDate, searchDate.AddDays(1));
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid date format. Please use yyyy-MM-dd.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void SearchDateIntervalRoom()
+        {
+            try
+            {
+                Console.Write("Enter start date for room search (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
+                {
+                    Console.Write("Enter end date for room search (yyyy-MM-dd): ");
+                    if (DateTime.TryParse(Console.ReadLine(), out DateTime endDate))
+                    {
+                        DisplayAvailableRooms(startDate, endDate);
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Invalid date format for end date. Please use yyyy-MM-dd.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid date format for start date. Please use yyyy-MM-dd.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void SearchCustomerRoom()
+        {
+            try
+            {
+                // Add logic to search based on customer details if needed
+                Console.WriteLine("Searching for customers to see available rooms...");
+                // ...
+
+                // Display available rooms
+                DisplayAvailableRooms(DateTime.Now, DateTime.Now.AddDays(1)); // Change this to fit your logic
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
 
     }
 }
