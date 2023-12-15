@@ -18,7 +18,7 @@ namespace MillesHotelLibrary.Interfaces
 
         [Required]
         public DateTime InvoiceDue { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsPaid { get; set; }
 
         // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }

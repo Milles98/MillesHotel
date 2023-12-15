@@ -128,7 +128,7 @@ namespace MillesHotelLibrary.Services
                                             {
                                                 InvoiceAmount = invoiceAmount,
                                                 InvoiceDue = newBooking.BookingEndDate,
-                                                IsActive = true,
+                                                IsPaid = false,
                                                 CustomerID = customerId,
                                                 Customer = newBooking.Customer,
                                             };
@@ -259,7 +259,7 @@ namespace MillesHotelLibrary.Services
             var bookings = _dbContext.Bookings.ToList();
 
             Console.WriteLine("╭─────────────╮───────────────────╮───────────────────╮────────────╮─────────────╮──────────╮");
-            Console.WriteLine("│ Booking ID  │ Start Date        │ End Date          │ Is Active  │ Customer ID │ Room ID  │");
+            Console.WriteLine("│ Booking ID  │ Start Date        │ End Date          │ Booked     │ Customer ID │ Room ID  │");
             Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼────────────┼─────────────┼──────────┤");
 
             foreach (var booking in bookings)
@@ -380,7 +380,7 @@ namespace MillesHotelLibrary.Services
 
                     if (booking != null)
                     {
-                        booking.IsBooked = false;
+                        booking.IsActive = false;
                         _dbContext.SaveChanges();
                         UserMessage.InputSuccessMessage("Booking soft deleted successfully.");
                     }
@@ -419,6 +419,7 @@ namespace MillesHotelLibrary.Services
 
                         if (booking.Invoice != null)
                         {
+                            booking.Invoice.IsPaid = false;
                             booking.Invoice.IsActive = false;
                         }
 
@@ -482,7 +483,7 @@ namespace MillesHotelLibrary.Services
 
                                             booking.Invoice.InvoiceAmount = pricePerNight * numberOfNights;
                                             booking.Invoice.InvoiceDue = newEndDate;
-                                            booking.Invoice.IsActive = booking.Invoice.InvoiceAmount > 0;
+                                            booking.Invoice.IsPaid = booking.Invoice.InvoiceAmount > 0;
                                         }
 
                                         _dbContext.SaveChanges();

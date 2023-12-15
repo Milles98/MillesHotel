@@ -18,7 +18,7 @@ namespace MillesHotelLibrary.Models
 
         [Required]
         public DateTime InvoiceDue { get; set; }
-        public bool IsActive
+        public bool IsPaid
         {
             get
             {
@@ -29,6 +29,7 @@ namespace MillesHotelLibrary.Models
 
             }
         }
+        public bool IsActive { get; set; } = true;
 
         // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }

@@ -119,6 +119,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
                     b.HasKey("InvoiceID");
 
                     b.HasIndex("CustomerID");
