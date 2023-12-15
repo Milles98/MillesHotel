@@ -16,7 +16,7 @@ namespace MillesHotelLibrary.Interfaces
         [Required]
         public DateTime BookingStartDate { get; set; }
         public DateTime BookingEndDate { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsBooked { get; set; }
 
         // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }

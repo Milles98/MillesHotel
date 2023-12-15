@@ -89,7 +89,7 @@ namespace MillesHotelLibrary.Services
                                     {
                                         var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings.All(b =>
                                             bookingDate >= b.BookingEndDate ||
-                                            b.BookingStartDate >= bookingDate.AddDays(7) || !b.IsActive);
+                                            b.BookingStartDate >= bookingDate.AddDays(7) || !b.IsBooked);
 
                                         if (isRoomAvailable)
                                         {
@@ -97,7 +97,7 @@ namespace MillesHotelLibrary.Services
                                             {
                                                 BookingStartDate = bookingDate,
                                                 BookingEndDate = bookingDate.AddDays(numberOfNights),
-                                                IsActive = true,
+                                                IsBooked = true,
                                                 CustomerID = customerId,
                                                 RoomID = roomId
                                             };
@@ -264,7 +264,7 @@ namespace MillesHotelLibrary.Services
 
             foreach (var booking in bookings)
             {
-                Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.IsActive,-12}│{booking.CustomerID,-13}│{booking.RoomID,-10}│");
+                Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.IsBooked,-12}│{booking.CustomerID,-13}│{booking.RoomID,-10}│");
                 Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼────────────┼─────────────┼──────────┤");
             }
 
@@ -380,7 +380,7 @@ namespace MillesHotelLibrary.Services
 
                     if (booking != null)
                     {
-                        booking.IsActive = false;
+                        booking.IsBooked = false;
                         _dbContext.SaveChanges();
                         UserMessage.InputSuccessMessage("Booking soft deleted successfully.");
                     }
@@ -415,7 +415,7 @@ namespace MillesHotelLibrary.Services
 
                     if (booking != null)
                     {
-                        booking.IsActive = false;
+                        booking.IsBooked = false;
 
                         if (booking.Invoice != null)
                         {
@@ -549,7 +549,7 @@ namespace MillesHotelLibrary.Services
         {
             var availableRooms = _dbContext.Rooms
                 .Where(room => room.Bookings.All(b =>
-                    startDate >= b.BookingEndDate || endDate >= b.BookingStartDate || !b.IsActive))
+                    startDate >= b.BookingEndDate || endDate >= b.BookingStartDate || !b.IsBooked))
                 .ToList();
 
             if (availableRooms.Any())

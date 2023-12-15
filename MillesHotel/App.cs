@@ -39,7 +39,7 @@ namespace MillesHotel
                 // Om BookingEndDate har passerat dagens datum
                 if (booking.BookingEndDate < DateTime.Now)
                 {
-                    booking.IsActive = false;
+                    booking.IsBooked = false;
                 }
             }
 

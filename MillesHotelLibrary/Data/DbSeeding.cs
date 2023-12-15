@@ -56,13 +56,13 @@ namespace MillesHotelLibrary.Data
                 var bookings = new List<Booking>
                 {
                     new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
-                IsActive = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
+                IsBooked = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
                     new Booking { BookingStartDate = DateTime.Now.AddDays(3).Date, BookingEndDate = DateTime.Now.AddDays(10).Date,
-                IsActive = true, CustomerID = customers[3].CustomerID, RoomID = rooms[0].RoomID },
+                IsBooked = true, CustomerID = customers[3].CustomerID, RoomID = rooms[0].RoomID },
                     new Booking { BookingStartDate = DateTime.Now.AddDays(5).Date, BookingEndDate = DateTime.Now.AddDays(9).Date,
-                IsActive = true, CustomerID = customers[2].CustomerID, RoomID = rooms[3].RoomID },
+                IsBooked = true, CustomerID = customers[2].CustomerID, RoomID = rooms[3].RoomID },
                     new Booking { BookingStartDate = DateTime.Now.AddDays(2).Date, BookingEndDate = DateTime.Now.AddDays(7).Date,
-                IsActive = true, CustomerID = customers[0].CustomerID, RoomID = rooms[2].RoomID }
+                IsBooked = true, CustomerID = customers[0].CustomerID, RoomID = rooms[2].RoomID }
                 };
 
                 dbContext.Bookings.AddRange(bookings);
