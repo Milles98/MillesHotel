@@ -52,9 +52,7 @@ namespace MillesHotelLibrary.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("InvoiceID")
-                        .IsUnique()
-                        .HasFilter("[InvoiceID] IS NOT NULL");
+                    b.HasIndex("InvoiceID");
 
                     b.HasIndex("RoomID");
 
@@ -166,8 +164,8 @@ namespace MillesHotelLibrary.Migrations
                         .IsRequired();
 
                     b.HasOne("MillesHotelLibrary.Models.Invoice", "Invoice")
-                        .WithOne("Booking")
-                        .HasForeignKey("MillesHotelLibrary.Models.Booking", "InvoiceID");
+                        .WithMany()
+                        .HasForeignKey("InvoiceID");
 
                     b.HasOne("MillesHotelLibrary.Models.Room", "Room")
                         .WithMany("Bookings")
@@ -196,11 +194,6 @@ namespace MillesHotelLibrary.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Invoices");
-                });
-
-            modelBuilder.Entity("MillesHotelLibrary.Models.Invoice", b =>
-                {
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Room", b =>

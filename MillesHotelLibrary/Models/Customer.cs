@@ -40,8 +40,8 @@ namespace MillesHotelLibrary.Models
             }
         }
 
-        public ICollection<Booking>? Bookings { get; set; }
-        public ICollection<Invoice>? Invoices { get; set; }
+        public List<Booking>? Bookings { get; set; }
+        public List<Invoice>? Invoices { get; set; }
 
     }
 }

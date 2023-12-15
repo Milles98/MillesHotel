@@ -45,7 +45,7 @@ namespace MillesHotelLibrary.Models
             }
         }
 
-        public ICollection<Booking>? Bookings { get; set; }
+        public List<Booking>? Bookings { get; set; }
 
         public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)
         {

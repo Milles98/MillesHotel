@@ -30,7 +30,7 @@ namespace MillesHotelLibrary.Interfaces
         //public bool IsActive { get; set; }
 
         // Navigationsproperty (om det finns relationer)
-        public ICollection<Booking>? Bookings { get; set; }
-        public ICollection<Invoice>? Invoices { get; set; }
+        public List<Booking>? Bookings { get; set; }
+        public List<Invoice>? Invoices { get; set; }
     }
 }
