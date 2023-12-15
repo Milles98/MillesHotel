@@ -49,17 +49,27 @@ namespace MillesHotelLibrary.Services
                             }
                         }
 
-                        var newRoom = new Room
+                        Console.Write("Enter room price per night (between 250 and 3500): ");
+                        if (double.TryParse(Console.ReadLine(), out double roomPrice) && (roomPrice >= 250 && roomPrice <= 3500))
                         {
-                            RoomName = roomName,
-                            RoomSize = roomSize,
-                            RoomType = roomType,
-                            ExtraBedsCount = extraBedsCount,
-                        };
+                            var newRoom = new Room
+                            {
+                                RoomName = roomName,
+                                RoomSize = roomSize,
+                                RoomType = roomType,
+                                ExtraBedsCount = extraBedsCount,
+                                RoomPrice = roomPrice,
+                                IsActive = true
+                            };
 
-                        _dbContext.Rooms.Add(newRoom);
-                        _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room created successfully.");
+                            _dbContext.Rooms.Add(newRoom);
+                            _dbContext.SaveChanges();
+                            UserMessage.InputSuccessMessage("Room created successfully.");
+                        }
+                        else
+                        {
+                            UserMessage.ErrorMessage("Invalid room price format or room price exceeds the allowed range. Please enter a valid number.");
+                        }
                     }
                     else
                     {
@@ -348,6 +358,5 @@ namespace MillesHotelLibrary.Services
 
             return availableRooms;
         }
-
     }
 }
