@@ -146,6 +146,9 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("RoomBooked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

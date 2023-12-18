@@ -27,7 +27,7 @@ namespace MillesHotelLibrary.Models
 
         public double RoomPrice { get; set; }
 
-        public bool IsActive
+        public bool RoomBooked
         {
             get
             {
@@ -46,6 +46,7 @@ namespace MillesHotelLibrary.Models
                 }
             }
         }
+        public bool IsActive { get; set; } = true;
 
         public List<Booking>? Bookings { get; set; }
 

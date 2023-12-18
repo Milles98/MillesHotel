@@ -99,16 +99,31 @@ namespace MillesHotelLibrary.Services
             var invoices = _dbContext.Invoices.ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Is Paid    │");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Status     │");
             Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
 
             foreach (var invoice in invoices)
             {
-                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│{invoice.IsPaid,-12}│");
+                if (!invoice.IsPaid)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│ NOT PAID   │");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│ PAID       │");
+                    Console.ResetColor();
+                }
                 Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
             }
 
             Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯────────────╯");
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
         public void UpdateInvoice()
         {

@@ -11,7 +11,7 @@ namespace MillesHotelLibrary.Interfaces
     {
         void CreateCustomer();
         void GetCustomerByID();
-        void GetAllBookings();
+        void GetAllCustomers();
         void SoftDeleteCustomer();
         void UpdateCustomerFirstName();
         void UpdateCustomerLastName();

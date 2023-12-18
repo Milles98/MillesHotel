@@ -59,7 +59,7 @@ namespace MillesHotelLibrary.Services
                                 RoomType = roomType,
                                 ExtraBedsCount = extraBedsCount,
                                 RoomPrice = roomPrice,
-                                IsActive = true
+                                RoomBooked = true
                             };
 
                             _dbContext.Rooms.Add(newRoom);
@@ -105,7 +105,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Room Size: {room.RoomSize}");
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
-                    Console.WriteLine($"Is Active: {room.IsActive}");
+                    Console.WriteLine($"Is Active: {room.RoomBooked}");
                 }
                 else
                 {
@@ -312,30 +312,84 @@ namespace MillesHotelLibrary.Services
         }
         public void SoftDeleteRoom()
         {
-            foreach (var rooms in _dbContext.Rooms)
+            try
             {
-                Console.WriteLine($"RoomID: {rooms.RoomID}, RoomType: {rooms.RoomType}, RoomSize: {rooms.RoomSize}, IsActive: {rooms.IsActive}");
-            }
-
-            Console.Write("Enter room ID to soft delete: ");
-            if (int.TryParse(Console.ReadLine(), out int roomId))
-            {
-                var room = _dbContext.Rooms.Find(roomId);
-
-                if (room != null)
+                foreach (var room in _dbContext.Rooms)
                 {
-                    room.IsActive = false;
-                    _dbContext.SaveChanges();
-                    UserMessage.InputSuccessMessage("Room soft deleted successfully.");
+                    Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
+                }
+
+                Console.Write("Enter room ID to soft delete: ");
+                if (int.TryParse(Console.ReadLine(), out int roomId))
+                {
+                    var room = _dbContext.Rooms.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
+
+                    if (room != null)
+                    {
+                        if (room.Bookings == null || !room.Bookings.Any())
+                        {
+                            room.IsActive = false;
+                            _dbContext.SaveChanges();
+                            UserMessage.InputSuccessMessage("Room soft deleted successfully.");
+                        }
+                        else
+                        {
+                            UserMessage.ErrorMessage("Cannot delete room with associated bookings. Please remove bookings first.");
+                        }
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Room not found.");
+                    }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void ReactivateRoom()
+        {
+            try
+            {
+                foreach (var showRoom in _dbContext.Rooms.Where(r => !r.IsActive))
+                {
+                    Console.WriteLine($"RoomID: {showRoom.RoomID}, RoomType: {showRoom.RoomType}, " +
+                        $"RoomSize: {showRoom.RoomSize}, IsActive: {showRoom.IsActive}");
+                }
+
+                Console.Write("Enter room ID to reactivate: ");
+                if (int.TryParse(Console.ReadLine(), out int roomId))
+                {
+                    var room = _dbContext.Rooms.Find(roomId);
+
+                    if (room != null)
+                    {
+                        room.IsActive = true;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Room reactivated successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Room not found.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -353,7 +407,7 @@ namespace MillesHotelLibrary.Services
                 .ToList();
 
             var availableRooms = _dbContext.Rooms
-                .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.IsActive && r.RoomSize >= numPeople)
+                .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.RoomBooked && r.RoomSize >= numPeople)
                 .ToList();
 
             return availableRooms;

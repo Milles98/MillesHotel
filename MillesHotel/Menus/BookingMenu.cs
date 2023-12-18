@@ -70,7 +70,7 @@ namespace MillesHotel.Menus
                             bookingService.SearchDateIntervalRoom();
                             break;
                         case 8:
-                            bookingService.SearchCustomerRoom();
+                            bookingService.SearchCustomerBookings();
                             break;
                         case 9:
                             bookingService.SoftDeleteBooking();
