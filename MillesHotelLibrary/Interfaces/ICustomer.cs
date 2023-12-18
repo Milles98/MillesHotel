@@ -14,19 +14,19 @@ namespace MillesHotelLibrary.Interfaces
         public int CustomerID { get; set; }
 
         [Required]
-        public string? CustomerFirstName { get; set; }
+        public string CustomerFirstName { get; set; }
 
         [Required]
-        public string? CustomerLastName { get; set; }
+        public string CustomerLastName { get; set; }
 
         public int CustomerAge { get; set; }
 
         [Required]
-        public string? CustomerEmail { get; set; }
+        public string CustomerEmail { get; set; }
 
-        public string? CustomerPhone { get; set; }
+        public string CustomerPhone { get; set; }
 
-        public string? CustomerCountry { get; set; }
+        public string CustomerCountry { get; set; }
         //public bool IsActive { get; set; }
 
         // Navigationsproperty (om det finns relationer)
