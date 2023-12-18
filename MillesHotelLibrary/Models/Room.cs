@@ -13,9 +13,11 @@ namespace MillesHotelLibrary.Models
         [Key]
         public int RoomID { get; set; }
 
+        [StringLength(19)]
         public string RoomName { get; set; }
 
         [Required]
+        [Range(20, 3000)]
         public int RoomSize { get; set; }
 
         [Required]
@@ -23,20 +25,20 @@ namespace MillesHotelLibrary.Models
 
         public bool ExtraBeds { get; set; }
 
+        [Range(0, 3)]
         public int ExtraBedsCount { get; set; }
 
+        [Range(250, 3500)]
         public double RoomPrice { get; set; }
 
         public bool RoomBooked
         {
             get
             {
-                // Check if there are any active bookings that overlap with the specified date range
                 return Bookings?.Any(b => b.IsBooked && BookingDatesOverlap(b, DateTime.Now, DateTime.Now.AddDays(7))) ?? false;
             }
             set
             {
-                // Set IsActive for all bookings related to this room
                 if (Bookings != null)
                 {
                     foreach (var booking in Bookings)
@@ -52,7 +54,6 @@ namespace MillesHotelLibrary.Models
 
         public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)
         {
-            // Check if the booking overlaps with the specified date range
             return !(booking.BookingEndDate <= start || booking.BookingStartDate >= end);
         }
     }
