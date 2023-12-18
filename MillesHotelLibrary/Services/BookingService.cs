@@ -227,27 +227,27 @@ namespace MillesHotelLibrary.Services
         {
             var bookings = _dbContext.Bookings.ToList();
 
-            Console.WriteLine("╭─────────────╮───────────────────╮───────────────────╮─────────────╮──────────╮");
-            Console.WriteLine("│ Booking ID  │ Start Date        │ End Date          │ Customer ID │ Room ID  │");
-            Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼─────────────┼──────────┤");
+            Console.WriteLine("╭─────────────╮───────────────────╮───────────────────╮─────────────╮──────────╮──────────╮");
+            Console.WriteLine("│ Booking ID  │ Start Date        │ End Date          │ Customer ID │ Room ID  │ Status   │");
+            Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼─────────────┼──────────┤──────────┤");
 
             foreach (var booking in bookings)
             {
                 if (booking.IsActive)
                 {
-                    Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.CustomerID,-13}│{booking.RoomID,-10}│");
+                    Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.CustomerID,-13}│{booking.RoomID,-10}│ BOOKED   │");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.CustomerID,-13}│{booking.RoomID,-10}│ CANCELED");
+                    Console.WriteLine($"│{booking.BookingID,-13}│{booking.BookingStartDate.ToString("yyyy-MM-dd"),-19}│{booking.BookingEndDate.ToString("yyyy-MM-dd"),-19}│{booking.CustomerID,-13}│{booking.RoomID,-10}│ CANCELED │");
                     Console.ResetColor();
                 }
 
-                Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼─────────────┼──────────┤");
+                Console.WriteLine("├─────────────┼───────────────────┼───────────────────┼─────────────┼──────────┤──────────┤");
             }
 
-            Console.WriteLine("╰─────────────╯───────────────────╯───────────────────╯─────────────╯──────────╯");
+            Console.WriteLine("╰─────────────╯───────────────────╯───────────────────╯─────────────╯──────────╯──────────╯");
         }
         public void UpdateBookingStartDate()
         {
