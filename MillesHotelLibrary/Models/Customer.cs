@@ -14,19 +14,24 @@ namespace MillesHotelLibrary.Models
         public int CustomerID { get; set; }
 
         [Required]
-        public string? CustomerFirstName { get; set; }
+        [StringLength(13)]
+        public string CustomerFirstName { get; set; } = string.Empty;
 
         [Required]
-        public string? CustomerLastName { get; set; }
+        [StringLength(13)]
+        public string CustomerLastName { get; set; } = string.Empty;
 
         public int CustomerAge { get; set; }
 
         [Required]
-        public string? CustomerEmail { get; set; }
+        [StringLength(25)]
+        public string CustomerEmail { get; set; } = string.Empty;
 
-        public string? CustomerPhone { get; set; }
+        [StringLength(15)]
+        public string CustomerPhone { get; set; } = string.Empty;
 
-        public string? CustomerCountry { get; set; }
+        [StringLength(9)]
+        public string CustomerCountry { get; set; } = string.Empty;
 
         //En kund kan tas bort endast om det inte finns några bokningar kopplade till kunden.
         public bool IsActive { get; set; } = true;
