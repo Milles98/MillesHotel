@@ -23,38 +23,49 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                Console.Write("Enter new customer first name: ");
+                Console.Write("Enter new customer first name (max 13 characters): ");
                 string firstName = Console.ReadLine();
 
-                Console.Write("Enter customer last name: ");
+                Console.Write("Enter customer last name (max 13 characters): ");
                 string lastName = Console.ReadLine();
 
                 Console.Write("Enter customer age (between 2 and 150): ");
                 if (int.TryParse(Console.ReadLine(), out int age) && age >= 2 && age <= 150)
                 {
-                    Console.Write("Enter customer email: ");
+                    Console.Write("Enter customer email (max 25 characters): ");
                     string email = Console.ReadLine();
 
-                    Console.Write("Enter customer phone: ");
+                    Console.Write("Enter customer phone (max 15 characters): ");
                     string phone = Console.ReadLine();
 
-                    Console.Write("Enter customer country: ");
+                    Console.Write("Enter customer country (max 9 characters): ");
                     string country = Console.ReadLine();
 
-                    var newCustomer = new Customer()
+                    if (firstName.Length >= 2 && firstName.Length <= 13 &&
+                        lastName.Length >= 2 && lastName.Length <= 13 &&
+                        email.Length >= 2 && email.Length <= 25 &&
+                        phone.Length <= 15 &&
+                        country.Length <= 9)
                     {
-                        CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
-                        CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
-                        CustomerAge = age,
-                        CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
-                        CustomerPhone = phone,
-                        CustomerCountry = char.ToUpper(country[0]) + country.Substring(1),
-                        IsActive = true
-                    };
+                        var newCustomer = new Customer()
+                        {
+                            CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
+                            CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
+                            CustomerAge = age,
+                            CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
+                            CustomerPhone = phone,
+                            CustomerCountry = char.ToUpper(country[0]) + country.Substring(1),
+                            IsActive = true
+                        };
 
-                    _dbContext.Customers.Add(newCustomer);
-                    _dbContext.SaveChanges();
-                    UserMessage.InputSuccessMessage("Customer created successfully.");
+                        _dbContext.Customers.Add(newCustomer);
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Customer created successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Input length requirements not met. Please try again.");
+                    }
                 }
                 else
                 {
@@ -232,9 +243,9 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customerID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customers)
                 {
-                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
+                    Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}");
                 }
 
                 Console.Write("Input Customer ID: ");
@@ -244,10 +255,10 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New First Name: ");
+                        Console.Write("Input New First Name (max 13 characters): ");
                         string newName = Console.ReadLine();
 
-                        if (!string.IsNullOrWhiteSpace(newName))
+                        if (!string.IsNullOrWhiteSpace(newName) && newName.Length >= 2 && newName.Length <= 13)
                         {
                             customer.CustomerFirstName = char.ToUpper(newName[0]) + newName.Substring(1);
                             _dbContext.SaveChanges();
@@ -255,7 +266,7 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid input for the new first name. Please enter a valid name.");
+                            UserMessage.ErrorMessage("Invalid input for the new first name. Please enter a valid name with at least 2 characters.");
                         }
                     }
                     else
@@ -281,9 +292,9 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customerID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customers)
                 {
-                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
+                    Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}");
                 }
 
                 Console.Write("Input Customer ID: ");
@@ -293,10 +304,10 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Last Name: ");
+                        Console.Write("Input New Last Name (max 13 characters): ");
                         string newLastName = Console.ReadLine();
 
-                        if (!string.IsNullOrWhiteSpace(newLastName))
+                        if (!string.IsNullOrWhiteSpace(newLastName) && newLastName.Length >= 2 && newLastName.Length <= 13)
                         {
                             customer.CustomerLastName = char.ToUpper(newLastName[0]) + newLastName.Substring(1);
                             _dbContext.SaveChanges();
@@ -304,7 +315,7 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid input for the new last name. Please enter a valid last name.");
+                            UserMessage.ErrorMessage("Invalid input for the new last name. Please enter a valid last name with at least 2 characters.");
                         }
                     }
                     else
@@ -384,10 +395,9 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customerID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customers)
                 {
-                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Name: {customerID.CustomerFirstName} " +
-                        $"{customerID.CustomerLastName}, Email: {customerID.CustomerEmail}");
+                    Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, Email: {customersID.CustomerEmail}");
                 }
 
                 Console.Write("Input Customer ID: ");
@@ -397,10 +407,10 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Email: ");
+                        Console.Write("Input New Email (max 25 characters): ");
                         string newEmail = Console.ReadLine();
 
-                        if (!string.IsNullOrWhiteSpace(newEmail) && IsValidEmail(newEmail))
+                        if (IsValidEmail(newEmail) && newEmail.Length <= 25)
                         {
                             customer.CustomerEmail = char.ToUpper(newEmail[0]) + newEmail.Substring(1);
                             _dbContext.SaveChanges();
@@ -408,7 +418,7 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid email format. Please enter a valid email address.");
+                            UserMessage.ErrorMessage("Invalid email format or length. Please enter a valid email address with a maximum length of 25 characters.");
                         }
                     }
                     else
@@ -443,48 +453,42 @@ namespace MillesHotelLibrary.Services
         }
         public void UpdateCustomerPhone()
         {
-            try
+            Console.WriteLine("Available CustomerIDs:");
+            foreach (var customersID in _dbContext.Customers)
             {
-                Console.WriteLine("Available CustomerIDs:");
-                foreach (var customerID in _dbContext.Customers)
-                {
-                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}, Phone: {customerID.CustomerPhone}");
-                }
+                Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, " +
+                    $"Phone: {customersID.CustomerPhone}");
+            }
 
-                Console.Write("Input Customer ID: ");
-                if (int.TryParse(Console.ReadLine(), out int customerId))
-                {
-                    var customer = _dbContext.Customers.Find(customerId);
+            Console.Write("Input Customer ID: ");
+            if (int.TryParse(Console.ReadLine(), out int customerId))
+            {
+                var customer = _dbContext.Customers.Find(customerId);
 
-                    if (customer != null)
+                if (customer != null)
+                {
+                    Console.Write("Input New Phone Number (max 15 characters): ");
+                    string newPhone = Console.ReadLine();
+
+                    if (IsValidPhoneNumber(newPhone) && newPhone.Length <= 15)
                     {
-                        Console.Write("Input New Phone Number: ");
-                        string newPhone = Console.ReadLine();
-
-                        if (!string.IsNullOrWhiteSpace(newPhone) && IsValidPhoneNumber(newPhone))
-                        {
-                            customer.CustomerPhone = newPhone;
-                            _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Customer phone updated successfully.");
-                        }
-                        else
-                        {
-                            UserMessage.ErrorMessage("Invalid phone number format. Please enter a valid phone number.");
-                        }
+                        customer.CustomerPhone = newPhone;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Customer phone updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Customer not found.");
+                        UserMessage.ErrorMessage("Invalid phone number format. Customer phone not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Customer not found.");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -496,48 +500,42 @@ namespace MillesHotelLibrary.Services
         }
         public void UpdateCustomerCountry()
         {
-            try
+            Console.WriteLine("Available CustomerIDs:");
+            foreach (var customersID in _dbContext.Customers)
             {
-                Console.WriteLine("Available CustomerIDs:");
-                foreach (var customerID in _dbContext.Customers)
-                {
-                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}, Country: {customerID.CustomerCountry}");
-                }
+                Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, " +
+                    $"{customersID.CustomerCountry}");
+            }
 
-                Console.Write("Input Customer ID: ");
-                if (int.TryParse(Console.ReadLine(), out int customerId))
-                {
-                    var customer = _dbContext.Customers.Find(customerId);
+            Console.Write("Input Customer ID: ");
+            if (int.TryParse(Console.ReadLine(), out int customerId))
+            {
+                var customer = _dbContext.Customers.Find(customerId);
 
-                    if (customer != null)
+                if (customer != null)
+                {
+                    Console.Write("Input New Country (max 9 characters): ");
+                    string newCountry = Console.ReadLine();
+
+                    if (!string.IsNullOrEmpty(newCountry) && newCountry.Length <= 9)
                     {
-                        Console.Write("Input New Country: ");
-                        string newCountry = Console.ReadLine();
-
-                        if (!string.IsNullOrWhiteSpace(newCountry) && newCountry.Length <= 9)
-                        {
-                            customer.CustomerCountry = char.ToUpper(newCountry[0]) + newCountry.Substring(1);
-                            _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Customer country updated successfully.");
-                        }
-                        else
-                        {
-                            UserMessage.ErrorMessage("Invalid country input. Please enter a valid country name.");
-                        }
+                        customer.CustomerCountry = char.ToUpper(newCountry[0]) + newCountry.Substring(1);
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Customer country updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Customer not found.");
+                        UserMessage.ErrorMessage("Invalid country input. Customer country not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Customer not found.");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                UserMessage.ErrorMessage("Invalid Customer ID. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
