@@ -19,7 +19,7 @@ namespace MillesHotelLibrary.Interfaces
 
         [Required]
 
-        public bool IsActive { get; set; }
+        public bool RoomBooked { get; set; }
 
         // Foreign key för att koppla till Booking
         //public int? BookingID { get; set; }

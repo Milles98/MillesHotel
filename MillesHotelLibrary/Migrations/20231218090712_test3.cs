@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class test10 : Migration
+    public partial class test3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,7 @@ namespace MillesHotelLibrary.Migrations
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
                     ExtraBedsCount = table.Column<int>(type: "int", nullable: false),
                     RoomPrice = table.Column<double>(type: "float", nullable: false),
+                    RoomBooked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

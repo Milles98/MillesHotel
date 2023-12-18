@@ -124,21 +124,33 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        public void GetAllBookings()
+        public void GetAllCustomers()
         {
             var customers = _dbContext.Customers.ToList();
 
-            Console.WriteLine("╭─────────────╮─────────────╮─────────────╮─────╮─────────────────────────╮───────────────╮─────────╮───────────╮");
-            Console.WriteLine("│Customer ID  │ First Name  │ Last Name   │ Age │ Email                   │ Phone         │ Country │ Is Active │");
-            Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┼───────────┤");
+            Console.WriteLine("╭─────────────╮─────────────╮─────────────╮─────╮─────────────────────────╮───────────────╮─────────╮");
+            Console.WriteLine("│Customer ID  │ First Name  │ Last Name   │ Age │ Email                   │ Phone         │ Country │");
+            Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┤");
 
             foreach (var customer in customers)
             {
-                Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│{customer.IsActive,-11}│");
-                Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┼───────────┤");
+                if (customer.IsActive)
+                {
+                    Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│" +
+                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; // Set the text color for inactive customers
+                    Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│" +
+                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│ INACTIVE");
+                    Console.ResetColor(); // Reset the text color to default
+                }
+
+                Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┤");
             }
 
-            Console.WriteLine("╰─────────────╯─────────────╯─────────────╯─────╯─────────────────────────╯───────────────╯─────────╯───────────╯");
+            Console.WriteLine("╰─────────────╯─────────────╯─────────────╯─────╯─────────────────────────╯───────────────╯─────────╯");
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
@@ -178,6 +190,44 @@ namespace MillesHotelLibrary.Services
                 else
                 {
                     UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void ReactiveCustomer()
+        {
+            try
+            {
+                foreach (var showCustomer in _dbContext.Customers.Where(c => !c.IsActive))
+                {
+                    Console.WriteLine($"Inactive CustomerID: {showCustomer.CustomerID}");
+                }
+
+                Console.Write("Input Inactive Customer ID to reactivate: ");
+                if (int.TryParse(Console.ReadLine(), out int customerId))
+                {
+                    var customer = _dbContext.Customers.FirstOrDefault(c => c.CustomerID == customerId && !c.IsActive);
+
+                    if (customer != null)
+                    {
+                        customer.IsActive = true;
+                        _dbContext.SaveChanges();
+                        UserMessage.InputSuccessMessage("Customer reactivated successfully.");
+                    }
+                    else
+                    {
+                        UserMessage.ErrorMessage("Inactive customer not found. Please enter a valid inactive Customer ID.");
+                    }
+                }
+                else
+                {
+                    UserMessage.ErrorMessage("Invalid input. Please enter a valid inactive Customer ID.");
                 }
             }
             catch (Exception ex)

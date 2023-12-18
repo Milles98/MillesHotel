@@ -33,6 +33,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│3. See all Rooms      │");
                 Console.WriteLine("│4. Update Room        │");
                 Console.WriteLine("│5. Soft Delete Room   │");
+                Console.WriteLine("│6. Reactivate Room    │");
                 Console.WriteLine("│0. Return to MainMenu │");
                 Console.WriteLine("╰──────────────────────╯");
 
@@ -57,6 +58,9 @@ namespace MillesHotel.Menus
                             break;
                         case 5:
                             roomService.SoftDeleteRoom();
+                            break;
+                        case 6:
+                            roomService.ReactivateRoom();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
