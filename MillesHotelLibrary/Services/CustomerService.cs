@@ -23,34 +23,38 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                Console.Write("Enter new customer first name:");
+                Console.Write("Enter new customer first name (max 13 characters): ");
                 string firstName = Console.ReadLine();
 
-                Console.Write("Enter customer last name: ");
+                Console.Write("Enter customer last name (max 13 characters): ");
                 string lastName = Console.ReadLine();
 
-                Console.Write("Enter customer age: ");
-                if (int.TryParse(Console.ReadLine(), out int age))
+                Console.Write("Enter customer age (between 2 and 150): ");
+                if (int.TryParse(Console.ReadLine(), out int age) && age >= 2 && age <= 150)
                 {
-                    Console.Write("Enter customer email: ");
+                    Console.Write("Enter customer email (max 25 characters): ");
                     string email = Console.ReadLine();
 
-                    Console.Write("Enter customer phone: ");
+                    Console.Write("Enter customer phone (max 15 characters): ");
                     string phone = Console.ReadLine();
 
-                    Console.Write("Enter customer country: ");
+                    Console.Write("Enter customer country (max 9 characters): ");
                     string country = Console.ReadLine();
 
-                    if (firstName.Length >= 2 && lastName.Length >= 2 && email.Length >= 2)
+                    if (firstName.Length >= 2 && firstName.Length <= 13 &&
+                        lastName.Length >= 2 && lastName.Length <= 13 &&
+                        email.Length >= 2 && email.Length <= 25 &&
+                        phone.Length <= 15 &&
+                        country.Length <= 9)
                     {
                         var newCustomer = new Customer()
                         {
-                            CustomerFirstName = firstName,
-                            CustomerLastName = lastName,
+                            CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
+                            CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
                             CustomerAge = age,
-                            CustomerEmail = email,
+                            CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
                             CustomerPhone = phone,
-                            CustomerCountry = country,
+                            CustomerCountry = char.ToUpper(country[0]) + country.Substring(1),
                             IsActive = true
                         };
 
@@ -60,12 +64,12 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("First name, last name, and email must have a length of at least 2 characters.");
+                        UserMessage.ErrorMessage("Input length requirements not met. Please try again.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid age input. Please enter a valid number.");
+                    UserMessage.ErrorMessage("Invalid age input. Please enter a valid number between 2 and 150.");
                 }
             }
             catch (Exception ex)
@@ -201,12 +205,12 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New First Name: ");
+                        Console.Write("Input New First Name (max 13 characters): ");
                         string newName = Console.ReadLine();
 
-                        if (!string.IsNullOrWhiteSpace(newName) && newName.Length >= 2)
+                        if (!string.IsNullOrWhiteSpace(newName) && newName.Length >= 2 && newName.Length <= 13)
                         {
-                            customer.CustomerFirstName = newName;
+                            customer.CustomerFirstName = char.ToUpper(newName[0]) + newName.Substring(1);
                             _dbContext.SaveChanges();
                             UserMessage.InputSuccessMessage("Customer name updated successfully.");
                         }
@@ -250,12 +254,12 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Last Name: ");
+                        Console.Write("Input New Last Name (max 13 characters): ");
                         string newLastName = Console.ReadLine();
 
-                        if (!string.IsNullOrWhiteSpace(newLastName) && newLastName.Length >= 2)
+                        if (!string.IsNullOrWhiteSpace(newLastName) && newLastName.Length >= 2 && newLastName.Length <= 13)
                         {
-                            customer.CustomerLastName = newLastName;
+                            customer.CustomerLastName = char.ToUpper(newLastName[0]) + newLastName.Substring(1);
                             _dbContext.SaveChanges();
                             UserMessage.InputSuccessMessage("Customer last name updated successfully.");
                         }
@@ -299,10 +303,10 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Age: ");
+                        Console.Write("Input New Age (between 2 and 150 years): ");
                         if (int.TryParse(Console.ReadLine(), out int newAge))
                         {
-                            if (newAge >= 0 && newAge <= 150)
+                            if (newAge >= 2 && newAge <= 150)
                             {
                                 customer.CustomerAge = newAge;
                                 _dbContext.SaveChanges();
@@ -353,18 +357,18 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Email: ");
+                        Console.Write("Input New Email (max 25 characters): ");
                         string newEmail = Console.ReadLine();
 
-                        if (IsValidEmail(newEmail))
+                        if (IsValidEmail(newEmail) && newEmail.Length <= 25)
                         {
-                            customer.CustomerEmail = newEmail;
+                            customer.CustomerEmail = char.ToUpper(newEmail[0]) + newEmail.Substring(1);
                             _dbContext.SaveChanges();
                             UserMessage.InputSuccessMessage("Customer email updated successfully.");
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid email format. Please enter a valid email address.");
+                            UserMessage.ErrorMessage("Invalid email format or length. Please enter a valid email address with a maximum length of 25 characters.");
                         }
                     }
                     else
@@ -413,10 +417,10 @@ namespace MillesHotelLibrary.Services
 
                 if (customer != null)
                 {
-                    Console.Write("Input New Phone Number: ");
+                    Console.Write("Input New Phone Number (max 15 characters): ");
                     string newPhone = Console.ReadLine();
 
-                    if (IsValidPhoneNumber(newPhone))
+                    if (IsValidPhoneNumber(newPhone) && newPhone.Length <= 15)
                     {
                         customer.CustomerPhone = newPhone;
                         _dbContext.SaveChanges();
@@ -460,12 +464,12 @@ namespace MillesHotelLibrary.Services
 
                 if (customer != null)
                 {
-                    Console.Write("Input New Country: ");
+                    Console.Write("Input New Country (max 9 characters): ");
                     string newCountry = Console.ReadLine();
 
-                    if (!string.IsNullOrEmpty(newCountry))
+                    if (!string.IsNullOrEmpty(newCountry) && newCountry.Length <= 9)
                     {
-                        customer.CustomerCountry = newCountry;
+                        customer.CustomerCountry = char.ToUpper(newCountry[0]) + newCountry.Substring(1);
                         _dbContext.SaveChanges();
                         UserMessage.InputSuccessMessage("Customer country updated successfully.");
                     }
