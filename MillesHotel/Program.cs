@@ -15,12 +15,8 @@ namespace MillesHotel
             //ändra ERD kopplingen så faktura går från bookings till invoice, inte invoice till customer
 
             var dbContext = DbConfiguration.StartDatabase();
-            var app = new App(dbContext);
+            var app = new AppStart(dbContext);
             app.Build();
-
-            //var dbContextOptions = DbConfiguration.StartDatabase();
-            //var dbContext = new HotelDbContext(dbContextOptions);
-            //app.Build(dbContext);
 
             //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
 

@@ -30,22 +30,14 @@ namespace MillesHotelLibrary.Models
 
         public bool IsActive { get; set; } = true;
 
-        // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }
         public Customer? Customer { get; set; }
 
-        // Foreign key för att koppla till Room
         public int? RoomID { get; set; }
         public Room? Room { get; set; }
         // Foreign key för att koppla till Invoice
         //Till varje bokning skall det kopplas en betalning dvs en faktura.
         public int? InvoiceID { get; set; }
         public Invoice? Invoice { get; set; }
-
-        public override string ToString()
-        {
-            return $"Start Date: {BookingStartDate.ToString("yyyy-MM-dd")}, End Date: {BookingEndDate.ToString("yyyy-MM-dd")}, CustomerID: {CustomerID}, RoomID: {RoomID}";
-        }
-
     }
 }

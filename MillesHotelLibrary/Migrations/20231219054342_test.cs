@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class test3 : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,12 +17,12 @@ namespace MillesHotelLibrary.Migrations
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerFirstName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    CustomerLastName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     CustomerAge = table.Column<int>(type: "int", nullable: false),
-                    CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustomerCountry = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerEmail = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    CustomerCountry = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -36,7 +36,7 @@ namespace MillesHotelLibrary.Migrations
                 {
                     RoomID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomName = table.Column<string>(type: "nvarchar(19)", maxLength: 19, nullable: false),
                     RoomSize = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<int>(type: "int", nullable: false),
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
