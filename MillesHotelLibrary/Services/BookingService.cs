@@ -389,7 +389,7 @@ namespace MillesHotelLibrary.Services
                 {
                     var booking = _dbContext.Bookings.Find(bookingId);
 
-                    if (booking != null)
+                    if (booking != null && booking.IsActive)
                     {
                         booking.IsBooked = false;
                         booking.IsActive = false;
@@ -405,7 +405,7 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found or already canceled.");
                     }
                 }
                 else
@@ -436,7 +436,7 @@ namespace MillesHotelLibrary.Services
                         .Include(b => b.Invoice)
                         .FirstOrDefault(b => b.BookingID == bookingId);
 
-                    if (booking != null)
+                    if (booking != null && booking.IsActive)
                     {
                         Console.WriteLine($"Current Booking Information:\n{booking}");
 
@@ -491,7 +491,7 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Booking not found.");
+                        UserMessage.ErrorMessage("Booking not found or canceled.");
                     }
                 }
                 else
@@ -507,26 +507,25 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        public void SearchDateRoom()
+        public void SearchAvailableRooms()
         {
             try
             {
-                Console.Write("Enter date for room search (yyyy-MM-dd): ");
+                Console.Write("Enter date for room availability search (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime searchDate))
                 {
-                    var bookedRooms = _dbContext.Bookings
+                    var bookedRoomIds = _dbContext.Bookings
                         .Where(b => b.BookingStartDate.Date <= searchDate.Date && b.BookingEndDate.Date >= searchDate.Date)
-                        .Join(
-                            _dbContext.Rooms,
-                            booking => booking.RoomID,
-                            room => room.RoomID,
-                            (booking, room) => new { RoomID = room.RoomID, RoomName = room.RoomName }
-                        )
-                        .Distinct()
+                        .Select(b => b.RoomID)
                         .ToList();
 
-                    Console.WriteLine("Rooms booked during {0}:", searchDate.ToShortDateString());
-                    foreach (var room in bookedRooms)
+                    var availableRooms = _dbContext.Rooms
+                        .Where(room => !bookedRoomIds.Contains(room.RoomID))
+                        .Select(room => new { RoomID = room.RoomID, RoomName = room.RoomName })
+                        .ToList();
+
+                    Console.WriteLine("Available Rooms on {0}:", searchDate.ToShortDateString());
+                    foreach (var room in availableRooms)
                     {
                         Console.WriteLine($"Room ID: {room.RoomID}, Room Name: {room.RoomName}");
                     }
@@ -544,31 +543,31 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        public void SearchDateIntervalRoom()
+        public void SearchAvailableIntervalRooms()
         {
             try
             {
-                Console.Write("Enter start date for room search (yyyy-MM-dd): ");
+                Console.Write("Enter start date for room availability search (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
                 {
-                    Console.Write("Enter end date for room search (yyyy-MM-dd): ");
+                    Console.Write("Enter end date for room availability search (yyyy-MM-dd): ");
                     if (DateTime.TryParse(Console.ReadLine(), out DateTime endDate))
                     {
-                        var bookedRooms = _dbContext.Bookings
+                        var bookedRoomIds = _dbContext.Bookings
                             .Where(b => (b.BookingStartDate.Date >= startDate.Date && b.BookingStartDate.Date <= endDate.Date) ||
                                         (b.BookingEndDate.Date >= startDate.Date && b.BookingEndDate.Date <= endDate.Date) ||
                                         (b.BookingStartDate.Date <= startDate.Date && b.BookingEndDate.Date >= endDate.Date))
-                            .Join(
-                                _dbContext.Rooms,
-                                booking => booking.RoomID,
-                                room => room.RoomID,
-                                (booking, room) => new { RoomID = room.RoomID, RoomName = room.RoomName }
-                            )
+                            .Select(b => b.RoomID)
+                            .ToList();
+
+                        var availableRooms = _dbContext.Rooms
+                            .Where(room => !bookedRoomIds.Contains(room.RoomID))
+                            .Select(room => new { RoomID = room.RoomID, RoomName = room.RoomName })
                             .Distinct()
                             .ToList();
 
-                        Console.WriteLine($"Rooms booked during or between {startDate.ToShortDateString()} and {endDate.ToShortDateString()}:");
-                        foreach (var room in bookedRooms)
+                        Console.WriteLine($"Available Rooms between {startDate.ToShortDateString()} and {endDate.ToShortDateString()}:");
+                        foreach (var room in availableRooms)
                         {
                             Console.WriteLine($"Room ID: {room.RoomID}, Room Name: {room.RoomName}");
                         }
