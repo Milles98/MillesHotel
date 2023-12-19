@@ -18,10 +18,6 @@ namespace MillesHotel
             var app = new AppStart(dbContext);
             app.Build();
 
-            //DbContextOptionsBuilder<HotelDbContext> options i metodnamnen 
-
-            //kontrollera bokningar på tiderna som finns (svårast) sen lätt
-
             //IServiceStrategy
 
             //HotelLibrary

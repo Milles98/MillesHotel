@@ -122,8 +122,6 @@ namespace MillesHotelLibrary.Services
             }
 
             Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯────────────╯");
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
         }
         public void UpdateInvoice()
         {
