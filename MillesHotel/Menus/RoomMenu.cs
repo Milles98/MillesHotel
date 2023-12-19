@@ -26,6 +26,7 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
+                Message.MillesHotelMessage();
                 Console.WriteLine("╭──────────────────────╮");
                 Console.WriteLine("│Room Menu             │");
                 Console.WriteLine("│1. Register Room      │");
@@ -66,13 +67,13 @@ namespace MillesHotel.Menus
                             Console.WriteLine("Returning to MainMenu...");
                             break;
                         default:
-                            UserMessage.ErrorMessage("Invalid choice. Please try again.");
+                            Message.ErrorMessage("Invalid choice. Please try again.");
                             break;
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid input. Please enter a number.");
+                    Message.ErrorMessage("Invalid input. Please enter a number.");
                 }
 
             } while (choice != 0);
@@ -85,6 +86,7 @@ namespace MillesHotel.Menus
             do
             {
                 Console.Clear();
+                Message.MillesHotelMessage();
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Update Room Details            │");
                 Console.WriteLine("│1. Update Room Name            │");
@@ -115,13 +117,13 @@ namespace MillesHotel.Menus
                             Console.WriteLine("Returning to Room Menu...");
                             break;
                         default:
-                            UserMessage.ErrorMessage("Invalid choice. Please try again.");
+                            Message.ErrorMessage("Invalid choice. Please try again.");
                             break;
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid input. Please enter a number.");
+                    Message.ErrorMessage("Invalid input. Please enter a number.");
                 }
 
             } while (updateChoice != 0);
