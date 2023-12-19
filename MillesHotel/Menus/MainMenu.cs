@@ -49,7 +49,6 @@ namespace MillesHotel.Menus
                             break;
                         case 5:
                             AdminMenu.ShowAdminMenu(dbContext);
-                            Console.ReadKey();
                             break;
                         case 0:
                             Console.WriteLine("Exiting program...");

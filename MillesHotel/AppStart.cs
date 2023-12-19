@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace MillesHotel
 {
-    public class App
+    public class AppStart
     {
         private readonly HotelDbContext _dbContext;
 
-        public App(HotelDbContext dbContext)
+        public AppStart(HotelDbContext dbContext)
         {
             _dbContext = dbContext;
         }
