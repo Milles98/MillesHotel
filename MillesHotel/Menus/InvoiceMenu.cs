@@ -22,6 +22,8 @@ namespace MillesHotel.Menus
             InvoiceService invoiceService = new InvoiceService(dbContext);
             int choice;
 
+            //betala 10 dagar efter bokning
+
             do
             {
                 Console.Clear();

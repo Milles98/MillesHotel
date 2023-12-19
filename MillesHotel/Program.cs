@@ -13,7 +13,6 @@ namespace MillesHotel
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             //ändra ERD kopplingen så faktura går från bookings till invoice, inte invoice till customer
-
             var dbContext = DbConfiguration.StartDatabase();
             var app = new AppStart(dbContext);
             app.Build();
