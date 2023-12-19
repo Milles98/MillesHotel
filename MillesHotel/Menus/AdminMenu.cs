@@ -13,6 +13,8 @@ namespace MillesHotel.Menus
     {
         public static void ShowAdminMenu(HotelDbContext dbContext)
         {
+            AdminService adminService = new AdminService(dbContext);
+
             int choice;
 
             do
@@ -34,6 +36,16 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
+                            adminService.DeleteRoom();
+                            break;
+                        case 2:
+                            adminService.DeleteCustomer();
+                            break;
+                        case 3:
+                            adminService.DeleteBooking();
+                            break;
+                        case 4:
+                            adminService.DeleteInvoice();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
