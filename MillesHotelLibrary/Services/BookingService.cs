@@ -31,8 +31,8 @@ namespace MillesHotelLibrary.Services
                     return;
                 }
 
-                Console.Write("Enter number of nights: ");
-                if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0)
+                Console.Write("Enter number of nights (max 20): ");
+                if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0/* && numberOfNights <= 20*/)
                 {
                     foreach (var customerID in _dbContext.Customers)
                     {
@@ -154,7 +154,7 @@ namespace MillesHotelLibrary.Services
                 }
                 else
                 {
-                    Message.ErrorMessage("Invalid number of nights. Please enter a positive integer. Booking not created.");
+                    Message.ErrorMessage("Invalid number of nights. Booking not created.");
                 }
             }
             else

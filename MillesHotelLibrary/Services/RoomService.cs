@@ -355,7 +355,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void ReactivateRoom()
         {
             try

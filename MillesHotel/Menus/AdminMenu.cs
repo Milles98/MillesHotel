@@ -17,16 +17,21 @@ namespace MillesHotel.Menus
 
             int choice;
 
+            //hur många kunder som finns
+            //top 10 lista
+            //top 10 by booking
+            //top 10 by country
+
             do
             {
                 Console.Clear();
                 Message.MillesHotelMessage();
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Admin Menu                     │");
-                Console.WriteLine("│1. Permanently Delete Room     │");
-                Console.WriteLine("│2. Permanently Delete Customer │");
-                Console.WriteLine("│3. Permanently Delete Booking  │");
-                Console.WriteLine("│4. Permanently Delete Invoice  │");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("│1. Permanent deletion (DANGER) │");
+                Console.ResetColor();
+                Console.WriteLine("│2. Top 10 info                 │");
                 Console.WriteLine("│0. Return to MainMenu          │");
                 Console.WriteLine("╰───────────────────────────────╯");
 
@@ -36,16 +41,9 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
-                            adminService.DeleteRoom();
+                            ShowDeletionMenu(adminService);
                             break;
                         case 2:
-                            adminService.DeleteCustomer();
-                            break;
-                        case 3:
-                            adminService.DeleteBooking();
-                            break;
-                        case 4:
-                            adminService.DeleteInvoice();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
@@ -61,6 +59,56 @@ namespace MillesHotel.Menus
                 }
 
             } while (choice != 0);
+        }
+
+        private static void ShowDeletionMenu(AdminService adminService)
+        {
+            int updateChoice;
+
+            do
+            {
+                Console.Clear();
+                Message.MillesHotelMessage();
+                Console.WriteLine("╭───────────────────────────────╮");
+                Console.WriteLine("│Permanent deletion Menu        │");
+                Console.WriteLine("│1. Permanently Delete Room     │");
+                Console.WriteLine("│2. Permanently Delete Customer │");
+                Console.WriteLine("│3. Permanently Delete Booking  │");
+                Console.WriteLine("│4. Permanently Delete Invoice  │");
+                Console.WriteLine("│0. Return to Admin Menu        │");
+                Console.WriteLine("╰───────────────────────────────╯");
+
+                Console.Write("Enter your choice: ");
+                if (int.TryParse(Console.ReadLine(), out updateChoice))
+                {
+                    switch (updateChoice)
+                    {
+                        case 1:
+                            adminService.DeleteRoom();
+                            break;
+                        case 2:
+                            adminService.DeleteCustomer();
+                            break;
+                        case 3:
+                            adminService.DeleteBooking();
+                            break;
+                        case 4:
+                            adminService.DeleteInvoice();
+                            break;
+                        case 0:
+                            Console.WriteLine("Returning to Admin Menu...");
+                            break;
+                        default:
+                            Message.ErrorMessage("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Message.ErrorMessage("Invalid input. Please enter a number.");
+                }
+
+            } while (updateChoice != 0);
         }
     }
 }
