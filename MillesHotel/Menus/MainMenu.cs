@@ -55,7 +55,7 @@ namespace MillesHotel.Menus
                             InvoiceMenu.ShowInvoiceMenu(dbContext);
                             break;
                         case 5:
-                            Console.WriteLine("Under construction...");
+                            AdminMenu.ShowAdminMenu(dbContext);
                             Console.ReadKey();
                             break;
                         case 0:

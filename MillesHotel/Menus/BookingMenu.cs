@@ -64,10 +64,10 @@ namespace MillesHotel.Menus
                             bookingService.CancelBooking();
                             break;
                         case 6:
-                            bookingService.SearchDateRoom();
+                            bookingService.SearchAvailableRooms();
                             break;
                         case 7:
-                            bookingService.SearchDateIntervalRoom();
+                            bookingService.SearchAvailableIntervalRooms();
                             break;
                         case 8:
                             bookingService.SearchCustomerBookings();
