@@ -130,7 +130,7 @@ namespace MillesHotelLibrary.Services
 
             foreach (var room in rooms)
             {
-                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-13}│{room.RoomType,-13}│{room.ExtraBedsCount,-13}│{room.RoomPrice,-13}│");
+                Console.WriteLine($"│{room.RoomID,-15}│{room.RoomName,-19}│{room.RoomSize,-11}m\u00B2│{room.RoomType,-13}│{room.ExtraBedsCount,-13}│{room.RoomPrice,-13:C2}│");
                 Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
             }
 

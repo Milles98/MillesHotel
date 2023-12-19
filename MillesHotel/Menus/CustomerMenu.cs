@@ -51,6 +51,8 @@ namespace MillesHotel.Menus
                             break;
                         case 3:
                             customerService.GetAllCustomers();
+                            Console.WriteLine("Press any button to continue...");
+                            Console.ReadKey();
                             break;
                         case 4:
                             ShowUpdateCustomerMenu(customerService);
