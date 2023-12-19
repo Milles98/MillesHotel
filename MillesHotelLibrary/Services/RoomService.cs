@@ -27,7 +27,7 @@ namespace MillesHotelLibrary.Services
 
             if (roomName.Length > 19)
             {
-                UserMessage.ErrorMessage("Room name exceeds maximum length (19 characters). Room not created.");
+                Message.ErrorMessage("Room name exceeds maximum length (19 characters). Room not created.");
             }
             else
             {
@@ -44,7 +44,7 @@ namespace MillesHotelLibrary.Services
                             Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
                             if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
                             {
-                                UserMessage.ErrorMessage("Invalid input for extra beds. Room not created.");
+                                Message.ErrorMessage("Invalid input for extra beds. Room not created.");
                                 return;
                             }
                         }
@@ -64,21 +64,21 @@ namespace MillesHotelLibrary.Services
 
                             _dbContext.Rooms.Add(newRoom);
                             _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Room created successfully.");
+                            Message.InputSuccessMessage("Room created successfully.");
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid room price format or room price exceeds the allowed range. Please enter a valid number.");
+                            Message.ErrorMessage("Invalid room price format or room price exceeds the allowed range. Please enter a valid number.");
                         }
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room type format. Room not created.");
+                        Message.ErrorMessage("Invalid room type format. Room not created.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid room size format or room size exceeds maximum (10,000). Please enter a valid number.");
+                    Message.ErrorMessage("Invalid room size format or room size exceeds maximum (10,000). Please enter a valid number.");
                 }
             }
 
@@ -109,12 +109,12 @@ namespace MillesHotelLibrary.Services
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    Message.ErrorMessage("Room not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -154,21 +154,21 @@ namespace MillesHotelLibrary.Services
                     {
                         room.RoomName = newRoomName;
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room name updated successfully.");
+                        Message.InputSuccessMessage("Room name updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room name. Room name must not be empty and should be 19 characters or less. Room name not updated.");
+                        Message.ErrorMessage("Invalid room name. Room name must not be empty and should be 19 characters or less. Room name not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    Message.ErrorMessage("Room not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -193,26 +193,26 @@ namespace MillesHotelLibrary.Services
                         {
                             room.RoomPrice = newRoomPrice;
                             _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Room price updated successfully.");
+                            Message.InputSuccessMessage("Room price updated successfully.");
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Invalid room price. Room price not updated.");
+                            Message.ErrorMessage("Invalid room price. Room price not updated.");
                         }
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid input for room price. Room price not updated.");
+                        Message.ErrorMessage("Invalid input for room price. Room price not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    Message.ErrorMessage("Room not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -234,21 +234,21 @@ namespace MillesHotelLibrary.Services
                     {
                         room.RoomSize = newRoomSize;
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room size updated successfully.");
+                        Message.InputSuccessMessage("Room size updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room size. Room size must be between 20 and 3000. Room size not updated.");
+                        Message.ErrorMessage("Invalid room size. Room size must be between 20 and 3000. Room size not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    Message.ErrorMessage("Room not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -276,21 +276,21 @@ namespace MillesHotelLibrary.Services
                         }
 
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room type updated successfully.");
+                        Message.InputSuccessMessage("Room type updated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Invalid room type format. Room type not updated.");
+                        Message.ErrorMessage("Invalid room type format. Room type not updated.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Room not found.");
+                    Message.ErrorMessage("Room not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -303,11 +303,11 @@ namespace MillesHotelLibrary.Services
             {
                 room.ExtraBedsCount = extraBedsCount;
                 _dbContext.SaveChanges();
-                UserMessage.InputSuccessMessage("Extra beds added successfully.");
+                Message.InputSuccessMessage("Extra beds added successfully.");
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid input for extra beds. Please enter 0, 1, or 2 extra beds. Extra beds not added.");
+                Message.ErrorMessage("Invalid input for extra beds. Please enter 0, 1, or 2 extra beds. Extra beds not added.");
             }
         }
         public void SoftDeleteRoom()
@@ -330,26 +330,26 @@ namespace MillesHotelLibrary.Services
                         {
                             room.IsActive = false;
                             _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Room soft deleted successfully.");
+                            Message.InputSuccessMessage("Room soft deleted successfully.");
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Cannot delete room with associated bookings. Please remove bookings first.");
+                            Message.ErrorMessage("Cannot delete room with associated bookings. Please remove bookings first.");
                         }
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Room not found.");
+                        Message.ErrorMessage("Room not found.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                    Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -375,21 +375,21 @@ namespace MillesHotelLibrary.Services
                     {
                         room.IsActive = true;
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room reactivated successfully.");
+                        Message.InputSuccessMessage("Room reactivated successfully.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Room not found.");
+                        Message.ErrorMessage("Room not found.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                    Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");

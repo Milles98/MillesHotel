@@ -37,21 +37,21 @@ namespace MillesHotelLibrary.Services
                     {
                         _dbContext.Rooms.Remove(room);
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Room permanently deleted.");
+                        Message.InputSuccessMessage("Room permanently deleted.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Room not found.");
+                        Message.ErrorMessage("Room not found.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid room ID format. Please enter a valid number.");
+                    Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -78,26 +78,26 @@ namespace MillesHotelLibrary.Services
                         {
                             _dbContext.Customers.Remove(customer);
                             _dbContext.SaveChanges();
-                            UserMessage.InputSuccessMessage("Customer permanently deleted.");
+                            Message.InputSuccessMessage("Customer permanently deleted.");
                         }
                         else
                         {
-                            UserMessage.ErrorMessage("Cannot delete customer with associated bookings. Please remove bookings first.");
+                            Message.ErrorMessage("Cannot delete customer with associated bookings. Please remove bookings first.");
                         }
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Customer not found.");
+                        Message.ErrorMessage("Customer not found.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
+                    Message.ErrorMessage("Invalid input. Please enter a valid Customer ID.");
                 }
             }
             catch (Exception ex)
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -115,16 +115,16 @@ namespace MillesHotelLibrary.Services
                 {
                     _dbContext.Invoices.Remove(invoice);
                     _dbContext.SaveChanges();
-                    UserMessage.InputSuccessMessage("Invoice soft deleted successfully.");
+                    Message.InputSuccessMessage("Invoice soft deleted successfully.");
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invoice not found.");
+                    Message.ErrorMessage("Invoice not found.");
                 }
             }
             else
             {
-                UserMessage.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
+                Message.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -145,21 +145,21 @@ namespace MillesHotelLibrary.Services
                     {
                         _dbContext.Bookings.Remove(booking);
                         _dbContext.SaveChanges();
-                        UserMessage.InputSuccessMessage("Booking permanently deleted.");
+                        Message.InputSuccessMessage("Booking permanently deleted.");
                     }
                     else
                     {
-                        UserMessage.ErrorMessage("Booking not found.");
+                        Message.ErrorMessage("Booking not found.");
                     }
                 }
                 else
                 {
-                    UserMessage.ErrorMessage("Invalid booking ID. Please enter a valid number.");
+                    Message.ErrorMessage("Invalid booking ID. Please enter a valid number.");
                 }
             }
             catch (Exception ex)
             {
-                UserMessage.ErrorMessage($"An error occurred: {ex.Message}");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("Press any button to continue...");
