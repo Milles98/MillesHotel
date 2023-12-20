@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace MillesHotel.Menus
         //Booking Menu Case 3 (Input: BookingID, 1. NewBookingDate, 0. Return to MainMenu)
         //Booking Menu Case 4 (Input: 1. BookingID, 0. Return to MainMenu)
         //Booking Menu Case 0 (Return to MainMenu)
-        public static void ShowBookingMenu(HotelDbContext dbContext)
+        public static void ShowBookingMenu(IBookingService bookingService)
         {
-            BookingService bookingService = new BookingService(dbContext);
+            //BookingService bookingService = new BookingService(dbContext);
 
             int choice;
 

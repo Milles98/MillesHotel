@@ -18,5 +18,7 @@ namespace MillesHotelLibrary.Interfaces
         void UpdateRoomType();
         void AddExtraBeds(Room room);
         void SoftDeleteRoom();
+        void ReactivateRoom();
+        List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople);
     }
 }

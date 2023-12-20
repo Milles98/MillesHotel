@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace MillesHotel.Menus
         //Customer Menu Case 3 (Input: CustomerID, 1. NewCustomerName, 2. NewCustomerAge, 3. NewCustomerEmail, 4. NewCustomerCountry, 0. Return to MainMenu)
         //Customer Menu Case 4 (Input: 1. CustomerID, 0. Return to MainMenu)
         //Customer Menu Case 0 (Return to MainMenu)
-        public static void ShowCustomerMenu(HotelDbContext dbContext)
+        public static void ShowCustomerMenu(ICustomerService customerService)
         {
-            CustomerService customerService = new CustomerService(dbContext);
+            //CustomerService customerService = new CustomerService(dbContext);
             int choice;
 
             do
@@ -61,7 +62,7 @@ namespace MillesHotel.Menus
                             customerService.SoftDeleteCustomer();
                             break;
                         case 6:
-                            customerService.ReactiveCustomer();
+                            customerService.ReactivateCustomer();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
@@ -79,7 +80,7 @@ namespace MillesHotel.Menus
             } while (choice != 0);
         }
 
-        private static void ShowUpdateCustomerMenu(CustomerService customerService)
+        private static void ShowUpdateCustomerMenu(ICustomerService customerService)
         {
             int updateChoice;
 

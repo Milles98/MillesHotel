@@ -3,20 +3,33 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MillesHotelLibrary.Data;
+using MillesHotelLibrary.Services;
+using Autofac;
+using MillesHotelLibrary.Interfaces;
 
 namespace MillesHotel
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            //ändra ERD kopplingen så faktura går från bookings till invoice, inte invoice till customer
-            var dbContext = DbConfiguration.StartDatabase();
-            var app = new AppStart(dbContext);
-            app.Build();
+            using (var container = AutofacService.RegisteredContainers())
+            {
+                var dbContext = container.Resolve<HotelDbContext>();
 
+                var bookingService = container.Resolve<IBookingService>();
+                var adminService = container.Resolve<IAdminService>();
+                var customerService = container.Resolve<ICustomerService>();
+                var invoiceService = container.Resolve<IInvoiceService>();
+                var roomService = container.Resolve<IRoomService>();
+
+                var app = new AppStart(dbContext, bookingService, adminService, customerService, invoiceService, roomService);
+                app.Build();
+            }
+
+            //ändra ERD kopplingen så faktura går från bookings till invoice, inte invoice till customer
             //IServiceStrategy
 
             //HotelLibrary

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace MillesHotel.Menus
         //Room Menu Case 3 (Input: RoomID, 1. NewRoomSize, 2. NewDouble/SingleRoom, 3. Extrabeds, 0. Return to MainMenu)
         //Room Menu Case 4 (Input: 1. RoomID, 0. Return to MainMenu)
         //Room Menu Case 0 (Return to MainMenu)
-        public static void ShowRoomMenu(HotelDbContext dbContext)
+        public static void ShowRoomMenu(IRoomService roomService)
         {
-            RoomService roomService = new RoomService(dbContext);
+            //RoomService roomService = new RoomService(dbContext);
             int choice;
 
             do
@@ -79,7 +80,7 @@ namespace MillesHotel.Menus
             } while (choice != 0);
         }
 
-        private static void ShowUpdateRoomMenu(RoomService roomService)
+        private static void ShowUpdateRoomMenu(IRoomService roomService)
         {
             int updateChoice;
 
