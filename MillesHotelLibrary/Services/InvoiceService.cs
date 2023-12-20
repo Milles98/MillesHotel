@@ -79,6 +79,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Invoice Amount: {invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
                     Console.WriteLine($"Invoice Due: {invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
                     Console.WriteLine($"Is Paid: {invoice.IsPaid}");
+                    Console.WriteLine($"Is Active: {invoice.IsActive}");
                     Console.WriteLine($"Customer ID: {invoice.CustomerID}");
                 }
                 else
@@ -209,7 +210,7 @@ namespace MillesHotelLibrary.Services
             {
                 var invoice = _dbContext.Invoices.Find(invoiceId);
 
-                if (invoice != null)
+                if (invoice != null && invoice.IsActive)
                 {
                     Console.WriteLine($"Amount Due: {invoice.InvoiceAmount.ToString("C2")}");
 
@@ -226,9 +227,9 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            invoice.InvoiceAmount -= paymentAmount;
+                            //invoice.InvoiceAmount -= Math.Abs(paymentAmount);
 
-                            if (invoice.InvoiceAmount <= 0)
+                            if (invoice.InvoiceAmount == paymentAmount)
                             {
                                 invoice.IsPaid = true;
                                 invoice.IsActive = false;
@@ -245,7 +246,7 @@ namespace MillesHotelLibrary.Services
                 }
                 else
                 {
-                    Message.ErrorMessage("Invoice not found or not active.");
+                    Message.ErrorMessage("Invoice not found, not active, or already paid.");
                 }
             }
             else
@@ -260,15 +261,13 @@ namespace MillesHotelLibrary.Services
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Bookings
-                .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now.AddDays(-10) && b.Invoice != null && b.Invoice.IsPaid)
-                .ToList();
+                .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now
+                .AddDays(-10) && b.Invoice != null && b.Invoice.IsPaid);
 
             foreach (var booking in overdueBookings)
             {
-                // Deactivate the booking
                 booking.IsBooked = false;
 
-                // Deactivate the associated invoice
                 booking.Invoice.IsActive = false;
                 booking.Invoice.IsPaid = false;
             }

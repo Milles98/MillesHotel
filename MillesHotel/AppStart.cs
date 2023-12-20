@@ -39,6 +39,7 @@ namespace MillesHotel
         public void Build()
         {
             UpdateBookingStatus(_dbContext);
+            _invoiceService.CheckAndDeactivateOverdueBookings();
 
             bool programRunning = true;
             do
