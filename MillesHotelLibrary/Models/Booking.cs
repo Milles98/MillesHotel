@@ -33,11 +33,11 @@ namespace MillesHotelLibrary.Models
         public int CustomerID { get; set; }
         public Customer? Customer { get; set; }
 
-        public int? RoomID { get; set; }
+        public int RoomID { get; set; }
         public Room? Room { get; set; }
         // Foreign key för att koppla till Invoice
         //Till varje bokning skall det kopplas en betalning dvs en faktura.
-        public int? InvoiceID { get; set; }
+        public int InvoiceID { get; set; }
         public Invoice? Invoice { get; set; }
     }
 }
