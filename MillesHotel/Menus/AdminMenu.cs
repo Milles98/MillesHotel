@@ -1,5 +1,6 @@
 ﻿using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace MillesHotel.Menus
 {
     public static class AdminMenu
     {
-        public static void ShowAdminMenu(HotelDbContext dbContext)
+        public static void ShowAdminMenu(IAdminService adminService)
         {
-            AdminService adminService = new AdminService(dbContext);
+            //AdminService adminService = new AdminService(dbContext);
 
             int choice;
 
@@ -61,7 +62,7 @@ namespace MillesHotel.Menus
             } while (choice != 0);
         }
 
-        private static void ShowDeletionMenu(AdminService adminService)
+        private static void ShowDeletionMenu(IAdminService adminService)
         {
             int updateChoice;
 

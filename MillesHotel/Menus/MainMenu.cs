@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace MillesHotel.Menus
     public static class MainMenu
     {
         //MainMenu (Switch case, 1. Booking, 2. Customer, 3. Room, 4. Invoice, 0. Exit Program)
-        public static void ShowMenu(HotelDbContext dbContext)
+        public static void ShowMenu(HotelDbContext dbContext, IBookingService bookingService, ICustomerService customerService,
+            IRoomService roomService, IInvoiceService invoiceService, IAdminService adminService)
         {
             int choice;
 
@@ -36,19 +38,19 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
-                            BookingMenu.ShowBookingMenu(dbContext);
+                            BookingMenu.ShowBookingMenu(bookingService);
                             break;
                         case 2:
-                            CustomerMenu.ShowCustomerMenu(dbContext);
+                            CustomerMenu.ShowCustomerMenu(customerService);
                             break;
                         case 3:
-                            RoomMenu.ShowRoomMenu(dbContext);
+                            RoomMenu.ShowRoomMenu(roomService);
                             break;
                         case 4:
-                            InvoiceMenu.ShowInvoiceMenu(dbContext);
+                            InvoiceMenu.ShowInvoiceMenu(invoiceService);
                             break;
                         case 5:
-                            AdminMenu.ShowAdminMenu(dbContext);
+                            AdminMenu.ShowAdminMenu(adminService);
                             break;
                         case 0:
                             Console.WriteLine("Exiting program...");

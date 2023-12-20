@@ -198,7 +198,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        public void ReactiveCustomer()
+        public void ReactivateCustomer()
         {
             try
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace MillesHotel.Menus
         //Invoice Menu Case 2 (1. See Invoice, 2. See all Invoice, 0. Return to MainMenu)
         //Invoice Menu Case 3 (Input invoiceID, 1. UpdateInvoiceAmount, 2. UpdateInvoiceDue, 0. Return to MainMenu)
         //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
-        public static void ShowInvoiceMenu(HotelDbContext dbContext)
+        public static void ShowInvoiceMenu(IInvoiceService invoiceService)
         {
-            InvoiceService invoiceService = new InvoiceService(dbContext);
+            //InvoiceService invoiceService = new InvoiceService(dbContext);
             int choice;
 
             //betala 10 dagar efter bokning

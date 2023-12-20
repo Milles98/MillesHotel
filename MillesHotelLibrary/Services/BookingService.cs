@@ -32,7 +32,7 @@ namespace MillesHotelLibrary.Services
                 }
 
                 Console.Write("Enter number of nights (max 20): ");
-                if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0/* && numberOfNights <= 20*/)
+                if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0 && numberOfNights <= 20)
                 {
                     foreach (var customerID in _dbContext.Customers)
                     {
