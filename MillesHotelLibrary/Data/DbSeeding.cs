@@ -78,7 +78,9 @@ namespace MillesHotelLibrary.Data
 
                 foreach (var booking in bookings)
                 {
-                    var invoiceAmount = 1000 * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+                    var room = dbContext.Rooms.Find(booking.RoomID);
+
+                    var invoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
 
                     var invoice = new Invoice
                     {
