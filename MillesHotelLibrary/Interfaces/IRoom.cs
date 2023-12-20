@@ -12,18 +12,25 @@ namespace MillesHotelLibrary.Interfaces
     {
         [Key]
         public int RoomID { get; set; }
+
+        [StringLength(19)]
         public string RoomName { get; set; }
 
         [Required]
+        [Range(20, 3000)]
         public int RoomSize { get; set; }
 
         [Required]
-
         public bool RoomBooked { get; set; }
 
-        // Foreign key för att koppla till Booking
-        //public int? BookingID { get; set; }
-        //public Booking? Booking { get; set; }
+        public bool ExtraBeds { get; set; }
+
+        [Range(0, 3)]
+        public int ExtraBedsCount { get; set; }
+
+        [Range(250, 3500)]
+        public double RoomPrice { get; set; }
+
         public List<Booking>? Bookings { get; set; }
 
         public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end);

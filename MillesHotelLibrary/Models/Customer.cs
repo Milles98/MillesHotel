@@ -34,10 +34,8 @@ namespace MillesHotelLibrary.Models
         [StringLength(9)]
         public string CustomerCountry { get; set; } = string.Empty;
 
-        //En kund kan tas bort endast om det inte finns några bokningar kopplade till kunden.
         public bool IsActive { get; set; } = true;
         public List<Booking>? Bookings { get; set; }
-        //public List<Invoice>? Invoices { get; set; }
 
     }
 }
