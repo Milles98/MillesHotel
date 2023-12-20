@@ -20,7 +20,6 @@ namespace MillesHotel.Menus
         //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
         public static void ShowInvoiceMenu(IInvoiceService invoiceService)
         {
-            //InvoiceService invoiceService = new InvoiceService(dbContext);
             int choice;
 
             //betala 10 dagar efter bokning

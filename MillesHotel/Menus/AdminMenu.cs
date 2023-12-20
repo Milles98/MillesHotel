@@ -14,8 +14,6 @@ namespace MillesHotel.Menus
     {
         public static void ShowAdminMenu(IAdminService adminService)
         {
-            //AdminService adminService = new AdminService(dbContext);
-
             int choice;
 
             //hur många kunder som finns

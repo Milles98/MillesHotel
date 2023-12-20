@@ -21,7 +21,6 @@ namespace MillesHotel.Menus
         //Customer Menu Case 0 (Return to MainMenu)
         public static void ShowCustomerMenu(ICustomerService customerService)
         {
-            //CustomerService customerService = new CustomerService(dbContext);
             int choice;
 
             do

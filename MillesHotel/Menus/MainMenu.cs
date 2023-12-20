@@ -12,7 +12,6 @@ namespace MillesHotel.Menus
 {
     public static class MainMenu
     {
-        //MainMenu (Switch case, 1. Booking, 2. Customer, 3. Room, 4. Invoice, 0. Exit Program)
         public static void ShowMenu(HotelDbContext dbContext, IBookingService bookingService, ICustomerService customerService,
             IRoomService roomService, IInvoiceService invoiceService, IAdminService adminService)
         {
