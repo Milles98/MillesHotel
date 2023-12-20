@@ -19,6 +19,7 @@ namespace MillesHotelLibrary.Interfaces
         [Required]
         public DateTime InvoiceDue { get; set; }
         public bool IsPaid { get; set; }
+        public bool IsActive { get; set; }
 
         public List<Booking>? Bookings { get; set; }
     }

@@ -15,15 +15,17 @@ namespace MillesHotelLibrary.Interfaces
 
         [Required]
         public DateTime BookingStartDate { get; set; }
+        [Required]
         public DateTime BookingEndDate { get; set; }
         public bool IsBooked { get; set; }
+        public bool IsActive { get; set; }
 
         public int? CustomerID { get; set; }
-        public Customer Customer { get; set; }
-
         public int? RoomID { get; set; }
-        public Room Room { get; set; }
         public int? InvoiceID { get; set; }
+
+        public Customer Customer { get; set; }
+        public Room Room { get; set; }
         public Invoice Invoice { get; set; }
     }
 }
