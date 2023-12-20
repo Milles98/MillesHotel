@@ -27,10 +27,8 @@ namespace MillesHotel.Menus
                 Message.MillesHotelMessage();
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Admin Menu                     │");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("│1. Permanent deletion (DANGER) │");
-                Console.ResetColor();
-                Console.WriteLine("│2. Top 10 info                 │");
+                Message.ErrorMessage("│1. Permanent deletion (DANGER) │");
+                Console.WriteLine("│2. Fun Information             │");
                 Console.WriteLine("│0. Return to MainMenu          │");
                 Console.WriteLine("╰───────────────────────────────╯");
 
@@ -43,6 +41,7 @@ namespace MillesHotel.Menus
                             ShowDeletionMenu(adminService);
                             break;
                         case 2:
+                            ShowTopTen(adminService);
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");
@@ -93,6 +92,56 @@ namespace MillesHotel.Menus
                             break;
                         case 4:
                             adminService.DeleteInvoice();
+                            break;
+                        case 0:
+                            Console.WriteLine("Returning to Admin Menu...");
+                            break;
+                        default:
+                            Message.ErrorMessage("Invalid choice. Please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Message.ErrorMessage("Invalid input. Please enter a number.");
+                }
+
+            } while (updateChoice != 0);
+        }
+
+        private static void ShowTopTen(IAdminService adminService)
+        {
+            int updateChoice;
+
+            do
+            {
+                Console.Clear();
+                Message.MillesHotelMessage();
+                Console.WriteLine("╭───────────────────────────────╮");
+                Console.WriteLine("│Fun Information                │");
+                Console.WriteLine("│1. Number of Customers         │");
+                Console.WriteLine("│2. Top 10 Customers            │");
+                Console.WriteLine("│3. Top 10 Customers by Booking │");
+                Console.WriteLine("│4. Top 10 Customers by Country │");
+                Console.WriteLine("│0. Return to Admin Menu        │");
+                Console.WriteLine("╰───────────────────────────────╯");
+
+                Console.Write("Enter your choice: ");
+                if (int.TryParse(Console.ReadLine(), out updateChoice))
+                {
+                    switch (updateChoice)
+                    {
+                        case 1:
+                            adminService.GetNumberOfCustomers();
+                            break;
+                        case 2:
+                            adminService.GetTop10Customers();
+                            break;
+                        case 3:
+                            adminService.GetTop10CustomersByBooking();
+                            break;
+                        case 4:
+                            adminService.GetTop10CustomersByCountry();
                             break;
                         case 0:
                             Console.WriteLine("Returning to Admin Menu...");
