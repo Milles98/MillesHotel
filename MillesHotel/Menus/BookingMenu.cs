@@ -21,8 +21,6 @@ namespace MillesHotel.Menus
         //Booking Menu Case 0 (Return to MainMenu)
         public static void ShowBookingMenu(IBookingService bookingService)
         {
-            //BookingService bookingService = new BookingService(dbContext);
-
             int choice;
 
             do

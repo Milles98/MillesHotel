@@ -61,7 +61,6 @@ namespace MillesHotel
 
             foreach (var booking in bookings)
             {
-                // Om BookingEndDate har passerat dagens datum
                 if (booking.BookingEndDate < DateTime.Now)
                 {
                     booking.IsBooked = false;
