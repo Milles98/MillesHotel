@@ -60,16 +60,40 @@ namespace MillesHotelLibrary.Data
                 dbContext.SaveChanges();
 
                 var bookings = new List<Booking>
-                {
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(7).Date, BookingEndDate = DateTime.Now.AddDays(14).Date,
-                IsBooked = true, CustomerID = customers[1].CustomerID, RoomID = rooms[1].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.Date, BookingEndDate = DateTime.Now.AddDays(10).Date,
-                IsBooked = true, CustomerID = customers[3].CustomerID, RoomID = rooms[0].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(5).Date, BookingEndDate = DateTime.Now.AddDays(9).Date,
-                IsBooked = true, CustomerID = customers[2].CustomerID, RoomID = rooms[3].RoomID },
-                    new Booking { BookingStartDate = DateTime.Now.AddDays(2).Date, BookingEndDate = DateTime.Now.AddDays(7).Date,
-                IsBooked = true, CustomerID = customers[0].CustomerID, RoomID = rooms[2].RoomID }
-                };
+{
+    new Booking
+    {
+        BookingStartDate = DateTime.Now.AddDays(7).Date,
+        BookingEndDate = DateTime.Now.AddDays(14).Date,
+        IsBooked = true,
+        Customer = customers[1], // Assign the entire Customer object
+        RoomID = rooms[1].RoomID
+    },
+    new Booking
+    {
+        BookingStartDate = DateTime.Now.Date,
+        BookingEndDate = DateTime.Now.AddDays(10).Date,
+        IsBooked = true,
+        Customer = customers[3], // Assign the entire Customer object
+        RoomID = rooms[0].RoomID
+    },
+    new Booking
+    {
+        BookingStartDate = DateTime.Now.AddDays(5).Date,
+        BookingEndDate = DateTime.Now.AddDays(9).Date,
+        IsBooked = true,
+        Customer = customers[2], // Assign the entire Customer object
+        RoomID = rooms[3].RoomID
+    },
+    new Booking
+    {
+        BookingStartDate = DateTime.Now.AddDays(2).Date,
+        BookingEndDate = DateTime.Now.AddDays(7).Date,
+        IsBooked = true,
+        Customer = customers[0], // Assign the entire Customer object
+        RoomID = rooms[2].RoomID
+    }
+};
 
                 dbContext.Bookings.AddRange(bookings);
                 dbContext.SaveChanges();
@@ -87,8 +111,6 @@ namespace MillesHotelLibrary.Data
                         InvoiceAmount = invoiceAmount,
                         InvoiceDue = booking.BookingEndDate,
                         IsPaid = false,
-                        CustomerID = booking.CustomerID,
-                        Customer = booking.Customer,
                     };
 
                     invoices.Add(invoice);

@@ -27,25 +27,17 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Enter invoice due date (yyyy-mm-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue))
                 {
-                    Console.Write("Enter customer ID: ");
-                    if (int.TryParse(Console.ReadLine(), out int customerId))
+                    var newInvoice = new Invoice
                     {
-                        var newInvoice = new Invoice
-                        {
-                            InvoiceAmount = invoiceAmount,
-                            InvoiceDue = invoiceDue,
-                            IsPaid = false,
-                            CustomerID = customerId
-                        };
+                        InvoiceAmount = invoiceAmount,
+                        InvoiceDue = invoiceDue,
+                        IsPaid = false
+                    };
 
-                        _dbContext.Invoices.Add(newInvoice);
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Invoice created successfully.");
-                    }
-                    else
-                    {
-                        Message.ErrorMessage("Invalid customer ID format. Invoice not created.");
-                    }
+                    _dbContext.Invoices.Add(newInvoice);
+                    _dbContext.SaveChanges();
+                    Message.InputSuccessMessage("Invoice created successfully.");
+                    AssignInvoiceToBooking();
                 }
                 else
                 {
@@ -55,6 +47,42 @@ namespace MillesHotelLibrary.Services
             else
             {
                 Message.ErrorMessage("Invalid amount format. Invoice not created.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void AssignInvoiceToBooking()
+        {
+            Console.Write("Enter Booking ID: ");
+            if (int.TryParse(Console.ReadLine(), out int bookingId))
+            {
+                var booking = _dbContext.Bookings.Find(bookingId);
+
+                if (booking != null)
+                {
+                    var invoice = _dbContext.Invoices.LastOrDefault();
+
+                    if (invoice != null)
+                    {
+                        booking.InvoiceID = invoice.InvoiceID;
+                        _dbContext.SaveChanges();
+                        Message.InputSuccessMessage("Invoice assigned to booking successfully.");
+                    }
+                    else
+                    {
+                        Message.ErrorMessage("No invoices found. Please create an invoice first.");
+                    }
+                }
+                else
+                {
+                    Message.ErrorMessage("Booking not found.");
+                }
+            }
+            else
+            {
+                Message.ErrorMessage("Invalid Booking ID format.");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -70,7 +98,9 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices.Find(invoiceId);
+                var invoice = _dbContext.Invoices
+                    .Include(i => i.Bookings)
+                    .FirstOrDefault(i => i.InvoiceID == invoiceId);
 
                 if (invoice != null)
                 {
@@ -80,7 +110,10 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Invoice Due: {invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
                     Console.WriteLine($"Is Paid: {invoice.IsPaid}");
                     Console.WriteLine($"Is Active: {invoice.IsActive}");
-                    Console.WriteLine($"Customer ID: {invoice.CustomerID}");
+                    foreach (var booking in invoice.Bookings)
+                    {
+                        Console.WriteLine($"Customer ID: {booking.CustomerID}");
+                    }
                 }
                 else
                 {
@@ -97,7 +130,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllInvoices()
         {
-            var invoices = _dbContext.Invoices.ToList();
+            var invoices = _dbContext.Invoices.Include(i => i.Bookings).ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
             Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Status     │");
@@ -105,18 +138,14 @@ namespace MillesHotelLibrary.Services
 
             foreach (var invoice in invoices)
             {
-                if (!invoice.IsPaid)
+                // Assuming the Invoice class has a method to check if it is paid
+                var isPaid = invoice.IsPaid;
+
+                foreach (var booking in invoice.Bookings)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = isPaid ? ConsoleColor.Green : ConsoleColor.Red;
                     Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
-                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│ NOT PAID   │");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
-                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.CustomerID,-12}│ PAID       │");
+                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking.CustomerID,-12}│{isPaid,-12}│");
                     Console.ResetColor();
                 }
                 Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");

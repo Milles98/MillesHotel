@@ -32,13 +32,6 @@ namespace MillesHotelLibrary.Data
                 .WithMany(r => r.Bookings)
                 .HasForeignKey(b => b.RoomID)
                 .IsRequired(false);
-
-            // Configure the relationship between Invoice and Customer
-            modelBuilder.Entity<Invoice>()
-                .HasOne(i => i.Customer)
-                .WithMany(c => c.Invoices)
-                .HasForeignKey(i => i.CustomerID)
-                .OnDelete(DeleteBehavior.Restrict);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
