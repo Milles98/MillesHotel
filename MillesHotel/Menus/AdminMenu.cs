@@ -120,9 +120,8 @@ namespace MillesHotel.Menus
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Fun Information                │");
                 Console.WriteLine("│1. Number of Customers         │");
-                Console.WriteLine("│2. Top 10 Customers            │");
-                Console.WriteLine("│3. Top 10 Customers by Booking │");
-                Console.WriteLine("│4. Top 10 Customers by Country │");
+                Console.WriteLine("│2. Top 10 Customers by Booking │");
+                Console.WriteLine("│3. Top 10 Customers by Country │");
                 Console.WriteLine("│0. Return to Admin Menu        │");
                 Console.WriteLine("╰───────────────────────────────╯");
 
@@ -135,12 +134,9 @@ namespace MillesHotel.Menus
                             adminService.GetNumberOfCustomers();
                             break;
                         case 2:
-                            adminService.GetTop10Customers();
-                            break;
-                        case 3:
                             adminService.GetTop10CustomersByBooking();
                             break;
-                        case 4:
+                        case 3:
                             adminService.GetTop10CustomersByCountry();
                             break;
                         case 0:
