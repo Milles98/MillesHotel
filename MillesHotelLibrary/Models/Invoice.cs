@@ -31,7 +31,7 @@ namespace MillesHotelLibrary.Models
         }
         public bool IsActive { get; set; } = true;
 
-        public int CustomerID { get; set; }
-        public Customer? Customer { get; set; }
+        public int? CustomerID { get; set; }
+        public Customer Customer { get; set; }
     }
 }
