@@ -18,15 +18,12 @@ namespace MillesHotelLibrary.Interfaces
         public DateTime BookingEndDate { get; set; }
         public bool IsBooked { get; set; }
 
-        // Foreign key för att koppla till Customer
         public int CustomerID { get; set; }
         public Customer? Customer { get; set; }
 
-        // Foreign key för att koppla till Room
-        public int? RoomID { get; set; }
+        public int RoomID { get; set; }
         public Room? Room { get; set; }
-        // Foreign key för att koppla till Invoice
-        public int? InvoiceID { get; set; }
+        public int InvoiceID { get; set; }
         public Invoice? Invoice { get; set; }
     }
 }
