@@ -136,7 +136,7 @@ namespace MillesHotelLibrary.Services
                             }
                             else
                             {
-                                Message.ErrorMessage("Inactive customer. Reactivate the customer using the ReactiveCustomer method before making a booking.");
+                                Message.ErrorMessage("Inactive customer. Reactivate the customer using the ReactivateCustomer method before making a booking.");
                             }
                         }
                         else
