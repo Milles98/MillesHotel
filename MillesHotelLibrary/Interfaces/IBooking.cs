@@ -18,12 +18,12 @@ namespace MillesHotelLibrary.Interfaces
         public DateTime BookingEndDate { get; set; }
         public bool IsBooked { get; set; }
 
-        public int CustomerID { get; set; }
-        public Customer? Customer { get; set; }
+        public int? CustomerID { get; set; }
+        public Customer Customer { get; set; }
 
-        public int RoomID { get; set; }
-        public Room? Room { get; set; }
-        public int InvoiceID { get; set; }
-        public Invoice? Invoice { get; set; }
+        public int? RoomID { get; set; }
+        public Room Room { get; set; }
+        public int? InvoiceID { get; set; }
+        public Invoice Invoice { get; set; }
     }
 }

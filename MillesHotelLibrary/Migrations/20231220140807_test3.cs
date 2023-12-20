@@ -69,7 +69,8 @@ namespace MillesHotelLibrary.Migrations
                         name: "FK_Invoices_Customers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customers",
-                        principalColumn: "CustomerID");
+                        principalColumn: "CustomerID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,9 +83,9 @@ namespace MillesHotelLibrary.Migrations
                     BookingEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsBooked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: false),
-                    InvoiceID = table.Column<int>(type: "int", nullable: false)
+                    CustomerID = table.Column<int>(type: "int", nullable: true),
+                    RoomID = table.Column<int>(type: "int", nullable: true),
+                    InvoiceID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,14 +94,12 @@ namespace MillesHotelLibrary.Migrations
                         name: "FK_Bookings_Customers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customers",
-                        principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CustomerID");
                     table.ForeignKey(
                         name: "FK_Bookings_Invoices_InvoiceID",
                         column: x => x.InvoiceID,
                         principalTable: "Invoices",
-                        principalColumn: "InvoiceID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "InvoiceID");
                     table.ForeignKey(
                         name: "FK_Bookings_Rooms_RoomID",
                         column: x => x.RoomID,
@@ -116,8 +115,7 @@ namespace MillesHotelLibrary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_InvoiceID",
                 table: "Bookings",
-                column: "InvoiceID",
-                unique: true);
+                column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomID",
