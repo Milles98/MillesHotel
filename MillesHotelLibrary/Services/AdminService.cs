@@ -165,5 +165,63 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
+        public void GetNumberOfCustomers()
+        {
+            var numberOfCustomers = _dbContext.Customers.Count();
+            Console.WriteLine($"Number of Customers: {numberOfCustomers}");
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void GetTop10Customers()
+        {
+            var topCustomers = _dbContext.Customers.OrderByDescending(c => c.CustomerID).Take(10);
+            foreach (var customer in topCustomers)
+            {
+                Console.WriteLine($"CustomerID: {customer.CustomerID}");
+            }
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void GetTop10CustomersByBooking()
+        {
+            var topCustomersByBooking = _dbContext.Customers
+                .Select(c => new
+                {
+                    Customer = c,
+                    BookingCount = c.Bookings.Count
+                })
+                .OrderByDescending(x => x.BookingCount)
+                .Take(10)
+                .Select(x => x.Customer);
+
+            foreach (var customer in topCustomersByBooking)
+            {
+                Console.WriteLine($"CustomerID: {customer.CustomerID}, Bookings: {customer.Bookings?.Count ?? 0}");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
+        public void GetTop10CustomersByCountry()
+        {
+            var topCustomersByCountry = _dbContext.Customers
+                .GroupBy(c => c.CustomerCountry)
+                .AsEnumerable()
+                .OrderByDescending(group => group.Count())
+                .Take(10);
+
+            foreach (var group in topCustomersByCountry)
+            {
+                Console.WriteLine($"{group.Key}: {group.Count()} customers");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+
     }
 }
