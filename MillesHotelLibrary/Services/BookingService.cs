@@ -95,8 +95,6 @@ namespace MillesHotelLibrary.Services
                                                     InvoiceAmount = invoiceAmount,
                                                     InvoiceDue = newBooking.BookingEndDate,
                                                     IsPaid = false,
-                                                    CustomerID = customerId,
-                                                    Customer = newBooking.Customer,
                                                 };
 
                                                 newBooking.Invoice = newInvoice;

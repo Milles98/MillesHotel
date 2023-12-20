@@ -31,6 +31,6 @@ namespace MillesHotelLibrary.Interfaces
 
         // Navigationsproperty (om det finns relationer)
         public List<Booking>? Bookings { get; set; }
-        public List<Invoice>? Invoices { get; set; }
+        //public List<Invoice>? Invoices { get; set; }
     }
 }
