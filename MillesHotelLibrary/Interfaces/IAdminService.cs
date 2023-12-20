@@ -13,7 +13,6 @@ namespace MillesHotelLibrary.Interfaces
         void DeleteBooking();
         void DeleteInvoice();
         void GetNumberOfCustomers();
-        void GetTop10Customers();
         void GetTop10CustomersByBooking();
         void GetTop10CustomersByCountry();
     }

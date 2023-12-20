@@ -174,17 +174,6 @@ namespace MillesHotelLibrary.Services
             Console.ReadKey();
         }
 
-        public void GetTop10Customers()
-        {
-            var topCustomers = _dbContext.Customers.OrderByDescending(c => c.CustomerID).Take(10);
-            foreach (var customer in topCustomers)
-            {
-                Console.WriteLine($"CustomerID: {customer.CustomerID}");
-            }
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
-        }
-
         public void GetTop10CustomersByBooking()
         {
             var topCustomersByBooking = _dbContext.Customers
@@ -199,7 +188,8 @@ namespace MillesHotelLibrary.Services
 
             foreach (var customer in topCustomersByBooking)
             {
-                Console.WriteLine($"CustomerID: {customer.CustomerID}, Bookings: {customer.Bookings?.Count ?? 0}");
+                Console.WriteLine($"{customer.CustomerFirstName} " +
+                    $"{customer.CustomerLastName}, Bookings: {customer.Bookings?.Count ?? 0}");
             }
 
             Console.WriteLine("Press any button to continue...");
