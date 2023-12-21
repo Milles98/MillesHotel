@@ -31,15 +31,15 @@ namespace MillesHotelLibrary.Services
             }
             else
             {
-                Console.Write("Enter new room size (between 20 and 3000): ");
-                if (int.TryParse(Console.ReadLine(), out int roomSize) && (roomSize >= 20 && roomSize <= 3000))
+                Console.Write("Enter new room size (between 10 and 100kvm): ");
+                if (int.TryParse(Console.ReadLine(), out int roomSize) && (roomSize >= 10 && roomSize <= 100))
                 {
                     Console.Write("Enter room type (SingleRoom/DoubleRoom): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType roomType))
                     {
                         int extraBedsCount = 0;
 
-                        if (roomType == RoomType.DoubleRoom && roomSize >= 250)
+                        if (roomType == RoomType.DoubleRoom && roomSize >= 30)
                         {
                             Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
                             if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
@@ -78,7 +78,7 @@ namespace MillesHotelLibrary.Services
                 }
                 else
                 {
-                    Message.ErrorMessage("Invalid room size format or room size exceeds maximum (10,000). Please enter a valid number.");
+                    Message.ErrorMessage("Invalid room size format or room size exceeds maximum (100). Please enter a valid number.");
                 }
             }
 
@@ -103,6 +103,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Room ID: {room.RoomID}");
                     Console.WriteLine($"Room Name: {room.RoomName}");
                     Console.WriteLine($"Room Size: {room.RoomSize}");
+                    Console.WriteLine($"Room Price/Night: {room.RoomPrice}");
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
                     Console.WriteLine($"Is Active: {room.RoomBooked}");
@@ -117,7 +118,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage("Invalid room ID format. Please enter a valid number.");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
         public void GetAllRooms()
@@ -125,7 +126,7 @@ namespace MillesHotelLibrary.Services
             var rooms = _dbContext.Room.ToList();
 
             Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
-            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Price       │");
+            Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Price/Night │");
             Console.WriteLine("├───────────────┼───────────────────┼─────────────┼─────────────┼─────────────┼─────────────┤");
 
             foreach (var room in rooms)
@@ -140,7 +141,7 @@ namespace MillesHotelLibrary.Services
         {
             GetAllRooms();
 
-            Console.Write("Enter room ID to update: ");
+            Console.Write("Enter room ID to update name: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
                 var room = _dbContext.Room.Find(roomId);
@@ -178,7 +179,7 @@ namespace MillesHotelLibrary.Services
         {
             GetAllRooms();
 
-            Console.Write("Enter room ID to update: ");
+            Console.Write("Enter room ID to update price: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
                 var room = _dbContext.Room.Find(roomId);
@@ -222,15 +223,15 @@ namespace MillesHotelLibrary.Services
         {
             GetAllRooms();
 
-            Console.Write("Enter room ID to update: ");
+            Console.Write("Enter room ID to update size: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
                 var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
-                    Console.Write("Enter new room size (between 20 and 3000): ");
-                    if (int.TryParse(Console.ReadLine(), out int newRoomSize) && newRoomSize >= 20 && newRoomSize <= 3000)
+                    Console.Write("Enter new room size (between 10 and 100): ");
+                    if (int.TryParse(Console.ReadLine(), out int newRoomSize) && newRoomSize >= 10 && newRoomSize <= 100)
                     {
                         room.RoomSize = newRoomSize;
                         _dbContext.SaveChanges();
@@ -238,7 +239,7 @@ namespace MillesHotelLibrary.Services
                     }
                     else
                     {
-                        Message.ErrorMessage("Invalid room size. Room size must be between 20 and 3000. Room size not updated.");
+                        Message.ErrorMessage("Invalid room size. Room size must be between 10 and 100. Room size not updated.");
                     }
                 }
                 else
@@ -258,7 +259,7 @@ namespace MillesHotelLibrary.Services
         {
             GetAllRooms();
 
-            Console.Write("Enter room ID to update: ");
+            Console.Write("Enter room ID to update room type: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
                 var room = _dbContext.Room.Find(roomId);

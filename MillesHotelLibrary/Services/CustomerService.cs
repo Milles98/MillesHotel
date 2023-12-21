@@ -121,7 +121,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
         public void GetAllCustomers()
@@ -159,7 +159,8 @@ namespace MillesHotelLibrary.Services
             {
                 foreach (var showCustomer in _dbContext.Customer)
                 {
-                    Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
+                    Console.WriteLine($"CustomerID: {showCustomer.CustomerID}, Name: " +
+                        $"{showCustomer.CustomerFirstName} {showCustomer.CustomerLastName}");
                 }
 
                 Console.Write("Input Customer ID: ");
