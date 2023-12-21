@@ -13,11 +13,6 @@ namespace MillesHotel.Menus
 {
     public static class InvoiceMenu
     {
-        //Invoice MainMenu Case 4 (1. Register Invoice, 2. See Invoice, 3. Update Invoice, 4. Delete Invoice, 0. Return to MainMenu)
-        //Invoice Menu Case 1 (Input: CustomerID, 1. InvoiceAmount, InvoiceDue, 0. Return to MainMenu)
-        //Invoice Menu Case 2 (1. See Invoice, 2. See all Invoice, 0. Return to MainMenu)
-        //Invoice Menu Case 3 (Input invoiceID, 1. UpdateInvoiceAmount, 2. UpdateInvoiceDue, 0. Return to MainMenu)
-        //Invoice Menu Case 4 (Input: 1. InvoiceID, 0. Return to MainMenu)
         public static void ShowInvoiceMenu(IInvoiceService invoiceService)
         {
             int choice;

@@ -13,12 +13,6 @@ namespace MillesHotel.Menus
 {
     public static class CustomerMenu
     {
-        //Customer MainMenu Case 2 (1. Register Customer, 2. See Customer, 3. Update Customer, 4. Delete Customers. 0. Return to MainMenu)
-        //Customer Menu Case 1 (Input: 1. Name, Age, Email, Country 0. Return to MainMenu)
-        //Customer Menu Case 2 (1. See customers by customerID, 2. see all customers, 0. Return to MainMenu)
-        //Customer Menu Case 3 (Input: CustomerID, 1. NewCustomerName, 2. NewCustomerAge, 3. NewCustomerEmail, 4. NewCustomerCountry, 0. Return to MainMenu)
-        //Customer Menu Case 4 (Input: 1. CustomerID, 0. Return to MainMenu)
-        //Customer Menu Case 0 (Return to MainMenu)
         public static void ShowCustomerMenu(ICustomerService customerService)
         {
             int choice;
