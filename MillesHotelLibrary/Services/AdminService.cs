@@ -35,9 +35,16 @@ namespace MillesHotelLibrary.Services
 
                     if (room != null)
                     {
-                        _dbContext.Room.Remove(room);
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Room permanently deleted.");
+                        if (room.Bookings == null || !room.Bookings.Any())
+                        {
+                            _dbContext.Room.Remove(room);
+                            _dbContext.SaveChanges();
+                            Message.InputSuccessMessage("Room permanently deleted.");
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Cannot delete the room because it has associated bookings. Please delete the bookings first.");
+                        }
                     }
                     else
                     {
@@ -64,17 +71,22 @@ namespace MillesHotelLibrary.Services
             {
                 foreach (var showCustomer in _dbContext.Customer)
                 {
-                    Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
+                    Console.WriteLine($"CustomerID: {showCustomer.CustomerID}, Name: " +
+                        $"{showCustomer.CustomerFirstName} {showCustomer.CustomerLastName}");
                 }
 
+                Message.ErrorMessage(">>WARNING<< Associated bookings will be removed if invoice is paid!");
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customer.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
+                    var customer = _dbContext.Customer
+                        .Include(c => c.Bookings)
+                        .ThenInclude(b => b.Invoice)
+                        .FirstOrDefault(c => c.CustomerID == customerId);
 
                     if (customer != null)
                     {
-                        if (customer.Bookings == null || !customer.Bookings.Any())
+                        if (customer.Bookings == null || customer.Bookings.All(b => b.Invoice == null || b.Invoice.IsPaid))
                         {
                             _dbContext.Customer.Remove(customer);
                             _dbContext.SaveChanges();
@@ -82,7 +94,7 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            Message.ErrorMessage("Cannot delete customer with associated bookings. Please remove bookings first.");
+                            Message.ErrorMessage("Cannot delete customer with associated unpaid bookings. Please remove unpaid bookings first.");
                         }
                     }
                     else
@@ -106,7 +118,7 @@ namespace MillesHotelLibrary.Services
 
         public void DeleteInvoice()
         {
-            Console.Write("Enter invoice ID to soft delete: ");
+            Console.Write("Enter invoice ID to permanently delete: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
                 var invoice = _dbContext.Invoice.Find(invoiceId);
@@ -136,7 +148,7 @@ namespace MillesHotelLibrary.Services
             try
             {
 
-                Console.Write("Enter booking ID to soft delete: ");
+                Console.Write("Enter booking ID to permanently delete: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
                     var booking = _dbContext.Booking.Find(bookingId);
@@ -182,14 +194,20 @@ namespace MillesHotelLibrary.Services
                     Customer = c,
                     BookingCount = c.Bookings.Count
                 })
+                .AsEnumerable()
                 .OrderByDescending(x => x.BookingCount)
                 .Take(10)
-                .Select(x => x.Customer);
+                .Select((x, index) => new
+                {
+                    Rank = index + 1,
+                    Customer = x.Customer,
+                    BookingCount = x.BookingCount
+                });
 
-            foreach (var customer in topCustomersByBooking)
+            foreach (var item in topCustomersByBooking)
             {
-                Console.WriteLine($"{customer.CustomerFirstName} " +
-                    $"{customer.CustomerLastName}, Bookings: {customer.Bookings?.Count ?? 0}");
+                Console.WriteLine($"{item.Rank}. {item.Customer.CustomerFirstName} " +
+                    $"{item.Customer.CustomerLastName}, Bookings: {item.BookingCount}");
             }
 
             Console.WriteLine("Press any button to continue...");
@@ -200,13 +218,19 @@ namespace MillesHotelLibrary.Services
         {
             var topCustomersByCountry = _dbContext.Customer
                 .GroupBy(c => c.CustomerCountry)
-                .AsEnumerable()
+                .ToList()
                 .OrderByDescending(group => group.Count())
-                .Take(10);
+                .Take(10)
+                .Select((group, index) => new
+                {
+                    Rank = index + 1,
+                    Country = group.Key,
+                    CustomerCount = group.Count()
+                });
 
-            foreach (var group in topCustomersByCountry)
+            foreach (var item in topCustomersByCountry)
             {
-                Console.WriteLine($"{group.Key}: {group.Count()} customers");
+                Console.WriteLine($"{item.Rank}. {item.Country}: {item.CustomerCount} customers");
             }
 
             Console.WriteLine("Press any button to continue...");
