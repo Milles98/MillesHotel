@@ -64,7 +64,6 @@ namespace MillesHotel.Menus
                             break;
                         case 6:
                             UpdateInvoiceMenu(invoiceService);
-                            invoiceService.UpdateInvoice();
                             break;
                         case 7:
                             invoiceService.SoftDeleteInvoice();
@@ -108,8 +107,10 @@ namespace MillesHotel.Menus
                     switch (choice)
                     {
                         case 1:
+                            invoiceService.UpdateInvoiceAmount();
                             break;
                         case 2:
+                            invoiceService.UpdateInvoiceDue();
                             break;
                         case 0:
                             Console.WriteLine("Returning to MainMenu...");

@@ -217,11 +217,11 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯");
         }
-        public void UpdateInvoice()
+        public void UpdateInvoiceAmount()
         {
             foreach (var showInvoice in _dbContext.Invoice)
             {
-                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
+                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Amount: {showInvoice.InvoiceAmount.ToString("C2")}");
             }
 
             Console.Write("Enter invoice ID to update: ");
@@ -234,22 +234,52 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter new invoice amount: ");
                     if (double.TryParse(Console.ReadLine(), out double newInvoiceAmount))
                     {
-                        Console.Write("Enter new invoice due date (yyyy-mm-dd): ");
-                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newInvoiceDue))
-                        {
-                            invoice.InvoiceAmount = newInvoiceAmount;
-                            invoice.InvoiceDue = newInvoiceDue;
-                            _dbContext.SaveChanges();
-                            Message.InputSuccessMessage("Invoice information updated successfully.");
-                        }
-                        else
-                        {
-                            Message.ErrorMessage("Invalid date format. Invoice information not updated.");
-                        }
+                        invoice.InvoiceAmount = newInvoiceAmount;
+                        _dbContext.SaveChanges();
+                        Message.InputSuccessMessage("Invoice amount updated successfully.");
                     }
                     else
                     {
-                        Message.ErrorMessage("Invalid amount format. Invoice information not updated.");
+                        Message.ErrorMessage("Invalid amount format. Invoice amount not updated.");
+                    }
+                }
+                else
+                {
+                    Message.ErrorMessage("Invoice not found.");
+                }
+            }
+            else
+            {
+                Message.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
+            }
+
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
+        }
+        public void UpdateInvoiceDue()
+        {
+            foreach (var showInvoice in _dbContext.Invoice)
+            {
+                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Due: {showInvoice.InvoiceDue}");
+            }
+
+            Console.Write("Enter invoice ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int invoiceId))
+            {
+                var invoice = _dbContext.Invoice.Find(invoiceId);
+
+                if (invoice != null)
+                {
+                    Console.Write("Enter new invoice due date (yyyy-MM-dd): ");
+                    if (DateTime.TryParse(Console.ReadLine(), out DateTime newInvoiceDue))
+                    {
+                        invoice.InvoiceDue = newInvoiceDue;
+                        _dbContext.SaveChanges();
+                        Message.InputSuccessMessage("Invoice due date updated successfully.");
+                    }
+                    else
+                    {
+                        Message.ErrorMessage("Invalid date format. Invoice due date not updated.");
                     }
                 }
                 else
