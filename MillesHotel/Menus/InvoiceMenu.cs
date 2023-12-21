@@ -28,11 +28,11 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│1. Register Invoice          │");
                 Console.WriteLine("│2. See Invoice               │");
                 Console.WriteLine("│3. See all Invoices          │");
-                Console.WriteLine("│4. See all paid Invoices     │");
-                Console.WriteLine("│5. See all unpaid Invoices   │");
+                Console.WriteLine("│4. See all Paid Invoices     │");
+                Console.WriteLine("│5. See all Unpaid Invoices   │");
                 Console.WriteLine("│6. Update Invoice            │");
                 Console.WriteLine("│7. Soft Delete Invoice       │");
-                Console.WriteLine("│8. Register payment          │");
+                Console.WriteLine("│8. Register Payment          │");
                 Console.WriteLine("│0. Return to MainMenu        │");
                 Console.WriteLine("╰─────────────────────────────╯");
 
@@ -97,8 +97,8 @@ namespace MillesHotel.Menus
                 Message.MillesHotelMessage();
                 Console.WriteLine("╭─────────────────────────────╮");
                 Console.WriteLine("│Update Invoice Menu          │");
-                Console.WriteLine("│1. Change amount             │");
-                Console.WriteLine("│2. Change due date           │");
+                Console.WriteLine("│1. Change Amount             │");
+                Console.WriteLine("│2. Change Due Date           │");
                 Console.WriteLine("╰─────────────────────────────╯");
 
                 Console.Write("Enter your choice: ");

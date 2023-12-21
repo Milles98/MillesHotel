@@ -24,13 +24,13 @@ namespace MillesHotel.Menus
                 Console.WriteLine("╭──────────────────────────────╮");
                 Console.WriteLine("│Booking Menu                  │");
                 Console.WriteLine("│1. Register Booking           │");
-                Console.WriteLine("│2. See Booking                │");
+                Console.WriteLine("│2. See Booking Details        │");
                 Console.WriteLine("│3. See all Bookings           │");
                 Console.WriteLine("│4. Update Booking             │");
                 Console.WriteLine("│5. Cancel Booking             │");
-                Console.WriteLine("│6. Search specific date       │");
-                Console.WriteLine("│7. Search date interval       │");
-                Console.WriteLine("│8. Search customer booking    │");
+                Console.WriteLine("│6. Search Specific Date       │");
+                Console.WriteLine("│7. Search Date Interval       │");
+                Console.WriteLine("│8. Search Customer Booking    │");
                 Console.WriteLine("│9. Soft Delete Booking        │");
                 Console.WriteLine("│0. Return to MainMenu         │");
                 Console.WriteLine("╰──────────────────────────────╯");

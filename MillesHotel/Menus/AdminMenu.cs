@@ -27,7 +27,7 @@ namespace MillesHotel.Menus
                 Message.MillesHotelMessage();
                 Console.WriteLine("╭───────────────────────────────╮");
                 Console.WriteLine("│Admin Menu                     │");
-                Message.ErrorMessage("│1. Permanent deletion (DANGER) │");
+                Message.ErrorMessage("│1. Permanent Deletion (DANGER) │");
                 Console.WriteLine("│2. Fun Information             │");
                 Console.WriteLine("│0. Return to MainMenu          │");
                 Console.WriteLine("╰───────────────────────────────╯");
