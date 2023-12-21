@@ -21,6 +21,8 @@ namespace MillesHotelLibrary.Services
         }
         public void CreateInvoice()
         {
+            AssignInvoiceToBooking();
+
             Console.Write("Enter invoice amount: ");
             if (double.TryParse(Console.ReadLine(), out double invoiceAmount))
             {
@@ -37,7 +39,6 @@ namespace MillesHotelLibrary.Services
                     _dbContext.Invoice.Add(newInvoice);
                     _dbContext.SaveChanges();
                     Message.InputSuccessMessage("Invoice created successfully.");
-                    AssignInvoiceToBooking();
                 }
                 else
                 {
@@ -55,6 +56,11 @@ namespace MillesHotelLibrary.Services
 
         public void AssignInvoiceToBooking()
         {
+            foreach (var showBooking in _dbContext.Booking)
+            {
+                Console.WriteLine($"BookingID: {showBooking.BookingID}");
+            }
+
             Console.Write("Enter Booking ID: ");
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {

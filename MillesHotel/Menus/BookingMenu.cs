@@ -13,12 +13,6 @@ namespace MillesHotel.Menus
 {
     public static class BookingMenu
     {
-        //Booking MainMenu Case 1 (1. Register Booking, 2. See Booking, 3. Update Booking, 4. Delete Booking, 0. Return to MainMenu)
-        //Booking Menu Case 1 (Input: 1. CustomerID, RoomSize, Double/Single Room, AmountOfBeds, 0. Return to MainMenu)
-        //Booking Menu Case 2 (1. See booking by bookingID, 2. See all bookings, 0. Return to MainMenu)
-        //Booking Menu Case 3 (Input: BookingID, 1. NewBookingDate, 0. Return to MainMenu)
-        //Booking Menu Case 4 (Input: 1. BookingID, 0. Return to MainMenu)
-        //Booking Menu Case 0 (Return to MainMenu)
         public static void ShowBookingMenu(IBookingService bookingService)
         {
             int choice;
@@ -32,7 +26,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│1. Register Booking           │");
                 Console.WriteLine("│2. See Booking                │");
                 Console.WriteLine("│3. See all Bookings           │");
-                Console.WriteLine("│4. Modify Booking             │");
+                Console.WriteLine("│4. Update Booking             │");
                 Console.WriteLine("│5. Cancel Booking             │");
                 Console.WriteLine("│6. Search specific date       │");
                 Console.WriteLine("│7. Search date interval       │");
@@ -58,7 +52,7 @@ namespace MillesHotel.Menus
                             Console.ReadKey();
                             break;
                         case 4:
-                            bookingService.ModifyBooking();
+                            ShowUpdateBookingMenu(bookingService);
                             break;
                         case 5:
                             bookingService.CancelBooking();
@@ -92,7 +86,7 @@ namespace MillesHotel.Menus
             } while (choice != 0);
         }
 
-        private static void ShowUpdateBookingMenu(BookingService bookingService)
+        private static void ShowUpdateBookingMenu(IBookingService bookingService)
         {
             int updateChoice;
 
