@@ -42,11 +42,11 @@ namespace MillesHotelLibrary.Data
                     new Customer { CustomerFirstName = "Mark", CustomerLastName = "Zuckerberg", CustomerAge = 60,
                 CustomerEmail = "zucker@facebook.com", CustomerPhone = "493233545", CustomerCountry = "USA", IsActive = true },
                     new Customer { CustomerFirstName = "Mahatma", CustomerLastName = "Ghandi", CustomerAge = 90,
-                CustomerEmail = "mahatma@ghandi.com", CustomerPhone = "493233545", CustomerCountry = "India", IsActive = false },
+                CustomerEmail = "mahatma@ghandi.com", CustomerPhone = "493233545", CustomerCountry = "India", IsActive = true },
                     new Customer { CustomerFirstName = "Kristofer", CustomerLastName = "Hivju", CustomerAge = 45,
                 CustomerEmail = "kris@hivju.com", CustomerPhone = "493233545", CustomerCountry = "Norway", IsActive = true },
                     new Customer { CustomerFirstName = "Mads", CustomerLastName = "Mikkelsen", CustomerAge = 58,
-                CustomerEmail = "mads@mik.com", CustomerPhone = "493233545", CustomerCountry = "Denmark", IsActive = false }
+                CustomerEmail = "mads@mik.com", CustomerPhone = "493233545", CustomerCountry = "Denmark", IsActive = true }
                 };
 
                 dbContext.Customers.AddRange(customers);
@@ -69,7 +69,7 @@ namespace MillesHotelLibrary.Data
                     new Room { RoomSize = 55, RoomType = RoomType.SingleRoom, RoomName =
                     "Milles Room", ExtraBeds = false, RoomPrice = 250 },
                     new Room { RoomSize = 1750, RoomType = RoomType.DoubleRoom, RoomName =
-                    "KYH Room", ExtraBeds = true, RoomPrice = 3250 },
+                    "KYH Room", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 3250 },
                     new Room { RoomSize = 450, RoomType = RoomType.SingleRoom, RoomName =
                     "Student Room", ExtraBeds = false, RoomPrice = 3500 }
                 };
