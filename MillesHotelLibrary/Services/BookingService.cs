@@ -21,32 +21,33 @@ namespace MillesHotelLibrary.Services
         }
         public void CreateBooking()
         {
-            Console.Write("Enter booking date (yyyy-MM-dd): ");
-            if (DateTime.TryParse(Console.ReadLine(), out DateTime bookingDate))
+            try
             {
-                if (bookingDate.Date < DateTime.Now.Date)
+                Console.Clear();
+                foreach (var customerID in _dbContext.Customer)
                 {
-                    Message.ErrorMessage("Invalid booking date. Please enter a date equal to or later than today. Booking not created.");
-                    Console.ReadKey();
-                    return;
+                    Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
                 }
 
-                Console.Write("Enter number of nights (max 20): ");
-                if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0 && numberOfNights <= 20)
+                Console.Write("Enter Customer ID: ");
+                if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    foreach (var customerID in _dbContext.Customer)
-                    {
-                        Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
-                    }
+                    var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && c.CustomerAge >= 18);
 
-                    Console.Write("Enter Customer ID: ");
-                    if (int.TryParse(Console.ReadLine(), out int customerId))
+                    if (customer != null)
                     {
-                        var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && c.CustomerAge >= 18);
-
-                        if (customer != null)
+                        Console.Write("Enter booking date (yyyy-MM-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime bookingDate))
                         {
-                            if (customer.IsActive)
+                            if (bookingDate.Date < DateTime.Now.Date)
+                            {
+                                Message.ErrorMessage("Invalid booking date. Please enter a date equal to or later than today. Booking not created.");
+                                Console.ReadKey();
+                                return;
+                            }
+
+                            Console.Write("Enter number of nights (max 20): ");
+                            if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0 && numberOfNights <= 20)
                             {
                                 var availableRooms = _dbContext.Room
                                     .Where(room => room.Bookings
@@ -82,7 +83,7 @@ namespace MillesHotelLibrary.Services
                                                     BookingStartDate = bookingDate,
                                                     BookingEndDate = bookingDate.AddDays(numberOfNights),
                                                     IsBooked = true,
-                                                    CustomerID = customerId,
+                                                    CustomerID = customer.CustomerID,
                                                     RoomID = roomId
                                                 };
 
@@ -107,7 +108,6 @@ namespace MillesHotelLibrary.Services
 
                                                 Console.WriteLine($"\nBooking details:\n{newBooking}");
                                                 Console.WriteLine($"Invoice details:\n{newInvoice}");
-
                                             }
                                             else
                                             {
@@ -136,28 +136,28 @@ namespace MillesHotelLibrary.Services
                             }
                             else
                             {
-                                Message.ErrorMessage("Inactive customer. Reactivate the customer using the ReactivateCustomer method before making a booking.");
+                                Message.ErrorMessage("Invalid number of nights. Booking not created.");
                             }
                         }
                         else
                         {
-                            Message.ErrorMessage("Customer with the entered ID does not exist. Booking not created." +
-                                "\nOr customer age is less than 18!");
+                            Message.ErrorMessage("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
                         }
                     }
                     else
                     {
-                        Message.ErrorMessage("Invalid Customer ID. Booking not created.");
+                        Message.ErrorMessage("Customer with the entered ID does not exist. Booking not created." +
+                            "\nOr customer age is less than 18!");
                     }
                 }
                 else
                 {
-                    Message.ErrorMessage("Invalid number of nights. Booking not created.");
+                    Message.ErrorMessage("Invalid Customer ID. Booking not created.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Message.ErrorMessage("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
+                Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
             Console.WriteLine("\nPress any button to continue...");
