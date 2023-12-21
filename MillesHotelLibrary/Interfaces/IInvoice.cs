@@ -20,7 +20,5 @@ namespace MillesHotelLibrary.Interfaces
         public DateTime InvoiceDue { get; set; }
         public bool IsPaid { get; set; }
         public bool IsActive { get; set; }
-
-        public Booking Booking { get; set; }
     }
 }
