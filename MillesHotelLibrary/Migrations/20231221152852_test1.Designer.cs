@@ -12,7 +12,7 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231221144210_test1")]
+    [Migration("20231221152852_test1")]
     partial class test1
     {
         /// <inheritdoc />
@@ -58,7 +58,8 @@ namespace MillesHotelLibrary.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("InvoiceID");
+                    b.HasIndex("InvoiceID")
+                        .IsUnique();
 
                     b.HasIndex("RoomID");
 
@@ -182,14 +183,16 @@ namespace MillesHotelLibrary.Migrations
                         .IsRequired();
 
                     b.HasOne("MillesHotelLibrary.Models.Invoice", "Invoice")
-                        .WithMany()
-                        .HasForeignKey("InvoiceID")
+                        .WithOne("Booking")
+                        .HasForeignKey("MillesHotelLibrary.Models.Booking", "InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MillesHotelLibrary.Models.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomID");
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
 
@@ -201,6 +204,12 @@ namespace MillesHotelLibrary.Migrations
             modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("MillesHotelLibrary.Models.Invoice", b =>
+                {
+                    b.Navigation("Booking")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Room", b =>
