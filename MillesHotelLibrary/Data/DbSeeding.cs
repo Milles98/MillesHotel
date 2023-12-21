@@ -28,6 +28,8 @@ namespace MillesHotelLibrary.Data
                 CustomerEmail = "pene@cruz.com", CustomerPhone = "5432678643", CustomerCountry = "Spain", IsActive = true },
                     new Customer { CustomerFirstName = "Mille", CustomerLastName = "Elfver", CustomerAge = 25,
                 CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
+                    new Customer { CustomerFirstName = "Wilma", CustomerLastName = "Helin", CustomerAge = 25,
+                CustomerEmail = "wilma@helin.se", CustomerPhone = "46743232524", CustomerCountry = "Sweden", IsActive = true },
                     new Customer { CustomerFirstName = "Richard", CustomerLastName = "Chalk", CustomerAge = 35,
                 CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
                     new Customer { CustomerFirstName = "Bill", CustomerLastName = "Gates", CustomerAge = 75,

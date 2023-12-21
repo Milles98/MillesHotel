@@ -263,9 +263,16 @@ namespace MillesHotelLibrary.Services
                         Console.Write("Enter new booking start date (yyyy-mm-dd): ");
                         if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
                         {
-                            booking.BookingStartDate = newBookingDate;
-                            _dbContext.SaveChanges();
-                            Message.InputSuccessMessage("Booking information updated successfully.");
+                            if (booking.BookingEndDate == null || newBookingDate <= booking.BookingEndDate)
+                            {
+                                booking.BookingStartDate = newBookingDate;
+                                _dbContext.SaveChanges();
+                                Message.InputSuccessMessage("Booking information updated successfully.");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("New start date cannot be later than the existing end date. Booking information not updated.");
+                            }
                         }
                         else
                         {
@@ -637,5 +644,192 @@ namespace MillesHotelLibrary.Services
             Console.ReadKey();
         }
 
+
+        //public void CreateBooking()
+        //{
+        //    Console.Write("Enter booking date (yyyy-MM-dd): ");
+        //    if (DateTime.TryParse(Console.ReadLine(), out DateTime bookingDate))
+        //    {
+        //        if (bookingDate.Date < DateTime.Now.Date)
+        //        {
+        //            Message.ErrorMessage("Invalid booking date. Please enter a date equal to or later than today. Booking not created.");
+        //            Console.ReadKey();
+        //            return;
+        //        }
+
+        //        Console.Write("Enter number of nights (max 20): ");
+        //        if (int.TryParse(Console.ReadLine(), out int numberOfNights) && numberOfNights > 0 && numberOfNights <= 20)
+        //        {
+        //            List<Customer> selectedCustomers = new List<Customer>();
+
+        //            HashSet<int> uniqueCustomerIds = new HashSet<int>();
+
+        //            for (int i = 0; i < 4; i++)
+        //            {
+        //                Console.Clear();
+        //                Console.WriteLine("Available Customers:");
+        //                foreach (var availableCustomer in _dbContext.Customer.Where(c => c.CustomerAge >= 18))
+        //                {
+        //                    Console.WriteLine($"CustomerID: {availableCustomer.CustomerID}, Name: " +
+        //                        $"{availableCustomer.CustomerFirstName} {availableCustomer.CustomerLastName}");
+        //                }
+
+        //                Console.WriteLine("\nHow many customers will be booked? Decide below!");
+        //                Console.WriteLine("The first customer ID entered will be the one to receive the invoice.\n");
+
+        //                Console.Write($"Enter Customer {i + 1} ID (0 to finish): ");
+        //                if (int.TryParse(Console.ReadLine(), out int customerId) && customerId > 0)
+        //                {
+        //                    if (uniqueCustomerIds.Add(customerId))
+        //                    {
+        //                        var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && c.CustomerAge >= 18);
+
+        //                        if (customer != null)
+        //                        {
+        //                            selectedCustomers.Add(customer);
+
+        //                            Message.InputSuccessMessage($"\nCustomer with ID {customerId} is added to the booking.");
+        //                            Thread.Sleep(2000);
+        //                        }
+        //                        else
+        //                        {
+        //                            Message.ErrorMessage($"Customer with ID {customerId} does not exist or " +
+        //                                $"is less than 18 years old. Please enter a valid ID.");
+        //                            i--;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        Message.ErrorMessage($"Customer with ID {customerId} has already been selected. " +
+        //                            $"Please enter a different ID.");
+        //                        i--;
+        //                        Thread.Sleep(1000);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    break;
+        //                }
+        //            }
+
+        //            if (selectedCustomers.Count > 0)
+        //            {
+        //                Console.Clear();
+        //                Console.WriteLine("Selected Customers:");
+        //                foreach (var customer in selectedCustomers)
+        //                {
+        //                    Console.WriteLine($"CustomerID: {customer.CustomerID}, Customer Name: " +
+        //                        $"{customer.CustomerFirstName} {customer.CustomerLastName}");
+        //                }
+
+        //                var firstCustomer = selectedCustomers.First();
+
+        //                var availableRooms = _dbContext.Room
+        //                    .Where(room => room.Bookings
+        //                        .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
+        //                    .ToList();
+
+        //                if (availableRooms.Any())
+        //                {
+        //                    Console.WriteLine("Available Rooms:");
+        //                    foreach (var room in availableRooms)
+        //                    {
+        //                        int roomSize = room.RoomSize;
+        //                        double roomPrice = room.RoomPrice;
+
+        //                        Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} " +
+        //                            $"{roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
+        //                    }
+
+        //                    Console.Write("Enter room ID: ");
+        //                    if (int.TryParse(Console.ReadLine(), out int roomId))
+        //                    {
+        //                        var selectedRoom = availableRooms.FirstOrDefault(room => room.RoomID == roomId);
+
+        //                        if (selectedRoom != null)
+        //                        {
+        //                            var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings.All(b =>
+        //                                bookingDate >= b.BookingEndDate ||
+        //                                b.BookingStartDate >= bookingDate.AddDays(7) || !b.IsBooked);
+
+        //                            if (isRoomAvailable)
+        //                            {
+        //                                var newBooking = new Booking
+        //                                {
+        //                                    BookingStartDate = bookingDate,
+        //                                    BookingEndDate = bookingDate.AddDays(numberOfNights),
+        //                                    IsBooked = true,
+        //                                    RoomID = roomId,
+        //                                    Customers = selectedCustomers,
+        //                                    CustomerID = firstCustomer.CustomerID
+        //                                };
+
+        //                                double roomPrice = selectedRoom.RoomPrice;
+
+        //                                var invoiceAmount = roomPrice * numberOfNights;
+
+        //                                var newInvoice = new Invoice
+        //                                {
+        //                                    InvoiceAmount = invoiceAmount,
+        //                                    InvoiceDue = newBooking.BookingEndDate,
+        //                                    IsPaid = false,
+        //                                };
+
+        //                                newBooking.Invoice = newInvoice;
+
+        //                                _dbContext.Booking.Add(newBooking);
+        //                                _dbContext.Invoice.Add(newInvoice);
+
+        //                                _dbContext.SaveChanges();
+        //                                Message.InputSuccessMessage("\nBooking created successfully.");
+
+        //                                Console.WriteLine($"\nBooking details:\n{newBooking}");
+        //                                Console.WriteLine($"Invoice details:\n{newInvoice}");
+
+        //                            }
+        //                            else
+        //                            {
+        //                                Message.ErrorMessage("The room is not available for the selected dates. Booking not created.");
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            Message.ErrorMessage("Invalid room selection or the room is not available. Booking not created.");
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        Message.ErrorMessage("Invalid room ID. Booking not created.");
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    Message.ErrorMessage("No rooms are available for the selected dates. Booking not created.");
+        //                    foreach (var nextDate in _dbContext.Booking)
+        //                    {
+        //                        Console.WriteLine($"Next available dates: Room ID {nextDate.RoomID}, " +
+        //                            $"Start Date: {nextDate.BookingStartDate.ToString("yyyy-MM-dd")}, " +
+        //                            $"End Date: {nextDate.BookingEndDate.ToString("yyyy-MM-dd")}");
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                Message.ErrorMessage("No customers selected. Booking not created.");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Message.ErrorMessage("Invalid number of nights. Booking not created.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Message.ErrorMessage("Invalid date format. Please use yyyy-MM-dd. Booking not created.");
+        //    }
+
+        //    Console.WriteLine("\nPress any button to continue...");
+        //    Console.ReadKey();
+        //}
     }
 }
