@@ -110,8 +110,7 @@ namespace MillesHotelLibrary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_InvoiceID",
                 table: "Booking",
-                column: "InvoiceID",
-                unique: true);
+                column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_RoomID",

@@ -41,7 +41,8 @@ namespace MillesHotelLibrary.Models
 
         public override string ToString()
         {
-            return $"BookingID: {BookingID}, BookingStartDate: {BookingStartDate:yyyy-MM-dd}, RoomID: {RoomID}, InvoiceID: {InvoiceID}";
+            return $"BookingID: {BookingID}, StartDate: {BookingStartDate:yyyy-MM-dd}, EndDate " +
+                $"{BookingEndDate:yyyy-MM-dd}, RoomID: {RoomID}, InvoiceID: {InvoiceID}";
         }
     }
 }
