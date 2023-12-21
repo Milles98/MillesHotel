@@ -78,95 +78,49 @@ namespace MillesHotelLibrary.Data
                 dbContext.Room.AddRange(rooms);
                 dbContext.SaveChanges();
 
-                //var invoices = new List<Invoice>();
+                var invoices = new List<Invoice>();
 
-                //foreach (var booking in bookings)
-                //{
-                //    var room = dbContext.Room.Find(booking.RoomID);
+                foreach (var room in rooms)
+                {
+                    var invoiceAmount = room.RoomPrice;
 
-                //var invoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+                    var invoice = new Invoice
+                    {
+                        InvoiceAmount = invoiceAmount,
+                        IsPaid = false,
+                    };
 
-                //    var invoice = new Invoice
-                //    {
-                //        InvoiceAmount = invoiceAmount,
-                //        InvoiceDue = booking.BookingEndDate,
-                //        IsPaid = false,
-                //    };
-
-                //    invoices.Add(invoice);
-                //}
-
-                //dbContext.Invoice.AddRange(invoices);
-                //dbContext.SaveChanges();
-
-                //for (int i = 0; i < bookings.Count; i++)
-                //{
-                //    bookings[i].InvoiceID = invoices[i].InvoiceID;
-                //}
-                var invoice1 = new Invoice
-                {
-                    InvoiceAmount = rooms[0].RoomPrice,
-                    InvoiceDue = DateTime.Now.AddDays(10),
-                    IsPaid = false,
-                };
-                var invoice2 = new Invoice
-                {
-                    InvoiceAmount = rooms[1].RoomPrice,
-                    InvoiceDue = DateTime.Now.AddDays(10),
-                    IsPaid = false,
-                };
-                var invoice3 = new Invoice
-                {
-                    InvoiceAmount = rooms[2].RoomPrice,
-                    InvoiceDue = DateTime.Now.AddDays(10),
-                    IsPaid = false,
-                };
-                var invoice4 = new Invoice
-                {
-                    InvoiceAmount = rooms[3].RoomPrice,
-                    InvoiceDue = DateTime.Now.AddDays(10),
-                    IsPaid = false,
-                };
-                var bookings = new List<Booking>
-                {
-                    new Booking
-                {
-                    BookingStartDate = DateTime.Now.AddDays(7).Date,
-                    BookingEndDate = DateTime.Now.AddDays(14).Date,
-                    IsBooked = true,
-                    Customer = customers[1],
-                    RoomID = rooms[1].RoomID,
-                    Invoice = invoice1
-                },
-                    new Booking
-                {
-                    BookingStartDate = DateTime.Now.Date,
-                    BookingEndDate = DateTime.Now.AddDays(10).Date,
-                    IsBooked = true,
-                    Customer = customers[3],
-                    RoomID = rooms[0].RoomID,
-                    Invoice = invoice2
-                },
-                    new Booking
-                {
-                    BookingStartDate = DateTime.Now.AddDays(5).Date,
-                    BookingEndDate = DateTime.Now.AddDays(9).Date,
-                    IsBooked = true,
-                    Customer = customers[2],
-                    RoomID = rooms[3].RoomID,
-                    Invoice = invoice3
-                },
-                    new Booking
-                {
-                    BookingStartDate = DateTime.Now.AddDays(2).Date,
-                    BookingEndDate = DateTime.Now.AddDays(7).Date,
-                    IsBooked = true,
-                    Customer = customers[0],
-                    RoomID = rooms[2].RoomID,
-                    Invoice = invoice4
+                    invoices.Add(invoice);
                 }
 
-                };
+                dbContext.Invoice.AddRange(invoices);
+                dbContext.SaveChanges();
+
+                var bookings = new List<Booking>();
+
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    var room = rooms[i];
+                    var invoice = invoices[i];
+
+                    var booking = new Booking
+                    {
+                        BookingStartDate = DateTime.Now.AddDays(i).Date,
+                        BookingEndDate = DateTime.Now.AddDays(i + 7).Date,
+                        IsBooked = true,
+                        Customer = customers[i],
+                        RoomID = room.RoomID,
+                        InvoiceID = invoice.InvoiceID
+                    };
+
+                    booking.Invoice = invoice;
+
+                    booking.Invoice.InvoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+
+                    booking.Invoice.InvoiceDue = booking.BookingStartDate.AddDays(10);
+
+                    bookings.Add(booking);
+                }
 
                 dbContext.Booking.AddRange(bookings);
                 dbContext.SaveChanges();
