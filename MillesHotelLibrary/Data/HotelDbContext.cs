@@ -27,11 +27,11 @@ namespace MillesHotelLibrary.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the relationship between Booking and Room
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Room)
-                .WithMany(r => r.Bookings)
-                .HasForeignKey(b => b.RoomID)
-                .IsRequired(false);
+            //modelBuilder.Entity<Booking>()
+            //    .HasOne(b => b.Room)
+            //    .WithMany(r => r.Bookings)
+            //    .HasForeignKey(b => b.RoomID)
+            //    .IsRequired(false);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

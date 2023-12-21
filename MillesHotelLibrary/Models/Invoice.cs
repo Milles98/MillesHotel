@@ -31,6 +31,8 @@ namespace MillesHotelLibrary.Models
         }
         public bool IsActive { get; set; } = true;
 
+        public Booking Booking { get; set; }
+
         public override string ToString()
         {
             return $"InvoiceID: {InvoiceID}, InvoiceAmount: {InvoiceAmount:C2}, InvoiceDue: {InvoiceDue:yyyy-MM-dd}";

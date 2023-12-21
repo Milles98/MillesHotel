@@ -99,7 +99,8 @@ namespace MillesHotelLibrary.Migrations
                         name: "FK_Booking_Room_RoomID",
                         column: x => x.RoomID,
                         principalTable: "Room",
-                        principalColumn: "RoomID");
+                        principalColumn: "RoomID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -110,7 +111,8 @@ namespace MillesHotelLibrary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_InvoiceID",
                 table: "Booking",
-                column: "InvoiceID");
+                column: "InvoiceID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_RoomID",
