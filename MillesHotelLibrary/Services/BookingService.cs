@@ -167,12 +167,12 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var bookingID in _dbContext.Booking)
+                foreach (var bookings in _dbContext.Booking)
                 {
-                    Console.WriteLine($"BookingID: {bookingID.BookingID}");
+                    Console.WriteLine($"BookingID: {bookings.BookingID}");
                 }
 
-                Console.Write("Enter booking ID: ");
+                Console.Write("Enter booking ID for detailed information: ");
 
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
@@ -184,17 +184,27 @@ namespace MillesHotelLibrary.Services
 
                     if (booking != null)
                     {
+                        Console.Clear();
+                        Console.WriteLine(">Detailed Booking Information>");
+
                         Console.WriteLine($"\nBooking ID: {booking.BookingID}");
                         Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
                         Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
 
                         if (booking.Invoice != null)
                         {
-                            Console.WriteLine($"\nAmount Due: {booking.Invoice?.InvoiceAmount.ToString("C2") ?? "N/A"}");
-                            Console.WriteLine($"Amount Due Date {booking.Invoice?.InvoiceDue.ToString("yyyy-MM-dd")}");
+                            Console.WriteLine($"\nInvoice ID: {booking.Invoice.InvoiceID}");
+                            Console.WriteLine($"Amount Due: {booking.Invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
+                            Console.WriteLine($"Amount Due Date {booking.Invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
+                            Console.WriteLine($"Invoice Paid: {booking.Invoice.IsPaid}");
                         }
 
                         Console.WriteLine($"\nRoom ID: {booking.RoomID}");
+                        Console.WriteLine($"Room Name: {booking.Room.RoomName}");
+                        Console.WriteLine($"Room Size: {booking.Room.RoomSize}");
+                        Console.WriteLine($"Room ExtraBeds: {booking.Room.ExtraBeds}");
+                        Console.WriteLine($"Room ExtraBedsCount: {booking.Room.ExtraBedsCount}");
+                        Console.WriteLine($"Room Price: {booking.Room.RoomPrice}");
                         Console.WriteLine($"Room Type: {booking.Room?.RoomType ?? RoomType.SingleRoom}");
 
                         if (booking.Customer != null)

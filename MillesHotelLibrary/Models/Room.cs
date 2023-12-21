@@ -17,7 +17,7 @@ namespace MillesHotelLibrary.Models
         public string RoomName { get; set; }
 
         [Required]
-        [Range(20, 3000)]
+        [Range(10, 100)]
         public int RoomSize { get; set; }
 
         [Required]

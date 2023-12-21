@@ -61,20 +61,20 @@ namespace MillesHotelLibrary.Data
                     "Princess Suite", ExtraBeds = false, RoomPrice = 325 },
                     new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName =
                     "King Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 990 },
-                    new Room { RoomSize = 45, RoomType = RoomType.SingleRoom, RoomName =
-                    "Prince Suite", ExtraBeds = false, RoomPrice = 450 },
-                    new Room { RoomSize = 145, RoomType = RoomType.DoubleRoom, RoomName =
-                    "Presidential Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 1750 },
-                    new Room { RoomSize = 1450, RoomType = RoomType.DoubleRoom, RoomName =
-                    "Haunted Room", ExtraBeds = true, ExtraBedsCount = 1, RoomPrice = 1950 },
-                    new Room { RoomSize = 450, RoomType = RoomType.SingleRoom, RoomName =
-                    "Disney Room", ExtraBeds = false, RoomPrice = 2250 },
-                    new Room { RoomSize = 55, RoomType = RoomType.SingleRoom, RoomName =
+                    new Room { RoomSize = 45, RoomType = RoomType.DoubleRoom, RoomName =
+                    "Prince Suite", ExtraBeds = false, ExtraBedsCount = 1, RoomPrice = 450 },
+                    new Room { RoomSize = 100, RoomType = RoomType.DoubleRoom, RoomName =
+                    "Presidential Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 2900 },
+                    new Room { RoomSize = 90, RoomType = RoomType.DoubleRoom, RoomName =
+                    "Haunted Room", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 1950 },
+                    new Room { RoomSize = 40, RoomType = RoomType.SingleRoom, RoomName =
+                    "Disney Room", ExtraBeds = false, RoomPrice = 690 },
+                    new Room { RoomSize = 15, RoomType = RoomType.SingleRoom, RoomName =
                     "Milles Room", ExtraBeds = false, RoomPrice = 250 },
-                    new Room { RoomSize = 1750, RoomType = RoomType.DoubleRoom, RoomName =
-                    "KYH Room", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 3250 },
-                    new Room { RoomSize = 450, RoomType = RoomType.SingleRoom, RoomName =
-                    "Student Room", ExtraBeds = false, RoomPrice = 3500 }
+                    new Room { RoomSize = 50, RoomType = RoomType.DoubleRoom, RoomName =
+                    "KYH Room", ExtraBeds = true, ExtraBedsCount = 1, RoomPrice = 1250 },
+                    new Room { RoomSize = 25, RoomType = RoomType.SingleRoom, RoomName =
+                    "Student Room", ExtraBeds = false, RoomPrice = 2250 }
                 };
 
                 dbContext.Room.AddRange(rooms);
