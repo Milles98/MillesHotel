@@ -34,7 +34,7 @@ namespace MillesHotelLibrary.Services
                         IsPaid = false
                     };
 
-                    _dbContext.Invoices.Add(newInvoice);
+                    _dbContext.Invoice.Add(newInvoice);
                     _dbContext.SaveChanges();
                     Message.InputSuccessMessage("Invoice created successfully.");
                     AssignInvoiceToBooking();
@@ -58,11 +58,11 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter Booking ID: ");
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {
-                var booking = _dbContext.Bookings.Find(bookingId);
+                var booking = _dbContext.Booking.Find(bookingId);
 
                 if (booking != null)
                 {
-                    var invoice = _dbContext.Invoices.LastOrDefault();
+                    var invoice = _dbContext.Invoice.LastOrDefault();
 
                     if (invoice != null)
                     {
@@ -90,7 +90,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetInvoiceByID()
         {
-            foreach (var showInvoice in _dbContext.Invoices)
+            foreach (var showInvoice in _dbContext.Invoice)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
             }
@@ -98,9 +98,23 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices
-                    .Include(i => i.Bookings)
+                var invoice = _dbContext.Invoice
+                    .Include(i => i.Booking)
                     .FirstOrDefault(i => i.InvoiceID == invoiceId);
+
+
+                //Denna ska användas och den ovan köra typ en select med anonymous class likt nedan
+                //            var method5 = employees
+                //.Select(emp => new
+                //{
+                //    AnonymousClassId = emp.Id,
+                //    AnonymousClassEmail = emp.Email
+                //})
+                //.ToList();
+
+                //var invoice = _dbContext.Booking
+                //    .Include(i => i.Invoice)
+                //    .FirstOrDefault(i => i.InvoiceID == invoiceId);
 
                 if (invoice != null)
                 {
@@ -110,10 +124,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Invoice Due: {invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
                     Console.WriteLine($"Is Paid: {invoice.IsPaid}");
                     Console.WriteLine($"Is Active: {invoice.IsActive}");
-                    foreach (var booking in invoice.Bookings)
-                    {
-                        Console.WriteLine($"Customer ID: {booking.CustomerID}");
-                    }
+                    Console.WriteLine($"Customer ID: {invoice.Booking.CustomerID}");
                 }
                 else
                 {
@@ -130,24 +141,21 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllInvoices()
         {
-            var invoices = _dbContext.Invoices.Include(i => i.Bookings).ToList();
+            var invoices = _dbContext.Invoice.Include(i => i.Booking).ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ Status     │");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid     │");
             Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
 
             foreach (var invoice in invoices)
             {
-                // Assuming the Invoice class has a method to check if it is paid
                 var isPaid = invoice.IsPaid;
 
-                foreach (var booking in invoice.Bookings)
-                {
-                    Console.ForegroundColor = isPaid ? ConsoleColor.Green : ConsoleColor.Red;
-                    Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
-                        $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking.CustomerID,-12}│{isPaid,-12}│");
-                    Console.ResetColor();
-                }
+
+                Console.ForegroundColor = isPaid ? ConsoleColor.Green : ConsoleColor.Red;
+                Console.WriteLine($"│{invoice.InvoiceID,-14}│{invoice.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                    $"{invoice.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{invoice.Booking.CustomerID,-12}│{isPaid,-12}│");
+                Console.ResetColor();
                 Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤────────────┤");
             }
 
@@ -155,7 +163,7 @@ namespace MillesHotelLibrary.Services
         }
         public void UpdateInvoice()
         {
-            foreach (var showInvoice in _dbContext.Invoices)
+            foreach (var showInvoice in _dbContext.Invoice)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
             }
@@ -163,7 +171,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices.Find(invoiceId);
+                var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
                 {
@@ -208,7 +216,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID to soft delete: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices.Find(invoiceId);
+                var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
                 {
@@ -237,7 +245,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices.Find(invoiceId);
+                var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null && invoice.IsActive)
                 {
@@ -289,7 +297,7 @@ namespace MillesHotelLibrary.Services
         //Om inte en betalning registrerats inom 10 dagar efter att bokningen är gjord annulleras bokningen dvs den upphör att gälla.
         public void CheckAndDeactivateOverdueBookings()
         {
-            var overdueBookings = _dbContext.Bookings
+            var overdueBookings = _dbContext.Booking
                 .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now
                 .AddDays(-10) && b.Invoice != null && b.Invoice.IsPaid);
 

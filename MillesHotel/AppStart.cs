@@ -57,7 +57,7 @@ namespace MillesHotel
 
         private void UpdateBookingStatus(HotelDbContext dbContext)
         {
-            var bookings = dbContext.Bookings.ToList();
+            var bookings = dbContext.Booking.ToList();
 
             foreach (var booking in bookings)
             {

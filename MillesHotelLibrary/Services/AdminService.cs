@@ -23,7 +23,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var room in _dbContext.Rooms)
+                foreach (var room in _dbContext.Room)
                 {
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
                 }
@@ -31,11 +31,11 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Enter room ID to delete: ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
-                    var room = _dbContext.Rooms.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
+                    var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
 
                     if (room != null)
                     {
-                        _dbContext.Rooms.Remove(room);
+                        _dbContext.Room.Remove(room);
                         _dbContext.SaveChanges();
                         Message.InputSuccessMessage("Room permanently deleted.");
                     }
@@ -62,7 +62,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var showCustomer in _dbContext.Customers)
+                foreach (var showCustomer in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
                 }
@@ -70,13 +70,13 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
+                    var customer = _dbContext.Customer.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
 
                     if (customer != null)
                     {
                         if (customer.Bookings == null || !customer.Bookings.Any())
                         {
-                            _dbContext.Customers.Remove(customer);
+                            _dbContext.Customer.Remove(customer);
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Customer permanently deleted.");
                         }
@@ -109,11 +109,11 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter invoice ID to soft delete: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
-                var invoice = _dbContext.Invoices.Find(invoiceId);
+                var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
                 {
-                    _dbContext.Invoices.Remove(invoice);
+                    _dbContext.Invoice.Remove(invoice);
                     _dbContext.SaveChanges();
                     Message.InputSuccessMessage("Invoice soft deleted successfully.");
                 }
@@ -139,11 +139,11 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Enter booking ID to soft delete: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
-                    var booking = _dbContext.Bookings.Find(bookingId);
+                    var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
                     {
-                        _dbContext.Bookings.Remove(booking);
+                        _dbContext.Booking.Remove(booking);
                         _dbContext.SaveChanges();
                         Message.InputSuccessMessage("Booking permanently deleted.");
                     }
@@ -167,7 +167,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetNumberOfCustomers()
         {
-            var numberOfCustomers = _dbContext.Customers.Count();
+            var numberOfCustomers = _dbContext.Customer.Count();
             Console.WriteLine($"Number of Customers: {numberOfCustomers}");
 
             Console.WriteLine("Press any button to continue...");
@@ -176,7 +176,7 @@ namespace MillesHotelLibrary.Services
 
         public void GetTop10CustomersByBooking()
         {
-            var topCustomersByBooking = _dbContext.Customers
+            var topCustomersByBooking = _dbContext.Customer
                 .Select(c => new
                 {
                     Customer = c,
@@ -198,7 +198,7 @@ namespace MillesHotelLibrary.Services
 
         public void GetTop10CustomersByCountry()
         {
-            var topCustomersByCountry = _dbContext.Customers
+            var topCustomersByCountry = _dbContext.Customer
                 .GroupBy(c => c.CustomerCountry)
                 .AsEnumerable()
                 .OrderByDescending(group => group.Count())

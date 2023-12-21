@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class test3 : Migration
+    public partial class test1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Customer",
                 columns: table => new
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false)
@@ -27,11 +27,11 @@ namespace MillesHotelLibrary.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.PrimaryKey("PK_Customer", x => x.CustomerID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoices",
+                name: "Invoice",
                 columns: table => new
                 {
                     InvoiceID = table.Column<int>(type: "int", nullable: false)
@@ -43,11 +43,11 @@ namespace MillesHotelLibrary.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoices", x => x.InvoiceID);
+                    table.PrimaryKey("PK_Invoice", x => x.InvoiceID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "Room",
                 columns: table => new
                 {
                     RoomID = table.Column<int>(type: "int", nullable: false)
@@ -63,11 +63,11 @@ namespace MillesHotelLibrary.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomID);
+                    table.PrimaryKey("PK_Room", x => x.RoomID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookings",
+                name: "Booking",
                 columns: table => new
                 {
                     BookingID = table.Column<int>(type: "int", nullable: false)
@@ -76,43 +76,46 @@ namespace MillesHotelLibrary.Migrations
                     BookingEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsBooked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: true),
-                    RoomID = table.Column<int>(type: "int", nullable: true),
-                    InvoiceID = table.Column<int>(type: "int", nullable: true)
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
+                    InvoiceID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookings", x => x.BookingID);
+                    table.PrimaryKey("PK_Booking", x => x.BookingID);
                     table.ForeignKey(
-                        name: "FK_Bookings_Customers_CustomerID",
+                        name: "FK_Booking_Customer_CustomerID",
                         column: x => x.CustomerID,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerID");
+                        principalTable: "Customer",
+                        principalColumn: "CustomerID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bookings_Invoices_InvoiceID",
+                        name: "FK_Booking_Invoice_InvoiceID",
                         column: x => x.InvoiceID,
-                        principalTable: "Invoices",
-                        principalColumn: "InvoiceID");
+                        principalTable: "Invoice",
+                        principalColumn: "InvoiceID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bookings_Rooms_RoomID",
+                        name: "FK_Booking_Room_RoomID",
                         column: x => x.RoomID,
-                        principalTable: "Rooms",
+                        principalTable: "Room",
                         principalColumn: "RoomID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_CustomerID",
-                table: "Bookings",
+                name: "IX_Booking_CustomerID",
+                table: "Booking",
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_InvoiceID",
-                table: "Bookings",
-                column: "InvoiceID");
+                name: "IX_Booking_InvoiceID",
+                table: "Booking",
+                column: "InvoiceID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_RoomID",
-                table: "Bookings",
+                name: "IX_Booking_RoomID",
+                table: "Booking",
                 column: "RoomID");
         }
 
@@ -120,16 +123,16 @@ namespace MillesHotelLibrary.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Bookings");
+                name: "Booking");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Invoice");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Room");
         }
     }
 }

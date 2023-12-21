@@ -31,7 +31,7 @@ namespace MillesHotelLibrary.Models
         }
         public bool IsActive { get; set; } = true;
 
-        public List<Booking>? Bookings { get; set; }
+        public Booking Booking { get; set; }
 
         public override string ToString()
         {

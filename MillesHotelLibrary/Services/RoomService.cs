@@ -62,7 +62,7 @@ namespace MillesHotelLibrary.Services
                                 RoomBooked = true
                             };
 
-                            _dbContext.Rooms.Add(newRoom);
+                            _dbContext.Room.Add(newRoom);
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Room created successfully.");
                         }
@@ -87,7 +87,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetRoomByID()
         {
-            foreach (var rooms in _dbContext.Rooms)
+            foreach (var rooms in _dbContext.Room)
             {
                 Console.WriteLine($"RoomID: {rooms.RoomID}");
             }
@@ -95,7 +95,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter room ID: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                var room = _dbContext.Rooms.Find(roomId);
+                var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
@@ -122,7 +122,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllRooms()
         {
-            var rooms = _dbContext.Rooms.ToList();
+            var rooms = _dbContext.Room.ToList();
 
             Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
             Console.WriteLine("│ Room ID       | Room Name         | Room Size   | Room Type   | Extra Beds  | Price       │");
@@ -143,7 +143,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter room ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                var room = _dbContext.Rooms.Find(roomId);
+                var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
@@ -181,7 +181,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter room ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                var room = _dbContext.Rooms.Find(roomId);
+                var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
@@ -225,7 +225,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter room ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                var room = _dbContext.Rooms.Find(roomId);
+                var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
@@ -261,7 +261,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Enter room ID to update: ");
             if (int.TryParse(Console.ReadLine(), out int roomId))
             {
-                var room = _dbContext.Rooms.Find(roomId);
+                var room = _dbContext.Room.Find(roomId);
 
                 if (room != null)
                 {
@@ -314,7 +314,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var room in _dbContext.Rooms)
+                foreach (var room in _dbContext.Room)
                 {
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
                 }
@@ -322,7 +322,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Enter room ID to soft delete: ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
-                    var room = _dbContext.Rooms.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
+                    var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
 
                     if (room != null)
                     {
@@ -359,7 +359,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var showRoom in _dbContext.Rooms.Where(r => !r.IsActive))
+                foreach (var showRoom in _dbContext.Room.Where(r => !r.IsActive))
                 {
                     Console.WriteLine($"RoomID: {showRoom.RoomID}, RoomType: {showRoom.RoomType}, " +
                         $"RoomSize: {showRoom.RoomSize}, IsActive: {showRoom.IsActive}");
@@ -368,7 +368,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Enter room ID to reactivate: ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
-                    var room = _dbContext.Rooms.Find(roomId);
+                    var room = _dbContext.Room.Find(roomId);
 
                     if (room != null)
                     {
@@ -400,12 +400,12 @@ namespace MillesHotelLibrary.Services
         //Det skall gå att söka på ett datum eller datumintervall och antal personer och få fram alla lediga rum som motsvarar sökningen.
         public List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople)
         {
-            var bookedRoomIds = _dbContext.Bookings
+            var bookedRoomIds = _dbContext.Booking
                 .Where(b => b.IsBooked && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
                 .Select(b => b.RoomID)
                 .ToList();
 
-            var availableRooms = _dbContext.Rooms
+            var availableRooms = _dbContext.Room
                 .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.RoomBooked && r.RoomSize >= numPeople)
                 .ToList();
 
