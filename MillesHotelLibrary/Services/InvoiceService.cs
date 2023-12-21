@@ -167,6 +167,56 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯────────────╯");
         }
+        public void GetAllPaidInvoices()
+        {
+            var paidInvoices = _dbContext.Booking
+                .Include(i => i.Invoice)
+                .Where(b => b.Invoice != null && b.Invoice.IsPaid)
+                .ToList();
+
+            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │");
+            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+
+            foreach (var booking in paidInvoices)
+            {
+                var invoice = booking.Invoice;
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                    $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{"True",-13}│");
+
+                Console.ResetColor();
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+            }
+
+            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯");
+        }
+        public void GetAllUnpaidInvoices()
+        {
+            var unpaidInvoices = _dbContext.Booking
+                .Include(i => i.Invoice)
+                .Where(b => b.Invoice != null && !b.Invoice.IsPaid)
+                .ToList();
+
+            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮");
+            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │");
+            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+
+            foreach (var booking in unpaidInvoices)
+            {
+                var invoice = booking.Invoice;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                    $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{"No",-13}│");
+
+                Console.ResetColor();
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+            }
+
+            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯");
+        }
         public void UpdateInvoice()
         {
             foreach (var showInvoice in _dbContext.Invoice)
@@ -226,9 +276,23 @@ namespace MillesHotelLibrary.Services
 
                 if (invoice != null)
                 {
-                    invoice.IsActive = false;
-                    _dbContext.SaveChanges();
-                    Message.InputSuccessMessage("Invoice soft deleted successfully.");
+                    Console.Write("Are you sure you want to inactivate the invoice? Type 'y' for yes, 'n' for no: ");
+                    var confirmation = Console.ReadLine()?.ToLower();
+
+                    if (confirmation == "y")
+                    {
+                        invoice.IsActive = false;
+                        _dbContext.SaveChanges();
+                        Message.InputSuccessMessage("Invoice soft deleted successfully.");
+                    }
+                    else if (confirmation == "n")
+                    {
+                        Message.InputSuccessMessage("Invoice inactivation canceled.");
+                    }
+                    else
+                    {
+                        Message.ErrorMessage("Invalid input. Please type 'y' for yes or 'n' for no.");
+                    }
                 }
                 else
                 {
@@ -260,26 +324,17 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter payment amount: ");
                     if (double.TryParse(Console.ReadLine(), out double paymentAmount))
                     {
-                        if (paymentAmount <= 0)
+                        if (paymentAmount == invoice.InvoiceAmount)
                         {
-                            Message.ErrorMessage("Payment amount must be greater than zero.");
-                        }
-                        else if (paymentAmount > invoice.InvoiceAmount)
-                        {
-                            Message.ErrorMessage("Payment amount cannot exceed the invoice amount.");
-                        }
-                        else
-                        {
-                            //invoice.InvoiceAmount -= Math.Abs(paymentAmount);
-
-                            if (invoice.InvoiceAmount == paymentAmount)
-                            {
-                                invoice.IsPaid = true;
-                                invoice.IsActive = false;
-                            }
+                            invoice.IsPaid = true;
+                            invoice.IsActive = false;
 
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Payment registered successfully.");
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Payment amount must be exactly equal to the invoice amount.");
                         }
                     }
                     else

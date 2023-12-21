@@ -12,6 +12,8 @@ namespace MillesHotelLibrary.Interfaces
         void GetInvoiceByID();
         void UpdateInvoice();
         void GetAllInvoices();
+        void GetAllPaidInvoices();
+        void GetAllUnpaidInvoices();
         void SoftDeleteInvoice();
         void RegisterPayment();
         void CheckAndDeactivateOverdueBookings();
