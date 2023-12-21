@@ -24,7 +24,7 @@ namespace MillesHotelLibrary.ExtraServices
 
         public static void MillesHotelMessage()
         {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine(" __  __ _____ _      _      ______  _____   _    _  ____ _______ ______ _");
             Console.WriteLine("|  \\/  |_   _| |    | |    |  ____|/ ____| | |  | |/ __ \\__   __|  ____| |");
             Console.WriteLine("| \\  / | | | | |    | |    | |__  | (___   | |__| | |  | | | |  | |__  | |");
