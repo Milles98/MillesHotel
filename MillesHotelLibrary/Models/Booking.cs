@@ -31,9 +31,9 @@ namespace MillesHotelLibrary.Models
 
         public bool IsActive { get; set; } = true;
 
-        public int? CustomerID { get; set; }
-        public int? RoomID { get; set; }
-        public int? InvoiceID { get; set; }
+        public int CustomerID { get; set; }
+        public int RoomID { get; set; }
+        public int InvoiceID { get; set; }
 
         public Customer Customer { get; set; }
         public Room Room { get; set; }

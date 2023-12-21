@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MillesHotelLibrary.Interfaces;
 using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,13 @@ namespace MillesHotelLibrary.Data
         public void SeedData(HotelDbContext dbContext)
         {
             dbContext.Database.Migrate();
-            SeedRooms(dbContext);
+            Seeding(dbContext);
             dbContext.SaveChanges();
         }
 
-        private void SeedRooms(HotelDbContext dbContext)
+        private void Seeding(HotelDbContext dbContext)
         {
-            if (!dbContext.Rooms.Any())
+            if (!dbContext.Room.Any())
             {
                 var customers = new List<Customer>
                 {
@@ -49,7 +50,7 @@ namespace MillesHotelLibrary.Data
                 CustomerEmail = "mads@mik.com", CustomerPhone = "493233545", CustomerCountry = "Denmark", IsActive = true }
                 };
 
-                dbContext.Customers.AddRange(customers);
+                dbContext.Customer.AddRange(customers);
                 dbContext.SaveChanges();
 
                 var rooms = new List<Room>
@@ -74,9 +75,58 @@ namespace MillesHotelLibrary.Data
                     "Student Room", ExtraBeds = false, RoomPrice = 3500 }
                 };
 
-                dbContext.Rooms.AddRange(rooms);
+                dbContext.Room.AddRange(rooms);
                 dbContext.SaveChanges();
 
+                //var invoices = new List<Invoice>();
+
+                //foreach (var booking in bookings)
+                //{
+                //    var room = dbContext.Room.Find(booking.RoomID);
+
+                //var invoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+
+                //    var invoice = new Invoice
+                //    {
+                //        InvoiceAmount = invoiceAmount,
+                //        InvoiceDue = booking.BookingEndDate,
+                //        IsPaid = false,
+                //    };
+
+                //    invoices.Add(invoice);
+                //}
+
+                //dbContext.Invoice.AddRange(invoices);
+                //dbContext.SaveChanges();
+
+                //for (int i = 0; i < bookings.Count; i++)
+                //{
+                //    bookings[i].InvoiceID = invoices[i].InvoiceID;
+                //}
+                var invoice1 = new Invoice
+                {
+                    InvoiceAmount = rooms[0].RoomPrice,
+                    InvoiceDue = DateTime.Now.AddDays(10),
+                    IsPaid = false,
+                };
+                var invoice2 = new Invoice
+                {
+                    InvoiceAmount = rooms[1].RoomPrice,
+                    InvoiceDue = DateTime.Now.AddDays(10),
+                    IsPaid = false,
+                };
+                var invoice3 = new Invoice
+                {
+                    InvoiceAmount = rooms[2].RoomPrice,
+                    InvoiceDue = DateTime.Now.AddDays(10),
+                    IsPaid = false,
+                };
+                var invoice4 = new Invoice
+                {
+                    InvoiceAmount = rooms[3].RoomPrice,
+                    InvoiceDue = DateTime.Now.AddDays(10),
+                    IsPaid = false,
+                };
                 var bookings = new List<Booking>
                 {
                     new Booking
@@ -85,7 +135,8 @@ namespace MillesHotelLibrary.Data
                     BookingEndDate = DateTime.Now.AddDays(14).Date,
                     IsBooked = true,
                     Customer = customers[1],
-                    RoomID = rooms[1].RoomID
+                    RoomID = rooms[1].RoomID,
+                    Invoice = invoice1
                 },
                     new Booking
                 {
@@ -93,7 +144,8 @@ namespace MillesHotelLibrary.Data
                     BookingEndDate = DateTime.Now.AddDays(10).Date,
                     IsBooked = true,
                     Customer = customers[3],
-                    RoomID = rooms[0].RoomID
+                    RoomID = rooms[0].RoomID,
+                    Invoice = invoice2
                 },
                     new Booking
                 {
@@ -101,7 +153,8 @@ namespace MillesHotelLibrary.Data
                     BookingEndDate = DateTime.Now.AddDays(9).Date,
                     IsBooked = true,
                     Customer = customers[2],
-                    RoomID = rooms[3].RoomID
+                    RoomID = rooms[3].RoomID,
+                    Invoice = invoice3
                 },
                     new Booking
                 {
@@ -109,38 +162,16 @@ namespace MillesHotelLibrary.Data
                     BookingEndDate = DateTime.Now.AddDays(7).Date,
                     IsBooked = true,
                     Customer = customers[0],
-                    RoomID = rooms[2].RoomID
+                    RoomID = rooms[2].RoomID,
+                    Invoice = invoice4
                 }
+
                 };
 
-                dbContext.Bookings.AddRange(bookings);
+                dbContext.Booking.AddRange(bookings);
                 dbContext.SaveChanges();
 
-                var invoices = new List<Invoice>();
 
-                foreach (var booking in bookings)
-                {
-                    var room = dbContext.Rooms.Find(booking.RoomID);
-
-                    var invoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
-
-                    var invoice = new Invoice
-                    {
-                        InvoiceAmount = invoiceAmount,
-                        InvoiceDue = booking.BookingEndDate,
-                        IsPaid = false,
-                    };
-
-                    invoices.Add(invoice);
-                }
-
-                dbContext.Invoices.AddRange(invoices);
-                dbContext.SaveChanges();
-
-                for (int i = 0; i < bookings.Count; i++)
-                {
-                    bookings[i].InvoiceID = invoices[i].InvoiceID;
-                }
             }
         }
     }

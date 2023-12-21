@@ -58,7 +58,7 @@ namespace MillesHotelLibrary.Services
                             IsActive = true
                         };
 
-                        _dbContext.Customers.Add(newCustomer);
+                        _dbContext.Customer.Add(newCustomer);
                         _dbContext.SaveChanges();
                         Message.InputSuccessMessage("Customer created successfully.");
                     }
@@ -84,7 +84,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var showCustomer in _dbContext.Customers)
+                foreach (var showCustomer in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
                 }
@@ -92,7 +92,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
@@ -126,7 +126,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllCustomers()
         {
-            var customers = _dbContext.Customers.ToList();
+            var customers = _dbContext.Customer.ToList();
 
             Console.WriteLine("╭─────────────╮─────────────╮─────────────╮─────╮─────────────────────────╮───────────────╮─────────╮──────────╮");
             Console.WriteLine("│Customer ID  │ First Name  │ Last Name   │ Age │ Email                   │ Phone         │ Country │ Status   │");
@@ -157,7 +157,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var showCustomer in _dbContext.Customers)
+                foreach (var showCustomer in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {showCustomer.CustomerID}");
                 }
@@ -165,7 +165,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
+                    var customer = _dbContext.Customer.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
 
                     if (customer != null)
                     {
@@ -202,7 +202,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-                foreach (var showCustomer in _dbContext.Customers.Where(c => !c.IsActive))
+                foreach (var showCustomer in _dbContext.Customer.Where(c => !c.IsActive))
                 {
                     Console.WriteLine($"Inactive CustomerID: {showCustomer.CustomerID}");
                 }
@@ -210,7 +210,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Inactive Customer ID to reactivate: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.FirstOrDefault(c => c.CustomerID == customerId && !c.IsActive);
+                    var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && !c.IsActive);
 
                     if (customer != null)
                     {
@@ -241,7 +241,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customersID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}");
                 }
@@ -249,7 +249,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
@@ -290,7 +290,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customersID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}");
                 }
@@ -298,7 +298,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
@@ -339,7 +339,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customersID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, Age: {customersID.CustomerAge}");
                 }
@@ -347,7 +347,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
@@ -393,7 +393,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.WriteLine("Available CustomerIDs:");
-                foreach (var customersID in _dbContext.Customers)
+                foreach (var customersID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, Email: {customersID.CustomerEmail}");
                 }
@@ -401,7 +401,7 @@ namespace MillesHotelLibrary.Services
                 Console.Write("Input Customer ID: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
-                    var customer = _dbContext.Customers.Find(customerId);
+                    var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
@@ -452,7 +452,7 @@ namespace MillesHotelLibrary.Services
         public void UpdateCustomerPhone()
         {
             Console.WriteLine("Available CustomerIDs:");
-            foreach (var customersID in _dbContext.Customers)
+            foreach (var customersID in _dbContext.Customer)
             {
                 Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, " +
                     $"Phone: {customersID.CustomerPhone}");
@@ -461,7 +461,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Input Customer ID: ");
             if (int.TryParse(Console.ReadLine(), out int customerId))
             {
-                var customer = _dbContext.Customers.Find(customerId);
+                var customer = _dbContext.Customer.Find(customerId);
 
                 if (customer != null)
                 {
@@ -499,7 +499,7 @@ namespace MillesHotelLibrary.Services
         public void UpdateCustomerCountry()
         {
             Console.WriteLine("Available CustomerIDs:");
-            foreach (var customersID in _dbContext.Customers)
+            foreach (var customersID in _dbContext.Customer)
             {
                 Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, " +
                     $"{customersID.CustomerCountry}");
@@ -508,7 +508,7 @@ namespace MillesHotelLibrary.Services
             Console.Write("Input Customer ID: ");
             if (int.TryParse(Console.ReadLine(), out int customerId))
             {
-                var customer = _dbContext.Customers.Find(customerId);
+                var customer = _dbContext.Customer.Find(customerId);
 
                 if (customer != null)
                 {

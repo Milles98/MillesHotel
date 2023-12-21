@@ -21,6 +21,6 @@ namespace MillesHotelLibrary.Interfaces
         public bool IsPaid { get; set; }
         public bool IsActive { get; set; }
 
-        public List<Booking>? Bookings { get; set; }
+        public Booking Booking { get; set; }
     }
 }
