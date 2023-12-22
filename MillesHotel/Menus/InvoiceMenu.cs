@@ -26,7 +26,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("╭─────────────────────────────╮");
                 Console.WriteLine("│Invoice Menu                 │");
                 Console.WriteLine("│1. Register Invoice          │");
-                Console.WriteLine("│2. See Invoice               │");
+                Console.WriteLine("│2. See Invoice Details       │");
                 Console.WriteLine("│3. See all Invoices          │");
                 Console.WriteLine("│4. See all Paid Invoices     │");
                 Console.WriteLine("│5. See all Unpaid Invoices   │");

@@ -29,7 +29,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
                 }
 
-                Console.Write("Enter Customer ID: ");
+                Console.Write("Enter Customer ID to book: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
                     var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && c.CustomerAge >= 18);
@@ -51,7 +51,7 @@ namespace MillesHotelLibrary.Services
                             {
                                 var availableRooms = _dbContext.Room
                                     .Where(room => room.Bookings
-                                        .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
+                                    .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
                                     .ToList();
 
                                 if (availableRooms.Any())
@@ -62,7 +62,8 @@ namespace MillesHotelLibrary.Services
                                         int roomSize = room.RoomSize;
                                         double roomPrice = room.RoomPrice;
 
-                                        Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} {roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
+                                        Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} " +
+                                            $"{roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
                                     }
 
                                     Console.Write("Enter room ID: ");
