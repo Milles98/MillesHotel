@@ -24,7 +24,7 @@ namespace MillesHotelLibrary.Services
             AssignInvoiceToBooking();
 
             Console.Write("Enter invoice amount: ");
-            if (double.TryParse(Console.ReadLine(), out double invoiceAmount))
+            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount))
             {
                 Console.Write("Enter invoice due date (yyyy-mm-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue))
@@ -232,7 +232,7 @@ namespace MillesHotelLibrary.Services
                 if (invoice != null)
                 {
                     Console.Write("Enter new invoice amount: ");
-                    if (double.TryParse(Console.ReadLine(), out double newInvoiceAmount))
+                    if (decimal.TryParse(Console.ReadLine(), out decimal newInvoiceAmount))
                     {
                         invoice.InvoiceAmount = newInvoiceAmount;
                         _dbContext.SaveChanges();
@@ -352,7 +352,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Amount Due: {invoice.InvoiceAmount.ToString("C2")}");
 
                     Console.Write("Enter payment amount: ");
-                    if (double.TryParse(Console.ReadLine(), out double paymentAmount))
+                    if (decimal.TryParse(Console.ReadLine(), out decimal paymentAmount))
                     {
                         if (paymentAmount == invoice.InvoiceAmount)
                         {

@@ -26,20 +26,23 @@ namespace MillesHotelLibrary.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the relationship between Booking and Room
-            //modelBuilder.Entity<Booking>()
-            //    .HasOne(b => b.Room)
-            //    .WithMany(r => r.Bookings)
-            //    .HasForeignKey(b => b.RoomID)
-            //    .IsRequired(false);
+            modelBuilder.Entity<Invoice>()
+                .Property(i => i.InvoiceAmount)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Room>()
+                .Property(r => r.RoomPrice)
+                .HasColumnType("decimal(18, 2)");
+
+            base.OnModelCreating(modelBuilder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;");
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;");
+            }
+        }
     }
 }

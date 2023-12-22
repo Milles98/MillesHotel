@@ -117,7 +117,7 @@ namespace MillesHotelLibrary.Data
 
                     booking.Invoice = invoice;
 
-                    booking.Invoice.InvoiceAmount = room.RoomPrice * (booking.BookingEndDate - booking.BookingStartDate).TotalDays;
+                    booking.Invoice.InvoiceAmount = room.RoomPrice * (decimal)(booking.BookingEndDate - booking.BookingStartDate).TotalDays;
 
                     booking.Invoice.InvoiceDue = booking.BookingStartDate.AddDays(10);
 

@@ -63,7 +63,7 @@ namespace MillesHotelLibrary.Services
                                     foreach (var room in availableRooms)
                                     {
                                         int roomSize = room.RoomSize;
-                                        double roomPrice = room.RoomPrice;
+                                        decimal roomPrice = room.RoomPrice;
 
                                         Console.WriteLine($"RoomID: {room.RoomID} {room.RoomName,-21} {room.RoomType,-11} " +
                                             $"{roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
@@ -91,7 +91,7 @@ namespace MillesHotelLibrary.Services
                                                     RoomID = roomId
                                                 };
 
-                                                double roomPrice = selectedRoom.RoomPrice;
+                                                decimal roomPrice = selectedRoom.RoomPrice;
 
                                                 var invoiceAmount = roomPrice * numberOfNights;
 
