@@ -51,7 +51,10 @@ namespace MillesHotelLibrary.Services
                             {
                                 var availableRooms = _dbContext.Room
                                     .Where(room => room.Bookings
-                                    .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate.AddDays(numberOfNights)))
+                                    .All(b =>
+                                        bookingDate >= b.BookingEndDate ||
+                                        b.BookingStartDate >= bookingDate.AddDays(numberOfNights) ||
+                                        !b.IsBooked && b.CustomerID != customerId))
                                     .ToList();
 
                                 if (availableRooms.Any())
@@ -75,7 +78,7 @@ namespace MillesHotelLibrary.Services
                                         {
                                             var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings
                                                 .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate
-                                                .AddDays(numberOfNights) || !b.IsBooked && b.CustomerID != customerId);
+                                                .AddDays(numberOfNights) || !b.IsBooked);
 
                                             if (isRoomAvailable)
                                             {
