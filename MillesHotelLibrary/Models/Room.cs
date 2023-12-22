@@ -29,7 +29,7 @@ namespace MillesHotelLibrary.Models
         public int ExtraBedsCount { get; set; }
 
         [Range(250, 3500)]
-        public double RoomPrice { get; set; }
+        public decimal RoomPrice { get; set; }
 
         public bool RoomBooked
         {

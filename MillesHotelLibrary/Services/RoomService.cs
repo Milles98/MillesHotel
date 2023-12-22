@@ -50,7 +50,7 @@ namespace MillesHotelLibrary.Services
                         }
 
                         Console.Write("Enter room price per night (between 250 and 3500): ");
-                        if (double.TryParse(Console.ReadLine(), out double roomPrice) && (roomPrice >= 250 && roomPrice <= 3500))
+                        if (decimal.TryParse(Console.ReadLine(), out decimal roomPrice) && (roomPrice >= 250 && roomPrice <= 3500))
                         {
                             var newRoom = new Room
                             {

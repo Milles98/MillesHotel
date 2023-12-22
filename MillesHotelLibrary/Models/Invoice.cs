@@ -14,7 +14,7 @@ namespace MillesHotelLibrary.Models
         public int InvoiceID { get; set; }
 
         [Required]
-        public double InvoiceAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
 
         [Required]
         public DateTime InvoiceDue { get; set; }
