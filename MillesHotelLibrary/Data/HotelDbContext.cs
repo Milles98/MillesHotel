@@ -34,12 +34,12 @@ namespace MillesHotelLibrary.Data
             //    .IsRequired(false);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer(@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;");
+        //    }
+        //}
     }
 }

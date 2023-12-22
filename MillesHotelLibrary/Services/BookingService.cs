@@ -73,9 +73,9 @@ namespace MillesHotelLibrary.Services
 
                                         if (selectedRoom != null)
                                         {
-                                            var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings.All(b =>
-                                                bookingDate >= b.BookingEndDate ||
-                                                b.BookingStartDate >= bookingDate.AddDays(7) || !b.IsBooked);
+                                            var isRoomAvailable = selectedRoom.Bookings == null || selectedRoom.Bookings
+                                                .All(b => bookingDate >= b.BookingEndDate || b.BookingStartDate >= bookingDate
+                                                .AddDays(numberOfNights) || !b.IsBooked && b.CustomerID != customerId);
 
                                             if (isRoomAvailable)
                                             {
@@ -112,7 +112,7 @@ namespace MillesHotelLibrary.Services
                                             }
                                             else
                                             {
-                                                Message.ErrorMessage("The room is not available for the selected dates. Booking not created.");
+                                                Message.ErrorMessage("No rooms are available for the selected dates or customer. Booking not created.");
                                             }
                                         }
                                         else
