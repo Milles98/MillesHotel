@@ -21,43 +21,44 @@ namespace MillesHotelLibrary.Services
         }
         public void CreateInvoice()
         {
-            AssignInvoiceToBooking();
-
-            Console.Write("Enter invoice amount: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount))
+            Console.WriteLine("Existing Invoices:");
+            foreach (var showInvoice in _dbContext.Invoice)
             {
-                Console.Write("Enter invoice due date (yyyy-mm-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue))
+                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID} InvoiceAmount: " +
+                    $"{showInvoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
+            }
+
+            Console.Write("Enter invoice amount (kr): ");
+            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount) && invoiceAmount >= 0)
+            {
+                Console.Write("Enter invoice due date (yyyy-MM-dd): ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue) && invoiceDue >= DateTime.Today)
                 {
-                    var newInvoice = new Invoice
+                    AssignInvoiceToBooking(new Invoice
                     {
                         InvoiceAmount = invoiceAmount,
                         InvoiceDue = invoiceDue,
                         IsPaid = false
-                    };
-
-                    _dbContext.Invoice.Add(newInvoice);
-                    _dbContext.SaveChanges();
-                    Message.InputSuccessMessage("Invoice created successfully.");
+                    });
                 }
                 else
                 {
-                    Message.ErrorMessage("Invalid date format. Invoice not created.");
+                    Message.ErrorMessage("Invalid or past due date format. Invoice not created.");
                 }
             }
             else
             {
-                Message.ErrorMessage("Invalid amount format. Invoice not created.");
+                Message.ErrorMessage("Invalid or negative amount format. Invoice not created.");
             }
-
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
         }
-        public void AssignInvoiceToBooking()
+        public void AssignInvoiceToBooking(Invoice newInvoice)
         {
-            foreach (var showBooking in _dbContext.Booking)
+            Console.Clear();
+            foreach (var showBooking in _dbContext.Booking.Include(b => b.Customer).Include(b => b.Invoice))
             {
-                Console.WriteLine($"BookingID: {showBooking.BookingID}");
+                Console.WriteLine($"BookingID: {showBooking.BookingID}, Customer: " +
+                    $"{showBooking.Customer.CustomerFirstName} {showBooking.Customer.CustomerLastName}, " +
+                    $"Current Invoice Amount: {showBooking.Invoice?.InvoiceAmount.ToString("C") ?? "N/A"}");
             }
 
             Console.Write("Enter Booking ID: ");
@@ -67,17 +68,29 @@ namespace MillesHotelLibrary.Services
 
                 if (booking != null)
                 {
-                    var invoice = _dbContext.Invoice.LastOrDefault();
-
-                    if (invoice != null)
+                    if (booking.InvoiceID == 0)
                     {
-                        booking.InvoiceID = invoice.InvoiceID;
+                        booking.Invoice = newInvoice;
                         _dbContext.SaveChanges();
+                        Console.Clear();
                         Message.InputSuccessMessage("Invoice assigned to booking successfully.");
                     }
                     else
                     {
-                        Message.ErrorMessage("No invoices found. Please create an invoice first.");
+                        Console.Write("A previous invoice is already assigned. Do you want to update the existing invoice? (Y/N): ");
+                        var confirmation = Console.ReadLine().Trim().ToUpper();
+
+                        if (confirmation == "Y")
+                        {
+                            booking.Invoice = newInvoice;
+                            _dbContext.SaveChanges();
+                            Console.Clear();
+                            Message.InputSuccessMessage("Invoice updated for the booking successfully.");
+                        }
+                        else
+                        {
+                            Message.InputSuccessMessage("Invoice assignment canceled.");
+                        }
                     }
                 }
                 else
