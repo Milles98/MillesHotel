@@ -12,8 +12,8 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231222095643_initial migration1")]
-    partial class initialmigration1
+    [Migration("20231222130323_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,7 +119,7 @@ namespace MillesHotelLibrary.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceID"));
 
                     b.Property<decimal>("InvoiceAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("InvoiceDue")
                         .HasColumnType("datetime2");
@@ -161,7 +161,7 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("nvarchar(19)");
 
                     b.Property<decimal>("RoomPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("RoomSize")
                         .HasColumnType("int");

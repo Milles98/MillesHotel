@@ -53,7 +53,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void AssignInvoiceToBooking()
         {
             foreach (var showBooking in _dbContext.Booking)
@@ -106,31 +105,21 @@ namespace MillesHotelLibrary.Services
             {
                 var invoice = _dbContext.Booking
                     .Include(i => i.Invoice)
+                    .Include(r => r.Room)
+                    .Include(c => c.Customer)
                     .FirstOrDefault(i => i.InvoiceID == invoiceId);
-
-
-                //Denna ska användas och den ovan köra typ en select med anonymous class likt nedan
-                //            var method5 = employees
-                //.Select(emp => new
-                //{
-                //    AnonymousClassId = emp.Id,
-                //    AnonymousClassEmail = emp.Email
-                //})
-                //.ToList();
-
-                //var invoice = _dbContext.Booking
-                //    .Include(i => i.Invoice)
-                //    .FirstOrDefault(i => i.InvoiceID == invoiceId);
 
                 if (invoice != null)
                 {
                     Console.WriteLine();
                     Console.WriteLine($"Invoice ID: {invoice.InvoiceID}");
                     Console.WriteLine($"Invoice Amount: {invoice.Invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
+                    Console.WriteLine($"Price/night: {invoice.Room.RoomPrice.ToString("C2") ?? "N/A"}");
                     Console.WriteLine($"Invoice Due: {invoice.Invoice.InvoiceDue.ToString("yyyy-MM-dd")}");
                     Console.WriteLine($"Is Paid: {invoice.Invoice.IsPaid}");
                     Console.WriteLine($"Is Active: {invoice.IsActive}");
                     Console.WriteLine($"Customer ID: {invoice.CustomerID}");
+                    Console.WriteLine($"Customer Name: {invoice.Customer.CustomerFirstName} {invoice.Customer.CustomerLastName}");
                 }
                 else
                 {
@@ -142,7 +131,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage("Invalid invoice ID format. Please enter a valid number.");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
         public void GetAllInvoices()
@@ -337,7 +326,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        //Applikationen skall kunna registrera en inkommen betalning på en faktura.
         public void RegisterPayment()
         {
             GetAllInvoices();
@@ -385,7 +373,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        //Om inte en betalning registrerats inom 10 dagar efter att bokningen är gjord annulleras bokningen dvs den upphör att gälla.
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Booking

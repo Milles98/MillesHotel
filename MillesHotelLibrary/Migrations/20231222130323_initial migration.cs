@@ -36,7 +36,7 @@ namespace MillesHotelLibrary.Migrations
                 {
                     InvoiceID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InvoiceAmount = table.Column<double>(type: "float", nullable: false),
+                    InvoiceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InvoiceDue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -57,7 +57,7 @@ namespace MillesHotelLibrary.Migrations
                     RoomType = table.Column<int>(type: "int", nullable: false),
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
                     ExtraBedsCount = table.Column<int>(type: "int", nullable: false),
-                    RoomPrice = table.Column<double>(type: "float", nullable: false),
+                    RoomPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RoomBooked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
