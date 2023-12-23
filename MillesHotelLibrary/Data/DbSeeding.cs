@@ -44,7 +44,7 @@ namespace MillesHotelLibrary.Data
                 CustomerEmail = "jeff@amazon.com", CustomerPhone = "424467683", CustomerCountry = "USA", IsActive = true },
                     new Customer { CustomerFirstName = "Mark", CustomerLastName = "Zuckerberg", CustomerAge = 60,
                 CustomerEmail = "zucker@facebook.com", CustomerPhone = "493233545", CustomerCountry = "USA", IsActive = true },
-                    new Customer { CustomerFirstName = "Mahatma", CustomerLastName = "Ghandi", CustomerAge = 90,
+                    new Customer { CustomerFirstName = "Ghandi", CustomerLastName = "Mahatma", CustomerAge = 90,
                 CustomerEmail = "mahatma@ghandi.com", CustomerPhone = "493233545", CustomerCountry = "India", IsActive = true },
                     new Customer { CustomerFirstName = "Kristofer", CustomerLastName = "Hivju", CustomerAge = 45,
                 CustomerEmail = "kris@hivju.com", CustomerPhone = "493233545", CustomerCountry = "Norway", IsActive = true },

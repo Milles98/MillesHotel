@@ -80,11 +80,9 @@ namespace MillesHotelLibrary.Services
                                         if (selectedRoom != null)
                                         {
                                             var isRoomAvailable = !_dbContext.Booking
-                                            .Where(b => b.CustomerID == customerId && b.IsBooked)
-                                            .Any(b =>
-                                             bookingDate < b.BookingEndDate && bookingDate
-                                            .AddDays(numberOfNights) > b.BookingStartDate
-                                            );
+                                            .Where(b => (b.RoomID == roomId || b.CustomerID == customer.CustomerID) && b.IsBooked)
+                                            .Any(b => bookingDate < b.BookingEndDate && bookingDate
+                                            .AddDays(numberOfNights) > b.BookingStartDate);
 
                                             if (isRoomAvailable)
                                             {
