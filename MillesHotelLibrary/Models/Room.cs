@@ -35,7 +35,7 @@ namespace MillesHotelLibrary.Models
         {
             get
             {
-                return Bookings?.Any(b => b.Occupied && BookingDatesOverlap(b, DateTime.Now, DateTime.Now.AddDays(7))) ?? false;
+                return Bookings?.Any(b => b.Occupied && BookingDatesOverlap(b, b.BookingStartDate, b.BookingEndDate)) ?? false;
             }
             set
             {
