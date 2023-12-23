@@ -24,12 +24,12 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                Console.WriteLine("=================================================================");
+                Console.WriteLine("====================================================");
                 foreach (var customerID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
                 }
-                Console.WriteLine("=================================================================");
+                Console.WriteLine("====================================================");
 
                 Console.Write("\nEnter Customer ID to book: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
@@ -180,12 +180,13 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                foreach (var bookings in _dbContext.Booking)
+                foreach (var bookings in _dbContext.Booking.Include(c => c.Customer))
                 {
-                    Console.WriteLine($"BookingID: {bookings.BookingID}");
+                    Console.WriteLine($"BookingID: {bookings.BookingID}, Customer: " +
+                        $"{bookings.Customer.CustomerFirstName} {bookings.Customer.CustomerLastName}");
                 }
 
-                Console.Write("Enter booking ID for detailed information: ");
+                Console.Write("\nEnter booking ID for detailed information: ");
 
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
@@ -200,7 +201,7 @@ namespace MillesHotelLibrary.Services
                         Console.Clear();
                         Console.WriteLine(">Detailed Booking Information<");
 
-                        Console.WriteLine("\n====================================================================");
+                        Console.WriteLine("\n=========================================");
                         Console.WriteLine($"Booking ID: {booking.BookingID}");
                         Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
                         Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
@@ -226,7 +227,7 @@ namespace MillesHotelLibrary.Services
                             Console.WriteLine($"\nCustomer ID: {booking.CustomerID}" +
                                 $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}");
                         }
-                        Console.WriteLine("====================================================================\n");
+                        Console.WriteLine("=========================================\n");
                     }
                     else
                     {
@@ -556,7 +557,8 @@ namespace MillesHotelLibrary.Services
                         .Select(room => new { RoomID = room.RoomID, RoomName = room.RoomName })
                         .ToList();
 
-                    Console.WriteLine("Available Rooms on {0}:", searchDate.ToShortDateString());
+                    Console.Clear();
+                    Console.WriteLine("Available Rooms on {0}:\n", searchDate.ToShortDateString());
                     foreach (var room in availableRooms)
                     {
                         Console.WriteLine($"Room ID: {room.RoomID}, Room Name: {room.RoomName}");
@@ -572,7 +574,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
         public void SearchAvailableIntervalRooms()
@@ -599,7 +601,8 @@ namespace MillesHotelLibrary.Services
                             .Distinct()
                             .ToList();
 
-                        Console.WriteLine($"Available Rooms between {startDate.ToShortDateString()} and {endDate.ToShortDateString()}:");
+                        Console.Clear();
+                        Console.WriteLine($"Available Rooms between {startDate.ToShortDateString()} and {endDate.ToShortDateString()}:\n");
                         foreach (var room in availableRooms)
                         {
                             Console.WriteLine($"Room ID: {room.RoomID}, Room Name: {room.RoomName}");
@@ -620,7 +623,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
         public void SearchCustomerBookings()
@@ -632,7 +635,7 @@ namespace MillesHotelLibrary.Services
                 {
                     Console.WriteLine($"Customer ID: {customer.CustomerID}, {customer.CustomerFirstName} {customer.CustomerLastName}");
                 }
-                Console.Write("\nEnter Customer ID to search for booked rooms: ");
+                Console.Write("\nEnter Customer ID to search for which rooms they have booked: ");
                 if (int.TryParse(Console.ReadLine(), out int customerID))
                 {
                     var bookedRooms = _dbContext.Booking
@@ -648,7 +651,8 @@ namespace MillesHotelLibrary.Services
 
                     if (bookedRooms.Any())
                     {
-                        Console.WriteLine($"Rooms booked by Customer ID {customerID}:");
+                        Console.Clear();
+                        Console.WriteLine($"Rooms booked by Customer ID {customerID}:\n");
                         foreach (var room in bookedRooms)
                         {
                             Console.WriteLine($"Room ID: {room.RoomID}, Room Name: {room.RoomName}");
@@ -669,7 +673,7 @@ namespace MillesHotelLibrary.Services
                 Message.ErrorMessage($"An error occurred: {ex.Message}");
             }
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
 
