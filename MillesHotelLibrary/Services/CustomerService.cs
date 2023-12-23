@@ -157,7 +157,6 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine("╰─────────────╯─────────────╯─────────────╯─────╯─────────────────────────╯───────────────╯─────────╯──────────╯");
         }
-        //Applikationen måste kontrollera om det finns bokningar innan den tar bort en kund.
         public void SoftDeleteCustomer()
         {
             try
