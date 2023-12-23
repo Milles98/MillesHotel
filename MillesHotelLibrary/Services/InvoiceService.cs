@@ -398,8 +398,11 @@ namespace MillesHotelLibrary.Services
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Booking
-                .Where(b => b.IsBooked && b.BookingStartDate <= DateTime.Now
-                .AddDays(-10) && b.Invoice != null && b.Invoice.IsPaid);
+                .Where(b => b.IsBooked &&
+                            b.BookingStartDate <= DateTime.Now.AddDays(-10) &&
+                            b.Invoice != null &&
+                            b.Invoice.IsPaid == false &&
+                            b.Invoice.InvoiceDue <= DateTime.Now);
 
             foreach (var booking in overdueBookings)
             {

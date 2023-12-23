@@ -17,7 +17,11 @@ namespace MillesHotelLibrary.Models
         public decimal InvoiceAmount { get; set; }
 
         [Required]
-        public DateTime InvoiceDue { get; set; }
+        public DateTime InvoiceDue
+        {
+            get { return Booking?.BookingStartDate.AddDays(10) ?? DateTime.MinValue; }
+            set { }
+        }
         public bool IsPaid
         {
             get
