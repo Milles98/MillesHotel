@@ -24,12 +24,14 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
+                Console.WriteLine("=================================================================");
                 foreach (var customerID in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {customerID.CustomerID}, Customer Name: {customerID.CustomerFirstName} {customerID.CustomerLastName}");
                 }
+                Console.WriteLine("=================================================================");
 
-                Console.Write("Enter Customer ID to book: ");
+                Console.Write("\nEnter Customer ID to book: ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
                     var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && c.CustomerAge >= 18);
@@ -59,6 +61,7 @@ namespace MillesHotelLibrary.Services
 
                                 if (availableRooms.Any())
                                 {
+                                    Console.Clear();
                                     Console.WriteLine("Available Rooms:");
                                     foreach (var room in availableRooms)
                                     {
@@ -69,7 +72,7 @@ namespace MillesHotelLibrary.Services
                                             $"{roomSize,-5}kvm,  Price per Night: {roomPrice,-5}kr");
                                     }
 
-                                    Console.Write("Enter room ID: ");
+                                    Console.Write("Enter room ID to book: ");
                                     if (int.TryParse(Console.ReadLine(), out int roomId))
                                     {
                                         var selectedRoom = availableRooms.FirstOrDefault(room => room.RoomID == roomId);
@@ -111,10 +114,12 @@ namespace MillesHotelLibrary.Services
                                                 _dbContext.Invoice.Add(newInvoice);
 
                                                 _dbContext.SaveChanges();
-                                                Message.InputSuccessMessage("\nBooking created successfully.");
+                                                Message.InputSuccessMessage("\nBooking created successfully!");
 
-                                                Console.WriteLine($"\nBooking details:\n{newBooking}");
-                                                Console.WriteLine($"Invoice details:\n{newInvoice}");
+                                                Console.WriteLine("===================================================================================");
+                                                Console.WriteLine($"Booking details:\n{newBooking}");
+                                                Console.WriteLine($"\nInvoice details:\n{newInvoice}");
+                                                Console.WriteLine("===================================================================================");
                                             }
                                             else
                                             {
@@ -174,6 +179,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var bookings in _dbContext.Booking)
                 {
                     Console.WriteLine($"BookingID: {bookings.BookingID}");
@@ -192,9 +198,10 @@ namespace MillesHotelLibrary.Services
                     if (booking != null)
                     {
                         Console.Clear();
-                        Console.WriteLine(">Detailed Booking Information>");
+                        Console.WriteLine(">Detailed Booking Information<");
 
-                        Console.WriteLine($"\nBooking ID: {booking.BookingID}");
+                        Console.WriteLine("\n====================================================================");
+                        Console.WriteLine($"Booking ID: {booking.BookingID}");
                         Console.WriteLine($"Booking Start Date: {booking.BookingStartDate.ToString("yyyy-MM-dd")}");
                         Console.WriteLine($"Booking End Date: {booking.BookingEndDate.ToString("yyyy-MM-dd")}");
 
@@ -217,8 +224,9 @@ namespace MillesHotelLibrary.Services
                         if (booking.Customer != null)
                         {
                             Console.WriteLine($"\nCustomer ID: {booking.CustomerID}" +
-                                $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}\n");
+                                $"\nCustomer Name: {booking.Customer.CustomerFirstName} {booking.Customer.CustomerLastName}");
                         }
+                        Console.WriteLine("====================================================================\n");
                     }
                     else
                     {
@@ -240,6 +248,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllBookings()
         {
+            Console.Clear();
             var bookings = _dbContext.Booking.ToList();
 
             Console.WriteLine("╭─────────────╮───────────────────╮───────────────────╮─────────────╮──────────╮──────────╮");
@@ -270,7 +279,7 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update: ");
+                Console.Write("Enter booking ID to update startdate: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
                     var booking = _dbContext.Booking.Find(bookingId);
@@ -320,7 +329,7 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update: ");
+                Console.Write("Enter booking ID to update enddate: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
                     var booking = _dbContext.Booking.Find(bookingId);
@@ -533,6 +542,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 Console.Write("Enter date for room availability search (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime searchDate))
                 {
@@ -569,6 +579,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 Console.Write("Enter start date for room availability search (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
                 {
@@ -616,6 +627,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var customer in _dbContext.Customer)
                 {
                     Console.WriteLine($"Customer ID: {customer.CustomerID}, {customer.CustomerFirstName} {customer.CustomerLastName}");

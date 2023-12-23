@@ -21,6 +21,7 @@ namespace MillesHotelLibrary.Services
         }
         public void CreateInvoice()
         {
+            Console.Clear();
             Console.WriteLine("Existing Invoices:");
             foreach (var showInvoice in _dbContext.Invoice)
             {
@@ -108,12 +109,13 @@ namespace MillesHotelLibrary.Services
         }
         public void GetInvoiceByID()
         {
+            Console.Clear();
             foreach (var showInvoice in _dbContext.Invoice)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
             }
 
-            Console.Write("Enter invoice ID: ");
+            Console.Write("Enter invoice ID for detailed view: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
                 var invoice = _dbContext.Booking
@@ -124,7 +126,8 @@ namespace MillesHotelLibrary.Services
 
                 if (invoice != null)
                 {
-                    Console.WriteLine();
+                    Console.Clear();
+                    Console.WriteLine("=============================================================");
                     Console.WriteLine($"Invoice ID: {invoice.InvoiceID}");
                     Console.WriteLine($"Invoice Amount: {invoice.Invoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
                     Console.WriteLine($"Price/night: {invoice.Room.RoomPrice.ToString("C2") ?? "N/A"}");
@@ -133,6 +136,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Is Active: {invoice.IsActive}");
                     Console.WriteLine($"Customer ID: {invoice.CustomerID}");
                     Console.WriteLine($"Customer Name: {invoice.Customer.CustomerFirstName} {invoice.Customer.CustomerLastName}");
+                    Console.WriteLine("=============================================================");
                 }
                 else
                 {
@@ -149,6 +153,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllInvoices()
         {
+            Console.Clear();
             var invoices = _dbContext.Booking.Include(i => i.Invoice).ToList();
 
             Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮────────────╮");
@@ -171,6 +176,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllPaidInvoices()
         {
+            Console.Clear();
             var paidInvoices = _dbContext.Booking
                 .Include(i => i.Invoice)
                 .Where(b => b.Invoice != null && b.Invoice.IsPaid)
@@ -196,6 +202,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllUnpaidInvoices()
         {
+            Console.Clear();
             var unpaidInvoices = _dbContext.Booking
                 .Include(i => i.Invoice)
                 .Where(b => b.Invoice != null && !b.Invoice.IsPaid)
@@ -221,12 +228,13 @@ namespace MillesHotelLibrary.Services
         }
         public void UpdateInvoiceAmount()
         {
+            Console.Clear();
             foreach (var showInvoice in _dbContext.Invoice)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Amount: {showInvoice.InvoiceAmount.ToString("C2")}");
             }
 
-            Console.Write("Enter invoice ID to update: ");
+            Console.Write("Enter invoice ID to update invoice amount: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
                 var invoice = _dbContext.Invoice.Find(invoiceId);
@@ -260,12 +268,13 @@ namespace MillesHotelLibrary.Services
         }
         public void UpdateInvoiceDue()
         {
+            Console.Clear();
             foreach (var showInvoice in _dbContext.Invoice)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Due: {showInvoice.InvoiceDue}");
             }
 
-            Console.Write("Enter invoice ID to update: ");
+            Console.Write("Enter invoice ID to update invoice due date: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
                 var invoice = _dbContext.Invoice.Find(invoiceId);

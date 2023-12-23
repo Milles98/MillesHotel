@@ -99,6 +99,7 @@ namespace MillesHotel.Menus
                 Console.WriteLine("│Update Invoice Menu          │");
                 Console.WriteLine("│1. Change Amount             │");
                 Console.WriteLine("│2. Change Due Date           │");
+                Console.WriteLine("│0. Back to Invoice Menu      │");
                 Console.WriteLine("╰─────────────────────────────╯");
 
                 Console.Write("Enter your choice: ");
@@ -113,7 +114,7 @@ namespace MillesHotel.Menus
                             invoiceService.UpdateInvoiceDue();
                             break;
                         case 0:
-                            Console.WriteLine("Returning to MainMenu...");
+                            Console.WriteLine("Returning to Invoice Menu...");
                             break;
                         default:
                             Message.ErrorMessage("Invalid choice. Please try again.");
