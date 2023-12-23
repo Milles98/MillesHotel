@@ -22,6 +22,7 @@ namespace MillesHotelLibrary.Services
         }
         public void CreateRoom()
         {
+            Console.Clear();
             Console.Write("Enter room name (max 19 characters): ");
             string roomName = Console.ReadLine();
 
@@ -49,7 +50,7 @@ namespace MillesHotelLibrary.Services
                             }
                         }
 
-                        Console.Write("Enter room price per night (between 250 and 3500): ");
+                        Console.Write("Enter room price per night (between 250 kr and 3500 kr): ");
                         if (decimal.TryParse(Console.ReadLine(), out decimal roomPrice) && (roomPrice >= 250 && roomPrice <= 3500))
                         {
                             var newRoom = new Room
@@ -87,6 +88,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetRoomByID()
         {
+            Console.Clear();
             foreach (var rooms in _dbContext.Room)
             {
                 Console.WriteLine($"RoomID: {rooms.RoomID}");
@@ -99,14 +101,17 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
-                    Console.WriteLine();
+                    Console.Clear();
+                    Console.WriteLine("===================================");
                     Console.WriteLine($"Room ID: {room.RoomID}");
                     Console.WriteLine($"Room Name: {room.RoomName}");
-                    Console.WriteLine($"Room Size: {room.RoomSize}");
-                    Console.WriteLine($"Room Price/Night: {room.RoomPrice}");
+                    Console.WriteLine($"Room Size: {room.RoomSize} kvm");
+                    Console.WriteLine($"Room Price/Night: {room.RoomPrice.ToString("C2")}");
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
+                    Console.WriteLine($"Extra Beds Count: {room.ExtraBedsCount}");
                     Console.WriteLine($"Is Active: {room.RoomBooked}");
+                    Console.WriteLine("===================================");
                 }
                 else
                 {
@@ -123,6 +128,7 @@ namespace MillesHotelLibrary.Services
         }
         public void GetAllRooms()
         {
+            Console.Clear();
             var rooms = _dbContext.Room.ToList();
 
             Console.WriteLine("╭───────────────╮───────────────────╮─────────────╮─────────────╮─────────────╮─────────────╮");
@@ -315,6 +321,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var room in _dbContext.Room)
                 {
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
@@ -360,6 +367,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var showRoom in _dbContext.Room.Where(r => !r.IsActive))
                 {
                     Console.WriteLine($"RoomID: {showRoom.RoomID}, RoomType: {showRoom.RoomType}, " +

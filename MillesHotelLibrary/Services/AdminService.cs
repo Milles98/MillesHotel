@@ -23,12 +23,13 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var room in _dbContext.Room)
                 {
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
                 }
 
-                Console.Write("Enter room ID to delete: ");
+                Console.Write("Enter room ID to permanently delete: ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
                     var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
@@ -69,6 +70,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
+                Console.Clear();
                 foreach (var showCustomer in _dbContext.Customer)
                 {
                     Console.WriteLine($"CustomerID: {showCustomer.CustomerID}, Name: " +
@@ -118,6 +120,7 @@ namespace MillesHotelLibrary.Services
 
         public void DeleteInvoice()
         {
+            Console.Clear();
             Console.Write("Enter invoice ID to permanently delete: ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
@@ -127,7 +130,7 @@ namespace MillesHotelLibrary.Services
                 {
                     _dbContext.Invoice.Remove(invoice);
                     _dbContext.SaveChanges();
-                    Message.InputSuccessMessage("Invoice soft deleted successfully.");
+                    Message.InputSuccessMessage("Invoice permanently deleted successfully.");
                 }
                 else
                 {
@@ -147,7 +150,7 @@ namespace MillesHotelLibrary.Services
         {
             try
             {
-
+                Console.Clear();
                 Console.Write("Enter booking ID to permanently delete: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
@@ -179,15 +182,19 @@ namespace MillesHotelLibrary.Services
         }
         public void GetNumberOfCustomers()
         {
+            Console.Clear();
             var numberOfCustomers = _dbContext.Customer.Count();
+            Console.WriteLine("============================");
             Console.WriteLine($"Number of Customers: {numberOfCustomers}");
+            Console.WriteLine("============================");
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
 
         public void GetTop10CustomersByBooking()
         {
+            Console.Clear();
             var topCustomersByBooking = _dbContext.Customer
                 .Select(c => new
                 {
@@ -204,18 +211,21 @@ namespace MillesHotelLibrary.Services
                     BookingCount = x.BookingCount
                 });
 
+            Console.WriteLine("=========================================================");
             foreach (var item in topCustomersByBooking)
             {
                 Console.WriteLine($"{item.Rank}. {item.Customer.CustomerFirstName} " +
                     $"{item.Customer.CustomerLastName}, Bookings: {item.BookingCount}");
             }
+            Console.WriteLine("=========================================================");
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
 
         public void GetTop10CustomersByCountry()
         {
+            Console.Clear();
             var topCustomersByCountry = _dbContext.Customer
                 .GroupBy(c => c.CustomerCountry)
                 .ToList()
@@ -228,12 +238,14 @@ namespace MillesHotelLibrary.Services
                     CustomerCount = group.Count()
                 });
 
+            Console.WriteLine("=========================================================");
             foreach (var item in topCustomersByCountry)
             {
                 Console.WriteLine($"{item.Rank}. {item.Country}: {item.CustomerCount} customers");
             }
+            Console.WriteLine("=========================================================");
 
-            Console.WriteLine("Press any button to continue...");
+            Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
 
