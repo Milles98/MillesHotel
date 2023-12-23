@@ -56,7 +56,7 @@ namespace MillesHotelLibrary.Services
                                     .All(b =>
                                         bookingDate >= b.BookingEndDate ||
                                         b.BookingStartDate >= bookingDate.AddDays(numberOfNights) ||
-                                        !b.IsBooked && b.CustomerID != customerId))
+                                        !b.Occupied && b.CustomerID != customerId))
                                     .ToList();
 
                                 if (availableRooms.Any())
@@ -80,7 +80,7 @@ namespace MillesHotelLibrary.Services
                                         if (selectedRoom != null)
                                         {
                                             var isRoomAvailable = !_dbContext.Booking
-                                            .Where(b => (b.RoomID == roomId || b.CustomerID == customer.CustomerID) && b.IsBooked)
+                                            .Where(b => (b.RoomID == roomId || b.CustomerID == customer.CustomerID) && b.Occupied)
                                             .Any(b => bookingDate < b.BookingEndDate && bookingDate
                                             .AddDays(numberOfNights) > b.BookingStartDate);
 
@@ -90,7 +90,7 @@ namespace MillesHotelLibrary.Services
                                                 {
                                                     BookingStartDate = bookingDate,
                                                     BookingEndDate = bookingDate.AddDays(numberOfNights),
-                                                    IsBooked = true,
+                                                    Occupied = true,
                                                     CustomerID = customer.CustomerID,
                                                     RoomID = roomId
                                                 };
@@ -421,7 +421,9 @@ namespace MillesHotelLibrary.Services
 
                     if (booking != null && booking.IsActive)
                     {
-                        booking.IsBooked = false;
+                        var roomId = booking.RoomID;
+
+                        booking.Occupied = false;
                         booking.IsActive = false;
 
                         if (booking.Invoice != null)
@@ -431,6 +433,25 @@ namespace MillesHotelLibrary.Services
                         }
 
                         _dbContext.SaveChanges();
+
+                        var room = _dbContext.Room.Find(roomId);
+                        if (room != null)
+                        {
+                            if (room.Bookings != null)
+                            {
+                                foreach (var roomBooking in room.Bookings)
+                                {
+                                    roomBooking.Occupied = false;
+                                }
+                            }
+
+                            room.RoomBooked = room.Bookings?.Any(b =>
+                                b.Occupied && Room.BookingDatesOverlap(b, DateTime.Now, DateTime.Now.AddDays(7))
+                            ) ?? false;
+
+                            _dbContext.SaveChanges();
+                        }
+
                         Message.InputSuccessMessage("Booking canceled successfully.");
                     }
                     else

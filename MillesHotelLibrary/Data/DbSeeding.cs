@@ -109,7 +109,7 @@ namespace MillesHotelLibrary.Data
                     {
                         BookingStartDate = DateTime.Now.AddDays(i).Date,
                         BookingEndDate = DateTime.Now.AddDays(i + 7).Date,
-                        IsBooked = true,
+                        Occupied = true,
                         Customer = customers[i],
                         RoomID = room.RoomID,
                         InvoiceID = invoice.InvoiceID

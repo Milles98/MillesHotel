@@ -406,7 +406,7 @@ namespace MillesHotelLibrary.Services
         public List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople)
         {
             var bookedRoomIds = _dbContext.Booking
-                .Where(b => b.IsBooked && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
+                .Where(b => b.Occupied && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
                 .Select(b => b.RoomID)
                 .ToList();
 

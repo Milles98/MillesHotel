@@ -18,7 +18,7 @@ namespace MillesHotelLibrary.Models
         public DateTime BookingStartDate { get; set; }
         [Required]
         public DateTime BookingEndDate { get; set; }
-        public bool IsBooked
+        public bool Occupied
         {
             get
             {
