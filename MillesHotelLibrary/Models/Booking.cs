@@ -24,9 +24,7 @@ namespace MillesHotelLibrary.Models
             {
                 return BookingStartDate <= DateTime.Now && DateTime.Now <= BookingEndDate;
             }
-            set
-            {
-            }
+            set { }
         }
 
         public bool IsActive { get; set; } = true;

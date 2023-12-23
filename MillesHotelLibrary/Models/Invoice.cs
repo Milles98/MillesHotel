@@ -28,10 +28,7 @@ namespace MillesHotelLibrary.Models
             {
                 return !IsActive && DateTime.Now <= InvoiceDue;
             }
-            set
-            {
-
-            }
+            set { }
         }
         public bool IsActive { get; set; } = true;
 

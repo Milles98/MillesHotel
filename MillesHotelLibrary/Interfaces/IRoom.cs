@@ -31,8 +31,6 @@ namespace MillesHotelLibrary.Interfaces
         [Range(250, 3500)]
         public decimal RoomPrice { get; set; }
 
-        public List<Booking>? Bookings { get; set; }
-
         public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end);
 
     }

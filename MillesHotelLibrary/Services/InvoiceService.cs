@@ -182,23 +182,30 @@ namespace MillesHotelLibrary.Services
                 .Where(b => b.Invoice != null && b.Invoice.IsPaid)
                 .ToList();
 
-            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │");
-            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
-
-            foreach (var booking in paidInvoices)
+            if (paidInvoices.Any())
             {
-                var invoice = booking.Invoice;
+                Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮─────────────╮");
+                Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │ IsActive    │");
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤─────────────┤");
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
-                    $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{"True",-13}│");
+                foreach (var booking in paidInvoices)
+                {
+                    var invoice = booking.Invoice;
 
-                Console.ResetColor();
-                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                        $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{invoice?.IsPaid,-13}│{invoice?.IsActive,-13}│");
+
+                    Console.ResetColor();
+                    Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤─────────────┤");
+                }
+
+                Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯─────────────╯");
             }
-
-            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯");
+            else
+            {
+                Console.WriteLine("No invoices have been paid yet.\n");
+            }
         }
         public void GetAllUnpaidInvoices()
         {
@@ -208,23 +215,30 @@ namespace MillesHotelLibrary.Services
                 .Where(b => b.Invoice != null && !b.Invoice.IsPaid)
                 .ToList();
 
-            Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮");
-            Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │");
-            Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
 
-            foreach (var booking in unpaidInvoices)
+            if (unpaidInvoices.Any())
             {
-                var invoice = booking.Invoice;
+                Console.WriteLine("╭──────────────╮────────────────────╮──────────────────╮────────────╮─────────────╮─────────────╮");
+                Console.WriteLine("│ Invoice ID   │ Invoice Due        │ Invoice Amount   │ Customer ID│ IsPaid      │ IsActive    │");
+                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤─────────────┤");
+                foreach (var booking in unpaidInvoices)
+                {
+                    var invoice = booking.Invoice;
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
-                    $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{"No",-13}│");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"│{invoice?.InvoiceID,-14}│{invoice?.InvoiceDue.ToString("yyyy-MM-dd"),-20}│" +
+                        $"{invoice?.InvoiceAmount.ToString("C2") ?? "N/A",-18}│{booking?.CustomerID,-12}│{invoice?.IsPaid,-13}│{invoice?.IsActive,-13}│");
 
-                Console.ResetColor();
-                Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤");
+                    Console.ResetColor();
+                    Console.WriteLine("├──────────────┼────────────────────┼──────────────────┼────────────┤─────────────┤─────────────┤");
+                }
+
+                Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯─────────────╯");
             }
-
-            Console.WriteLine("╰──────────────╯────────────────────╯──────────────────╯────────────╯─────────────╯");
+            else
+            {
+                Console.WriteLine("All invoices are paid.\n");
+            }
         }
         public void UpdateInvoiceAmount()
         {
