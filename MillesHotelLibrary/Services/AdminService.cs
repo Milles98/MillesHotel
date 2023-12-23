@@ -18,7 +18,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-
         public void DeleteRoom()
         {
             try
@@ -65,7 +64,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void DeleteCustomer()
         {
             try
@@ -117,7 +115,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void DeleteInvoice()
         {
             Console.Clear();
@@ -145,7 +142,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-
         public void DeleteBooking()
         {
             try
@@ -191,7 +187,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
         public void GetTop10CustomersByBooking()
         {
             Console.Clear();
@@ -222,7 +217,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
         public void GetTop10CustomersByCountry()
         {
             Console.Clear();
@@ -248,6 +242,5 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
     }
 }

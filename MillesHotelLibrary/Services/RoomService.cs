@@ -403,10 +403,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
-        //Det skall gå att avboka ett rum eller ändra en bokning.
-
-        //Applikationen skall hantera bokningar och visa vilka rum som är lediga under en viss period.
-        //Det skall gå att söka på ett datum eller datumintervall och antal personer och få fram alla lediga rum som motsvarar sökningen.
         public List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople)
         {
             var bookedRoomIds = _dbContext.Booking
