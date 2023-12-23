@@ -45,7 +45,7 @@ namespace MillesHotelLibrary.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsBooked")
+                    b.Property<bool>("Occupied")
                         .HasColumnType("bit");
 
                     b.Property<int>("RoomID")

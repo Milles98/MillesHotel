@@ -63,7 +63,7 @@ namespace MillesHotel
             {
                 if (booking.BookingEndDate < DateTime.Now)
                 {
-                    booking.IsBooked = false;
+                    booking.Occupied = false;
                 }
             }
 

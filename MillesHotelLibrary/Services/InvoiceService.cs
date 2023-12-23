@@ -412,7 +412,7 @@ namespace MillesHotelLibrary.Services
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Booking
-                .Where(b => b.IsBooked &&
+                .Where(b => b.Occupied &&
                             b.BookingStartDate <= DateTime.Now.AddDays(-10) &&
                             b.Invoice != null &&
                             b.Invoice.IsPaid == false &&
@@ -420,7 +420,7 @@ namespace MillesHotelLibrary.Services
 
             foreach (var booking in overdueBookings)
             {
-                booking.IsBooked = false;
+                booking.Occupied = false;
 
                 booking.Invoice.IsActive = false;
                 booking.Invoice.IsPaid = false;
