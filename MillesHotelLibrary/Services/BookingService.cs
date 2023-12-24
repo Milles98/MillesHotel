@@ -24,9 +24,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                Console.WriteLine("====================================================");
                 DisplayCustomerList();
-                Console.WriteLine("====================================================");
 
                 Console.Write("Enter Customer ID to book: ");
 
@@ -73,10 +71,12 @@ namespace MillesHotelLibrary.Services
         }
         public void DisplayCustomerList()
         {
+            Console.WriteLine("====================================================");
             foreach (var customer in _dbContext.Customer)
             {
                 Console.WriteLine($"CustomerID: {customer.CustomerID}, Customer Name: {customer.CustomerFirstName} {customer.CustomerLastName}");
             }
+            Console.WriteLine("====================================================");
         }
         public bool TryGetCustomer(int customerId, out Customer customer)
         {
@@ -687,10 +687,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                foreach (var customer in _dbContext.Customer)
-                {
-                    Console.WriteLine($"Customer ID: {customer.CustomerID}, {customer.CustomerFirstName} {customer.CustomerLastName}");
-                }
+                DisplayCustomerList();
                 Console.Write("\nEnter Customer ID to search for which rooms they have booked: ");
                 if (int.TryParse(Console.ReadLine(), out int customerID))
                 {
