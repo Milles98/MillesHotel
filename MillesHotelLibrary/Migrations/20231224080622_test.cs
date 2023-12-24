@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class initialtest : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,6 @@ namespace MillesHotelLibrary.Migrations
                     ExtraBeds = table.Column<bool>(type: "bit", nullable: false),
                     ExtraBedsCount = table.Column<int>(type: "int", nullable: false),
                     RoomPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RoomBooked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -74,7 +73,6 @@ namespace MillesHotelLibrary.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookingStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookingEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Occupied = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     RoomID = table.Column<int>(type: "int", nullable: false),

@@ -12,8 +12,8 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20231223181958_initial test")]
-    partial class initialtest
+    [Migration("20231224080622_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,9 +46,6 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Occupied")
                         .HasColumnType("bit");
 
                     b.Property<int>("RoomID")
@@ -150,9 +147,6 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RoomBooked")
                         .HasColumnType("bit");
 
                     b.Property<string>("RoomName")

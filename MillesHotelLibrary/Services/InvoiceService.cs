@@ -412,18 +412,25 @@ namespace MillesHotelLibrary.Services
         public void CheckAndDeactivateOverdueBookings()
         {
             var overdueBookings = _dbContext.Booking
-                .Where(b => b.Occupied &&
-                            b.BookingStartDate <= DateTime.Now.AddDays(-10) &&
+                .Where(b => b.BookingStartDate <= DateTime.UtcNow.AddDays(-10) &&
                             b.Invoice != null &&
                             b.Invoice.IsPaid == false &&
-                            b.Invoice.InvoiceDue <= DateTime.Now);
+                            b.Invoice.InvoiceDue <= DateTime.UtcNow)
+                .AsEnumerable() // Evaluate client-side
+                .Where(b => b.IsOccupied());
 
             foreach (var booking in overdueBookings)
             {
-                booking.Occupied = false;
+                booking.IsActive = false;
+                booking.IsOccupied();
 
-                booking.Invoice.IsActive = false;
-                booking.Invoice.IsPaid = false;
+                if (booking.Invoice != null)
+                {
+                    booking.Invoice.IsActive = false;
+                    _dbContext.Entry(booking.Invoice).State = EntityState.Modified;
+                }
+
+                _dbContext.Entry(booking).State = EntityState.Modified;
             }
 
             _dbContext.SaveChanges();

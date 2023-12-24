@@ -18,14 +18,6 @@ namespace MillesHotelLibrary.Models
         public DateTime BookingStartDate { get; set; }
         [Required]
         public DateTime BookingEndDate { get; set; }
-        public bool Occupied
-        {
-            get
-            {
-                return BookingStartDate <= DateTime.Now && DateTime.Now <= BookingEndDate;
-            }
-            set { }
-        }
 
         public bool IsActive { get; set; } = true;
 
@@ -37,6 +29,10 @@ namespace MillesHotelLibrary.Models
         public Room Room { get; set; }
         public Invoice Invoice { get; set; }
 
+        public bool IsOccupied()
+        {
+            return BookingStartDate <= DateTime.UtcNow && DateTime.UtcNow <= BookingEndDate;
+        }
         public override string ToString()
         {
             return $"BookingID: {BookingID}, StartDate: {BookingStartDate:yyyy-MM-dd}, EndDate " +

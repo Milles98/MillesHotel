@@ -20,8 +20,8 @@ namespace MillesHotelLibrary.Interfaces
         [Range(20, 3000)]
         public int RoomSize { get; set; }
 
-        [Required]
-        public bool RoomBooked { get; set; }
+        //[Required]
+        //public bool RoomBooked { get; set; }
 
         public bool ExtraBeds { get; set; }
 
