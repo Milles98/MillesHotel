@@ -17,7 +17,7 @@ namespace MillesHotelLibrary.Interfaces
         public DateTime BookingStartDate { get; set; }
         [Required]
         public DateTime BookingEndDate { get; set; }
-        public bool Occupied { get; set; }
+        //public bool IsOccupied { get; set; }
         public bool IsActive { get; set; }
 
         public int CustomerID { get; set; }

@@ -31,26 +31,14 @@ namespace MillesHotelLibrary.Models
         [Range(250, 3500)]
         public decimal RoomPrice { get; set; }
 
-        public bool RoomBooked
-        {
-            get
-            {
-                return Bookings?.Any(b => b.Occupied && BookingDatesOverlap(b, b.BookingStartDate, b.BookingEndDate)) ?? false;
-            }
-            set
-            {
-                if (Bookings != null)
-                {
-                    foreach (var booking in Bookings)
-                    {
-                        booking.Occupied = value;
-                    }
-                }
-            }
-        }
         public bool IsActive { get; set; } = true;
 
         public List<Booking>? Bookings { get; set; }
+        public bool IsRoomBooked()
+        {
+            // Use AsEnumerable() to switch to client-side evaluation
+            return Bookings?.AsEnumerable().Any(b => b.IsOccupied() && BookingDatesOverlap(b, b.BookingStartDate, b.BookingEndDate)) ?? false;
+        }
 
         public static bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end)
         {

@@ -60,7 +60,7 @@ namespace MillesHotelLibrary.Services
                                 RoomType = roomType,
                                 ExtraBedsCount = extraBedsCount,
                                 RoomPrice = roomPrice,
-                                RoomBooked = true
+                                //RoomBooked = true
                             };
 
                             _dbContext.Room.Add(newRoom);
@@ -110,7 +110,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
                     Console.WriteLine($"Extra Beds Count: {room.ExtraBedsCount}");
-                    Console.WriteLine($"Is Active: {room.RoomBooked}");
+                    //Console.WriteLine($"Is Active: {room.RoomBooked}");
                     Console.WriteLine("===================================");
                 }
                 else
@@ -406,12 +406,12 @@ namespace MillesHotelLibrary.Services
         public List<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numPeople)
         {
             var bookedRoomIds = _dbContext.Booking
-                .Where(b => b.Occupied && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
+                .Where(b => b.IsOccupied() && !(b.BookingEndDate <= startDate || b.BookingStartDate >= endDate))
                 .Select(b => b.RoomID)
                 .ToList();
 
             var availableRooms = _dbContext.Room
-                .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.RoomBooked && r.RoomSize >= numPeople)
+                .Where(r => !bookedRoomIds.Contains(r.RoomID) && r.IsRoomBooked() && r.RoomSize >= numPeople)
                 .ToList();
 
             return availableRooms;
