@@ -189,7 +189,7 @@ namespace MillesHotelLibrary.Services
 
             if (!isRoomAvailable)
             {
-                Message.ErrorMessage("The customer has already booked a room for the selected dates. Booking not created.");
+                Message.ErrorMessage("Booking not created. The selected room is not available for the chosen dates.");
                 return false;
             }
 
