@@ -29,8 +29,15 @@ namespace MillesHotelLibrary.Services
                     $"{showInvoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
             }
 
-            Console.Write("Enter invoice amount (kr): ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount) && invoiceAmount >= 0)
+            Console.WriteLine("Create a new Invoice:");
+
+            decimal minInvoiceAmount = 100m;
+            decimal maxInvoiceAmount = 150000m;
+
+            Console.Write($"Enter invoice amount (between {minInvoiceAmount:C} and {maxInvoiceAmount:C}): ");
+
+            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount) &&
+                invoiceAmount >= minInvoiceAmount && invoiceAmount <= maxInvoiceAmount)
             {
                 Console.Write("Enter invoice due date (yyyy-MM-dd): ");
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue) && invoiceDue >= DateTime.Today)
@@ -49,7 +56,7 @@ namespace MillesHotelLibrary.Services
             }
             else
             {
-                Message.ErrorMessage("Invalid or negative amount format. Invoice not created.");
+                Message.ErrorMessage($"Invalid amount format. Invoice amount must be between {minInvoiceAmount:C} and {maxInvoiceAmount:C}. Invoice not created.");
             }
         }
         public void AssignInvoiceToBooking(Invoice newInvoice)
@@ -62,7 +69,7 @@ namespace MillesHotelLibrary.Services
                     $"Current Invoice Amount: {showBooking.Invoice?.InvoiceAmount.ToString("C") ?? "N/A"}");
             }
 
-            Console.Write("Enter Booking ID: ");
+            Console.Write("Enter Booking ID to assign the invoice: ");
             if (int.TryParse(Console.ReadLine(), out int bookingId))
             {
                 var booking = _dbContext.Booking.Find(bookingId);
@@ -90,7 +97,7 @@ namespace MillesHotelLibrary.Services
                         }
                         else
                         {
-                            Message.InputSuccessMessage("Invoice assignment canceled.");
+                            Message.InputSuccessMessage("Invoice assignment/update canceled.");
                         }
                     }
                 }
@@ -416,7 +423,7 @@ namespace MillesHotelLibrary.Services
                             b.Invoice != null &&
                             b.Invoice.IsPaid == false &&
                             b.Invoice.InvoiceDue <= DateTime.UtcNow)
-                .AsEnumerable() // Evaluate client-side
+                .AsEnumerable()
                 .Where(b => b.IsOccupied());
 
             foreach (var booking in overdueBookings)
