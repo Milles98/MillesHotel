@@ -122,13 +122,14 @@ namespace MillesHotelLibrary.Services
             var allBookings = _dbContext.Booking.ToList();
             var allRooms = _dbContext.Room.ToList();
 
+            var bookedRoomIds = allBookings
+                .Where(b => b.CustomerID == customerId && b.IsActive &&
+                            (bookingDate < b.BookingEndDate && bookingDate.AddDays(numberOfNights) > b.BookingStartDate))
+                .Select(b => b.RoomID)
+                .ToList();
+
             var availableRoomIds = allRooms
-                .Where(room => room.IsActive && allBookings
-                    .Where(b => b.RoomID == room.RoomID)
-                    .All(b =>
-                        bookingDate >= b.BookingEndDate ||
-                        bookingDate.AddDays(numberOfNights) <= b.BookingStartDate ||
-                        (!b.IsOccupied() && b.CustomerID == customerId)))
+                .Where(room => room.IsActive && !bookedRoomIds.Contains(room.RoomID))
                 .Select(room => room.RoomID)
                 .ToList();
 
@@ -398,41 +399,6 @@ namespace MillesHotelLibrary.Services
                         {
                             Message.ErrorMessage("Invalid date format. Booking information not updated.");
                         }
-                    }
-                    else
-                    {
-                        Message.ErrorMessage("Booking not found.");
-                    }
-                }
-                else
-                {
-                    Message.ErrorMessage("Invalid booking ID. Please enter a valid number.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Message.ErrorMessage($"An error occurred: {ex.Message}");
-            }
-
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
-        }
-        public void SoftDeleteBooking()
-        {
-            try
-            {
-                GetAllBookings();
-
-                Console.Write("Enter booking ID to soft delete: ");
-                if (int.TryParse(Console.ReadLine(), out int bookingId))
-                {
-                    var booking = _dbContext.Booking.Find(bookingId);
-
-                    if (booking != null)
-                    {
-                        booking.IsActive = false;
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Booking soft deleted successfully.");
                     }
                     else
                     {
