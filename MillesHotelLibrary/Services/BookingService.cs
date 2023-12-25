@@ -72,10 +72,14 @@ namespace MillesHotelLibrary.Services
         public void DisplayCustomerList()
         {
             Console.WriteLine("====================================================");
-            foreach (var customer in _dbContext.Customer)
+
+            var activeCustomers = _dbContext.Customer.Where(c => c.IsActive);
+
+            foreach (var customer in activeCustomers)
             {
                 Console.WriteLine($"CustomerID: {customer.CustomerID}, Customer Name: {customer.CustomerFirstName} {customer.CustomerLastName}");
             }
+
             Console.WriteLine("====================================================");
         }
         public bool TryGetCustomer(int customerId, out Customer customer)
@@ -119,21 +123,15 @@ namespace MillesHotelLibrary.Services
         }
         public List<Room> GetAvailableRooms(int customerId, DateTime bookingDate, int numberOfNights)
         {
-            var allBookings = _dbContext.Booking.ToList();
-            var allRooms = _dbContext.Room.ToList();
-
-            var bookedRoomIds = allBookings
+            var activeBookings = _dbContext.Booking
                 .Where(b => b.CustomerID == customerId && b.IsActive &&
                             (bookingDate < b.BookingEndDate && bookingDate.AddDays(numberOfNights) > b.BookingStartDate))
-                .Select(b => b.RoomID)
                 .ToList();
 
-            var availableRoomIds = allRooms
+            var bookedRoomIds = activeBookings.Select(b => b.RoomID).ToList();
+            var availableRooms = _dbContext.Room
                 .Where(room => room.IsActive && !bookedRoomIds.Contains(room.RoomID))
-                .Select(room => room.RoomID)
                 .ToList();
-
-            var availableRooms = allRooms.Where(room => availableRoomIds.Contains(room.RoomID)).ToList();
 
             return availableRooms;
         }
@@ -172,12 +170,22 @@ namespace MillesHotelLibrary.Services
             }
 
             var existingBookings = _dbContext.Booking
-        .Where(b => b.RoomID == roomId || b.CustomerID == customer.CustomerID)
-        .ToList();
+                .Where(b => b.RoomID == roomId || b.CustomerID == customer.CustomerID)
+                .ToList();
 
-            var isRoomAvailable = existingBookings
-                .Where(b => !b.IsOccupied())
-                .All(b => bookingDate >= b.BookingEndDate || bookingDate.AddDays(numberOfNights) <= b.BookingStartDate);
+            Console.WriteLine($"Input Booking Date: {bookingDate:yyyy-MM-dd}");
+            Console.WriteLine("=============================================================================================");
+
+            foreach (var booking in existingBookings.Where(b => b.IsActive))
+            {
+                Console.WriteLine($"Existing Booking: ID {booking.BookingID}, Room ID {booking.RoomID}, " +
+                    $"Start Date: {booking.BookingStartDate:yyyy-MM-dd}, End Date: {booking.BookingEndDate:yyyy-MM-dd} Active: {booking.IsActive}");
+            }
+
+            Console.WriteLine("=============================================================================================");
+
+            var isRoomAvailable = existingBookings.All(b =>
+                bookingDate >= b.BookingEndDate || bookingDate.AddDays(numberOfNights) <= b.BookingStartDate || !b.IsActive);
 
             if (!isRoomAvailable)
             {

@@ -108,7 +108,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine("===================================");
                     Console.WriteLine($"Room ID: {room.RoomID}");
                     Console.WriteLine($"Room Name: {room.RoomName}");
-                    Console.WriteLine($"Room Size: {room.RoomSize} kvm");
+                    Console.WriteLine($"Room Size: {room.RoomSize} m²");
                     Console.WriteLine($"Room Price/Night: {room.RoomPrice.ToString("C2")}");
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");

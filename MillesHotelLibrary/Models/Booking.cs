@@ -31,7 +31,7 @@ namespace MillesHotelLibrary.Models
 
         public bool IsOccupied()
         {
-            return BookingStartDate <= DateTime.UtcNow && DateTime.UtcNow <= BookingEndDate;
+            return IsActive && BookingStartDate <= DateTime.UtcNow && DateTime.UtcNow <= BookingEndDate;
         }
         public override string ToString()
         {
