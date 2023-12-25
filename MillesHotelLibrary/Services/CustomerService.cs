@@ -175,7 +175,7 @@ namespace MillesHotelLibrary.Services
 
                     if (customer != null)
                     {
-                        if (customer.Bookings == null || !customer.Bookings.Any())
+                        if (customer.Bookings == null || customer.Bookings.All(b => !b.IsActive))
                         {
                             customer.IsActive = false;
                             _dbContext.SaveChanges();
