@@ -20,9 +20,6 @@ namespace MillesHotelLibrary.Interfaces
         [Range(20, 3000)]
         public int RoomSize { get; set; }
 
-        //[Required]
-        //public bool RoomBooked { get; set; }
-
         public bool ExtraBeds { get; set; }
 
         [Range(0, 3)]
@@ -30,8 +27,6 @@ namespace MillesHotelLibrary.Interfaces
 
         [Range(250, 3500)]
         public decimal RoomPrice { get; set; }
-
-        //public bool BookingDatesOverlap(Booking booking, DateTime start, DateTime end);
 
     }
 }

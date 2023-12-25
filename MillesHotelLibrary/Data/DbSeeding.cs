@@ -100,7 +100,7 @@ namespace MillesHotelLibrary.Data
 
                 var bookings = new List<Booking>();
 
-                for (int i = 0; i < rooms.Count; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     var room = rooms[i];
                     var invoice = invoices[i];
