@@ -114,11 +114,10 @@ namespace MillesHotelLibrary.Services
         public List<Room> GetAvailableRooms(int customerId, DateTime bookingDate, int numberOfNights)
         {
             var allBookings = _dbContext.Booking.ToList();
-
             var allRooms = _dbContext.Room.ToList();
 
             var availableRoomIds = allRooms
-                .Where(room => allBookings
+                .Where(room => room.IsActive && allBookings
                     .Where(b => b.RoomID == room.RoomID)
                     .All(b =>
                         bookingDate >= b.BookingEndDate ||

@@ -42,12 +42,15 @@ namespace MillesHotelLibrary.Services
 
                         if (roomType == RoomType.DoubleRoom && roomSize >= 30)
                         {
+                            Console.WriteLine("Roomsize is over or equal to 30kvm, you can now decide extra beds!");
                             Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
+
                             if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
                             {
                                 Message.ErrorMessage("Invalid input for extra beds. Room not created.");
                                 return;
                             }
+
                         }
 
                         Console.Write("Enter room price per night (between 250 kr and 3500 kr): ");
@@ -58,9 +61,9 @@ namespace MillesHotelLibrary.Services
                                 RoomName = roomName,
                                 RoomSize = roomSize,
                                 RoomType = roomType,
+                                ExtraBeds = extraBedsCount > 0 && extraBedsCount <= 2,
                                 ExtraBedsCount = extraBedsCount,
                                 RoomPrice = roomPrice,
-                                //RoomBooked = true
                             };
 
                             _dbContext.Room.Add(newRoom);
@@ -110,7 +113,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Room Type: {room.RoomType}");
                     Console.WriteLine($"Has Extra Beds: {room.ExtraBeds}");
                     Console.WriteLine($"Extra Beds Count: {room.ExtraBedsCount}");
-                    //Console.WriteLine($"Is Active: {room.RoomBooked}");
+                    Console.WriteLine($"IsActive: {room.IsActive}");
                     Console.WriteLine("===================================");
                 }
                 else
@@ -192,7 +195,7 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
-                    Console.WriteLine("Lowest: 250, Max: 3500");
+                    Console.WriteLine("Lowest: 250 kr, Max: 3500 kr");
                     Console.Write("Enter new room price: ");
                     if (int.TryParse(Console.ReadLine(), out int newRoomPrice))
                     {
@@ -275,15 +278,26 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter new room type (SingleRoom/DoubleRoom): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                     {
-                        room.RoomType = newRoomType;
-
-                        if (room.RoomType == RoomType.DoubleRoom && room.RoomSize >= 250)
+                        if (newRoomType == RoomType.SingleRoom && room.RoomSize < 30)
                         {
-                            AddExtraBeds(room);
+                            room.RoomType = newRoomType;
+                            _dbContext.SaveChanges();
+                            Message.InputSuccessMessage("Room type updated successfully.");
                         }
-
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Room type updated successfully.");
+                        else if (newRoomType == RoomType.DoubleRoom && room.RoomSize >= 30 && room.RoomSize <= 100)
+                        {
+                            room.RoomType = newRoomType;
+                            if (room.RoomType == RoomType.DoubleRoom && room.RoomSize >= 30)
+                            {
+                                AddExtraBeds(room);
+                            }
+                            _dbContext.SaveChanges();
+                            Message.InputSuccessMessage("Room type updated successfully.");
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Invalid room type or room size. Room type not updated.");
+                        }
                     }
                     else
                     {
@@ -334,15 +348,17 @@ namespace MillesHotelLibrary.Services
 
                     if (room != null)
                     {
-                        if (room.Bookings == null || !room.Bookings.Any())
+                        // Check if all bookings have Booking.IsActive = false
+                        if (room.Bookings == null || room.Bookings.All(b => !b.IsActive))
                         {
+                            // Set Room.IsActive to false
                             room.IsActive = false;
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Room soft deleted successfully.");
                         }
                         else
                         {
-                            Message.ErrorMessage("Cannot delete room with associated bookings. Please remove bookings first.");
+                            Message.ErrorMessage("Cannot delete room. Some bookings are still active.");
                         }
                     }
                     else
