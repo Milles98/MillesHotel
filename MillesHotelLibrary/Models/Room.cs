@@ -36,7 +36,6 @@ namespace MillesHotelLibrary.Models
         public List<Booking>? Bookings { get; set; }
         public bool IsRoomBooked()
         {
-            // Use AsEnumerable() to switch to client-side evaluation
             return Bookings?.AsEnumerable().Any(b => b.IsOccupied() && BookingDatesOverlap(b, b.BookingStartDate, b.BookingEndDate)) ?? false;
         }
 
