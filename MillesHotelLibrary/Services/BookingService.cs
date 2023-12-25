@@ -94,16 +94,22 @@ namespace MillesHotelLibrary.Services
         {
             bookingDate = DateTime.MinValue;
             numberOfNights = 0;
+            DateTime threeMonthsFromNow = DateTime.UtcNow.AddMonths(3);
+
+            Console.WriteLine($"\nYou can only book rooms for dates within the next 3 months from today, latest {threeMonthsFromNow:yyyy-MM-dd}");
 
             Console.Write("Enter booking date (yyyy-MM-dd): ");
-            if (!DateTime.TryParse(Console.ReadLine(), out bookingDate) || bookingDate.Date < DateTime.UtcNow.Date)
+            if (!DateTime.TryParse(Console.ReadLine(), out bookingDate) || bookingDate.Date < DateTime.UtcNow.Date
+                || bookingDate.Date > DateTime.UtcNow.AddMonths(3).Date)
             {
-                Message.ErrorMessage("Invalid booking date. Please enter a date equal to or later than today. Booking not created.");
+
+                Message.ErrorMessage($"Invalid booking date. Please enter a date equal to " +
+                    $"or later than today and within the next 3 months (until {threeMonthsFromNow:yyyy-MM-dd}). Booking not created.");
                 return false;
             }
 
-            Console.Write("Enter number of nights (max 20): ");
-            if (!int.TryParse(Console.ReadLine(), out numberOfNights) || numberOfNights <= 0 || numberOfNights > 20)
+            Console.Write("Enter number of nights (max 14): ");
+            if (!int.TryParse(Console.ReadLine(), out numberOfNights) || numberOfNights <= 0 || numberOfNights > 14)
             {
                 Message.ErrorMessage("Invalid number of nights. Booking not created.");
                 return false;
@@ -461,7 +467,7 @@ namespace MillesHotelLibrary.Services
                     {
                         var roomId = booking.RoomID;
 
-                        booking.IsOccupied(); // Update IsOccupied state
+                        booking.IsOccupied();
                         booking.IsActive = false;
 
                         if (booking.Invoice != null)
@@ -479,11 +485,11 @@ namespace MillesHotelLibrary.Services
                             {
                                 foreach (var roomBooking in room.Bookings)
                                 {
-                                    roomBooking.IsOccupied(); // Update IsOccupied state
+                                    roomBooking.IsOccupied();
                                 }
                             }
 
-                            room.IsRoomBooked(); // Update RoomBooked state
+                            room.IsRoomBooked();
 
                             _dbContext.SaveChanges();
                         }
