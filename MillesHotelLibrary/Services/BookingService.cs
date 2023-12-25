@@ -123,14 +123,13 @@ namespace MillesHotelLibrary.Services
         }
         public List<Room> GetAvailableRooms(int customerId, DateTime bookingDate, int numberOfNights)
         {
-            var activeBookings = _dbContext.Booking
-                .Where(b => b.CustomerID == customerId && b.IsActive &&
-                            (bookingDate < b.BookingEndDate && bookingDate.AddDays(numberOfNights) > b.BookingStartDate))
-                .ToList();
+            DateTime endDate = bookingDate.AddDays(numberOfNights);
 
-            var bookedRoomIds = activeBookings.Select(b => b.RoomID).ToList();
             var availableRooms = _dbContext.Room
-                .Where(room => room.IsActive && !bookedRoomIds.Contains(room.RoomID))
+                .Where(room => room.IsActive &&
+                !_dbContext.Booking
+                .Any(b => b.RoomID == room.RoomID && b.IsActive &&
+                bookingDate < b.BookingEndDate && endDate > b.BookingStartDate))
                 .ToList();
 
             return availableRooms;
@@ -174,15 +173,12 @@ namespace MillesHotelLibrary.Services
                 .ToList();
 
             Console.WriteLine($"Input Booking Date: {bookingDate:yyyy-MM-dd}");
-            Console.WriteLine("=============================================================================================");
 
             foreach (var booking in existingBookings.Where(b => b.IsActive))
             {
-                Console.WriteLine($"Existing Booking: ID {booking.BookingID}, Room ID {booking.RoomID}, " +
+                Console.WriteLine($"Existing Booking: ID {booking.BookingID}, Room ID {booking.RoomID}, Customer ID {booking.CustomerID}, " +
                     $"Start Date: {booking.BookingStartDate:yyyy-MM-dd}, End Date: {booking.BookingEndDate:yyyy-MM-dd} Active: {booking.IsActive}");
             }
-
-            Console.WriteLine("=============================================================================================");
 
             var isRoomAvailable = existingBookings.All(b =>
                 bookingDate >= b.BookingEndDate || bookingDate.AddDays(numberOfNights) <= b.BookingStartDate || !b.IsActive);
