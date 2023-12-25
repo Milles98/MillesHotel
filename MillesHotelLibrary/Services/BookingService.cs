@@ -174,12 +174,6 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine($"Input Booking Date: {bookingDate:yyyy-MM-dd}");
 
-            foreach (var booking in existingBookings.Where(b => b.IsActive))
-            {
-                Console.WriteLine($"Existing Booking: ID {booking.BookingID}, Room ID {booking.RoomID}, Customer ID {booking.CustomerID}, " +
-                    $"Start Date: {booking.BookingStartDate:yyyy-MM-dd}, End Date: {booking.BookingEndDate:yyyy-MM-dd} Active: {booking.IsActive}");
-            }
-
             var isRoomAvailable = existingBookings.All(b =>
                 bookingDate >= b.BookingEndDate || bookingDate.AddDays(numberOfNights) <= b.BookingStartDate || !b.IsActive);
 
