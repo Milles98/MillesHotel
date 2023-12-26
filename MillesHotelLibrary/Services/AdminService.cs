@@ -147,6 +147,11 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
+                foreach (var showBooking in _dbContext.Booking)
+                {
+                    Console.WriteLine($"Booking ID: {showBooking.BookingID}");
+                }
+
                 Console.Write("Enter booking ID to permanently delete: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
