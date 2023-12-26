@@ -23,7 +23,9 @@ namespace MillesHotelLibrary.Services
         {
             Console.Clear();
             Console.WriteLine("Existing Invoices:");
-            foreach (var showInvoice in _dbContext.Invoice)
+            var activeInvoices = _dbContext.Invoice.Where(i => i.IsActive);
+
+            foreach (var showInvoice in activeInvoices)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID} InvoiceAmount: " +
                     $"{showInvoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
@@ -32,9 +34,9 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("Create a new Invoice:");
 
             decimal minInvoiceAmount = 100m;
-            decimal maxInvoiceAmount = 150000m;
+            decimal maxInvoiceAmount = 100000m;
 
-            Console.Write($"Enter invoice amount (between {minInvoiceAmount:C} and {maxInvoiceAmount:C}): ");
+            Console.Write($"Enter invoice total amount (between {minInvoiceAmount:C} and {maxInvoiceAmount:C}): ");
 
             if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount) &&
                 invoiceAmount >= minInvoiceAmount && invoiceAmount <= maxInvoiceAmount)
@@ -62,7 +64,10 @@ namespace MillesHotelLibrary.Services
         public void AssignInvoiceToBooking(Invoice newInvoice)
         {
             Console.Clear();
-            foreach (var showBooking in _dbContext.Booking.Include(b => b.Customer).Include(b => b.Invoice))
+            var bookings = _dbContext.Booking.Include(b => b.Customer).Include(b => b.Invoice)
+        .Where(b => b.Invoice.IsActive);
+
+            foreach (var showBooking in bookings)
             {
                 Console.WriteLine($"BookingID: {showBooking.BookingID}, Customer: " +
                     $"{showBooking.Customer.CustomerFirstName} {showBooking.Customer.CustomerLastName}, " +
@@ -263,7 +268,7 @@ namespace MillesHotelLibrary.Services
                 if (invoice != null)
                 {
                     Console.Write("Enter new invoice amount: ");
-                    if (decimal.TryParse(Console.ReadLine(), out decimal newInvoiceAmount))
+                    if (decimal.TryParse(Console.ReadLine(), out decimal newInvoiceAmount) && (newInvoiceAmount >= 100 || newInvoiceAmount <= 100000))
                     {
                         invoice.InvoiceAmount = newInvoiceAmount;
                         _dbContext.SaveChanges();
@@ -290,7 +295,11 @@ namespace MillesHotelLibrary.Services
         public void UpdateInvoiceDue()
         {
             Console.Clear();
-            foreach (var showInvoice in _dbContext.Invoice)
+            var activeInvoices = _dbContext.Invoice.Where(i => !i.IsPaid && i.IsActive);
+
+            Console.WriteLine("Active Invoices:");
+
+            foreach (var showInvoice in activeInvoices)
             {
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Due: {showInvoice.InvoiceDue}");
             }

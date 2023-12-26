@@ -42,10 +42,10 @@ namespace MillesHotelLibrary.Services
 
                         if (roomType == RoomType.DoubleRoom && roomSize >= 30)
                         {
-                            Console.WriteLine("Roomsize is over or equal to 30kvm, you can now decide extra beds!");
+                            Message.InputSuccessMessage("\nRoomsize is over or equal to 30 kvm, you can now decide extra beds!");
                             Console.Write("How many extra beds would you like? (Enter 1 for one, 2 for two, or 0 for none): ");
 
-                            if (!int.TryParse(Console.ReadLine(), out extraBedsCount))
+                            if (!int.TryParse(Console.ReadLine(), out extraBedsCount) && (extraBedsCount >= 0 || extraBedsCount <= 3))
                             {
                                 Message.ErrorMessage("Invalid input for extra beds. Room not created.");
                                 return;
