@@ -158,6 +158,17 @@ namespace MillesHotelLibrary.Services
                     $"Start Date: {nextDate.BookingStartDate.ToString("yyyy-MM-dd")}, End Date: {nextDate.BookingEndDate.ToString("yyyy-MM-dd")}");
             }
         }
+        private bool IsRoomAvailable(int roomId, DateTime bookingDate, int numberOfNights)
+        {
+            var existingBookings = _dbContext.Booking
+                .Where(b => b.RoomID == roomId)
+                .ToList();
+
+            var isRoomAvailable = existingBookings.All(b =>
+                bookingDate >= b.BookingEndDate || bookingDate.AddDays(numberOfNights) <= b.BookingStartDate || !b.IsActive);
+
+            return isRoomAvailable;
+        }
         public bool TryCreateBooking(Customer customer, int roomId, DateTime bookingDate, int numberOfNights)
         {
             var selectedRoom = _dbContext.Room.FirstOrDefault(room => room.RoomID == roomId);
@@ -261,7 +272,7 @@ namespace MillesHotelLibrary.Services
                         Console.WriteLine($"Room Size: {booking.Room.RoomSize}");
                         Console.WriteLine($"Room ExtraBeds: {booking.Room.ExtraBeds}");
                         Console.WriteLine($"Room ExtraBedsCount: {booking.Room.ExtraBedsCount}");
-                        Console.WriteLine($"Room Price: {booking.Room.RoomPrice}");
+                        Console.WriteLine($"Room Price: {booking.Room.RoomPrice.ToString("C2")}");
                         Console.WriteLine($"Room Type: {booking.Room?.RoomType ?? RoomType.SingleRoom}");
 
                         if (booking.Customer != null)
@@ -322,25 +333,32 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update startdate: ");
+                Console.Write("Enter booking ID to update start date: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
                     {
-                        Console.Write("Enter new booking start date (yyyy-mm-dd): ");
-                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                        Console.Write("Enter new booking start date (yyyy-MM-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newStartDate))
                         {
-                            if (booking.BookingEndDate == null || newBookingDate <= booking.BookingEndDate)
+                            if (newStartDate < booking.BookingEndDate)
                             {
-                                booking.BookingStartDate = newBookingDate;
-                                _dbContext.SaveChanges();
-                                Message.InputSuccessMessage("Booking information updated successfully.");
+                                if (IsRoomAvailable(booking.RoomID, newStartDate, (booking.BookingEndDate - newStartDate).Days))
+                                {
+                                    booking.BookingStartDate = newStartDate;
+                                    _dbContext.SaveChanges();
+                                    Message.InputSuccessMessage("Booking information updated successfully.");
+                                }
+                                else
+                                {
+                                    Message.ErrorMessage("Start date is not available. Booking information not updated.");
+                                }
                             }
                             else
                             {
-                                Message.ErrorMessage("New start date cannot be later than the existing end date. Booking information not updated.");
+                                Message.ErrorMessage("Start date must be before the current end date. Booking information not updated.");
                             }
                         }
                         else
@@ -372,26 +390,32 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update enddate: ");
+                Console.Write("Enter booking ID to update end date: ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
                     {
-                        Console.Write("Enter new booking end date (yyyy-mm-dd): ");
-                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newBookingDate))
+                        Console.Write("Enter new booking end date (yyyy-MM-dd): ");
+                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newEndDate))
                         {
-                            if (newBookingDate >= booking.BookingStartDate)
+                            if (newEndDate > booking.BookingStartDate)
                             {
-                                booking.BookingEndDate = newBookingDate;
-                                _dbContext.SaveChanges();
-                                Message.InputSuccessMessage("Booking information updated successfully.");
-                                Console.WriteLine("Booking information updated successfully.");
+                                if (IsRoomAvailable(booking.RoomID, booking.BookingStartDate, (newEndDate - booking.BookingStartDate).Days))
+                                {
+                                    booking.BookingEndDate = newEndDate;
+                                    _dbContext.SaveChanges();
+                                    Message.InputSuccessMessage("Booking information updated successfully.");
+                                }
+                                else
+                                {
+                                    Message.ErrorMessage("End date is not available. Booking information not updated.");
+                                }
                             }
                             else
                             {
-                                Message.ErrorMessage("End date must be equal to or later than the start date. Booking information not updated.");
+                                Message.ErrorMessage("End date must be after the current start date. Booking information not updated.");
                             }
                         }
                         else
