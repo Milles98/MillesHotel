@@ -24,4 +24,10 @@ Ingen attribut är beroende av bara en del av primary keyn.
 Ingen attribut är beroende av bara en del av primary keyn.
 3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
 
+5. Country
+1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
+2NF - Alla icke primary key attribut är fullt beroende av primary keyn "CountryID"
+Ingen attribut är beroende av bara en del av primary keyn.
+3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+
 Som avslut så ja, mina entiteter följer 3NF (3:e Normal Form) reglerna och är designade för att minska överflöd och beroende problem.

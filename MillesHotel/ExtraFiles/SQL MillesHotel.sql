@@ -66,24 +66,25 @@ WHERE Booking.RoomID IS NULL;
 
 --10
 SELECT 
-    C.CustomerID,
-    C.CustomerFirstName,
-    C.CustomerLastName,
-    C.CustomerAge,
-    C.CustomerEmail,
-    C.CustomerPhone,
-    C.CustomerCountry,
-    C.IsActive,
-    SUM(I.InvoiceAmount) AS TotalInvoiceAmount
+C.CustomerID,
+C.CustomerFirstName,
+C.CustomerLastName,
+C.CustomerAge,
+C.CustomerEmail,
+C.CustomerPhone,
+Co.CountryName AS CustomerCountry,
+C.IsActive,
+SUM(I.InvoiceAmount) AS TotalInvoiceAmount
 FROM Customer C
 LEFT JOIN Booking B ON C.CustomerID = B.CustomerID
 LEFT JOIN Invoice I ON B.InvoiceID = I.InvoiceID
+LEFT JOIN Country Co ON C.CountryID = Co.CountryID
 GROUP BY 
-    C.CustomerID,
-    C.CustomerFirstName,
-    C.CustomerLastName,
-    C.CustomerAge,
-    C.CustomerEmail,
-    C.CustomerPhone,
-    C.CustomerCountry,
-    C.IsActive;
+C.CustomerID,
+C.CustomerFirstName,
+C.CustomerLastName,
+C.CustomerAge,
+C.CustomerEmail,
+C.CustomerPhone,
+Co.CountryName,
+C.IsActive;
