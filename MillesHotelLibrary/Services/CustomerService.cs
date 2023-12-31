@@ -128,7 +128,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
         public void GetCustomerByID()
         {
             try
@@ -143,6 +142,7 @@ namespace MillesHotelLibrary.Services
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
                     var customer = _dbContext.Customer.Find(customerId);
+                    var countryName = _dbContext.Country.Find(customer.CountryID)?.CountryName ?? "Unknown";
 
                     if (customer != null)
                     {
@@ -154,7 +154,7 @@ namespace MillesHotelLibrary.Services
                         Console.WriteLine($"Age: {customer.CustomerAge}");
                         Console.WriteLine($"Email: {customer.CustomerEmail}");
                         Console.WriteLine($"Phone: {customer.CustomerPhone}");
-                        Console.WriteLine($"Country: {customer.CountryID}");
+                        Console.WriteLine($"Country: {countryName}");
                         Console.WriteLine($"Is Active: {customer.IsActive}");
                         Console.WriteLine("==================================================");
                     }
