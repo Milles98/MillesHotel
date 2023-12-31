@@ -22,35 +22,50 @@ namespace MillesHotelLibrary.Data
         {
             if (!dbContext.Room.Any())
             {
+                var countries = new List<Country>
+                {
+                    new Country { CountryName = "Spain" },
+                    new Country { CountryName = "Sweden" },
+                    new Country { CountryName = "USA" },
+                    new Country { CountryName = "Germany" },
+                    new Country { CountryName = "India" },
+                    new Country { CountryName = "Norway" },
+                    new Country { CountryName = "Denmark" }
+                };
+
+                dbContext.Country.AddRange(countries);
+                dbContext.SaveChanges();
+
                 var customers = new List<Customer>
                 {
                     new Customer { CustomerFirstName = "Penélope", CustomerLastName = "Cruz", CustomerAge = 49,
-                CustomerEmail = "pene@cruz.com", CustomerPhone = "5432678643", CustomerCountry = "Spain", IsActive = true },
+                        CustomerEmail = "pene@cruz.com", CustomerPhone = "5432678643", Country = countries[0], IsActive = true },
                     new Customer { CustomerFirstName = "Mille", CustomerLastName = "Elfver", CustomerAge = 25,
-                CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "mille@kyh.se", CustomerPhone = "070-23221532", Country = countries[1], IsActive = true },
                     new Customer { CustomerFirstName = "Wilma", CustomerLastName = "Helin", CustomerAge = 25,
-                CustomerEmail = "wilma@helin.se", CustomerPhone = "46743232524", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "wilma@helin.se", CustomerPhone = "46743232524", Country = countries[1], IsActive = true },
                     new Customer { CustomerFirstName = "Richard", CustomerLastName = "Chalk", CustomerAge = 35,
-                CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", CustomerCountry = "Sweden", IsActive = true },
+                        CustomerEmail = "richard@systementor.se", CustomerPhone = "08-423213", Country = countries[1], IsActive = true },
                     new Customer { CustomerFirstName = "Bill", CustomerLastName = "Gates", CustomerAge = 75,
-                CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", CustomerCountry = "USA", IsActive = true },
+                        CustomerEmail = "billgates@microsoft.com", CustomerPhone = "421555234", Country = countries[2], IsActive = true },
                     new Customer { CustomerFirstName = "Pamela", CustomerLastName = "Andersson", CustomerAge = 30,
-                CustomerEmail = "pamela@andersson.com", CustomerPhone = "69696969", CustomerCountry = "USA", IsActive = true },
+                        CustomerEmail = "pamela@andersson.com", CustomerPhone = "69696969", Country = countries[2], IsActive = true },
                     new Customer { CustomerFirstName = "David", CustomerLastName = "Hasselhoff", CustomerAge = 60,
-                CustomerEmail = "david@hasselhoff.com", CustomerPhone = "452353572", CustomerCountry = "USA", IsActive = true },
+                        CustomerEmail = "david@hasselhoff.com", CustomerPhone = "452353572", Country = countries[2], IsActive = true },
                     new Customer { CustomerFirstName = "Christopher", CustomerLastName = "Waltz", CustomerAge = 67,
-                CustomerEmail = "chris@waltz.com", CustomerPhone = "474232673", CustomerCountry = "Germany", IsActive = true },
+                        CustomerEmail = "chris@waltz.com", CustomerPhone = "474232673", Country = countries[3], IsActive = true },
                     new Customer { CustomerFirstName = "Jeff", CustomerLastName = "Bezos", CustomerAge = 58,
-                CustomerEmail = "jeff@amazon.com", CustomerPhone = "424467683", CustomerCountry = "USA", IsActive = true },
+                        CustomerEmail = "jeff@amazon.com", CustomerPhone = "424467683", Country = countries[2], IsActive = true },
                     new Customer { CustomerFirstName = "Mark", CustomerLastName = "Zuckerberg", CustomerAge = 60,
-                CustomerEmail = "zucker@facebook.com", CustomerPhone = "493233545", CustomerCountry = "USA", IsActive = true },
+                        CustomerEmail = "zucker@facebook.com", CustomerPhone = "493233545", Country = countries[2], IsActive = true },
                     new Customer { CustomerFirstName = "Ghandi", CustomerLastName = "Mahatma", CustomerAge = 90,
-                CustomerEmail = "mahatma@ghandi.com", CustomerPhone = "493233545", CustomerCountry = "India", IsActive = true },
+                        CustomerEmail = "mahatma@ghandi.com", CustomerPhone = "493233545", Country = countries[4], IsActive = true },
                     new Customer { CustomerFirstName = "Kristofer", CustomerLastName = "Hivju", CustomerAge = 45,
-                CustomerEmail = "kris@hivju.com", CustomerPhone = "493233545", CustomerCountry = "Norway", IsActive = true },
+                        CustomerEmail = "kris@hivju.com", CustomerPhone = "493233545", Country = countries[5], IsActive = true },
                     new Customer { CustomerFirstName = "Mads", CustomerLastName = "Mikkelsen", CustomerAge = 58,
-                CustomerEmail = "mads@mik.com", CustomerPhone = "493233545", CustomerCountry = "Denmark", IsActive = true }
+                        CustomerEmail = "mads@mik.com", CustomerPhone = "493233545", Country = countries[6], IsActive = true }
                 };
+
 
                 dbContext.Customer.AddRange(customers);
                 dbContext.SaveChanges();
@@ -62,7 +77,7 @@ namespace MillesHotelLibrary.Data
                     new Room { RoomSize = 75, RoomType = RoomType.DoubleRoom, RoomName =
                     "King Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 990 },
                     new Room { RoomSize = 45, RoomType = RoomType.DoubleRoom, RoomName =
-                    "Prince Suite", ExtraBeds = false, ExtraBedsCount = 1, RoomPrice = 450 },
+                    "Prince Suite", ExtraBeds = false, RoomPrice = 450 },
                     new Room { RoomSize = 100, RoomType = RoomType.DoubleRoom, RoomName =
                     "Presidential Suite", ExtraBeds = true, ExtraBedsCount = 2, RoomPrice = 2900 },
                     new Room { RoomSize = 90, RoomType = RoomType.DoubleRoom, RoomName =

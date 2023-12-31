@@ -31,10 +31,11 @@ namespace MillesHotelLibrary.Models
         [StringLength(15)]
         public string CustomerPhone { get; set; } = string.Empty;
 
-        [StringLength(9)]
-        public string CustomerCountry { get; set; } = string.Empty;
-
         public bool IsActive { get; set; } = true;
+
+        public int CountryID { get; set; }
+
+        public Country Country { get; set; }
         public List<Booking>? Bookings { get; set; }
 
     }

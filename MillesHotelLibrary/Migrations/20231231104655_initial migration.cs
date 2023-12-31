@@ -6,28 +6,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MillesHotelLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "Country",
                 columns: table => new
                 {
-                    CustomerID = table.Column<int>(type: "int", nullable: false)
+                    CountryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerFirstName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    CustomerLastName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    CustomerAge = table.Column<int>(type: "int", nullable: false),
-                    CustomerEmail = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    CustomerPhone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    CustomerCountry = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    CountryName = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.CustomerID);
+                    table.PrimaryKey("PK_Country", x => x.CountryID);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,6 +57,31 @@ namespace MillesHotelLibrary.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Room", x => x.RoomID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    CustomerID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerFirstName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    CustomerLastName = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    CustomerAge = table.Column<int>(type: "int", nullable: false),
+                    CustomerEmail = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CountryID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.CustomerID);
+                    table.ForeignKey(
+                        name: "FK_Customer_Country_CountryID",
+                        column: x => x.CountryID,
+                        principalTable: "Country",
+                        principalColumn: "CountryID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,6 +135,11 @@ namespace MillesHotelLibrary.Migrations
                 name: "IX_Booking_RoomID",
                 table: "Booking",
                 column: "RoomID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_CountryID",
+                table: "Customer",
+                column: "CountryID");
         }
 
         /// <inheritdoc />
@@ -132,6 +156,9 @@ namespace MillesHotelLibrary.Migrations
 
             migrationBuilder.DropTable(
                 name: "Room");
+
+            migrationBuilder.DropTable(
+                name: "Country");
         }
     }
 }
