@@ -39,36 +39,80 @@ namespace MillesHotelLibrary.Services
                     Console.Write("Enter customer phone (max 15 characters): ");
                     string phone = Console.ReadLine();
 
-                    Console.Write("Enter customer country (max 9 characters): ");
-                    string countryName = Console.ReadLine();
+                    Console.WriteLine("Available Countries:");
+                    Console.WriteLine("====================");
 
-                    if (firstName.Length >= 2 && firstName.Length <= 13 &&
-                        lastName.Length >= 2 && lastName.Length <= 13 &&
-                        email.Length >= 2 && email.Length <= 25 &&
-                        phone.Length <= 15 &&
-                        countryName.Length <= 9)
+                    var countries = _dbContext.Country.ToList();
+                    foreach (var country in countries)
                     {
+                        Console.WriteLine($"{country.CountryID} - {country.CountryName}");
+                    }
+                    Console.WriteLine("0 - Create a new country");
+                    Console.WriteLine("====================");
 
-                        var country = _dbContext.Country.FirstOrDefault(c => c.CountryName == countryName);
-
-                        var newCustomer = new Customer()
+                    Console.Write("Enter customer country ID: ");
+                    if (int.TryParse(Console.ReadLine(), out int countryId))
+                    {
+                        if (countryId == 0)
                         {
-                            CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
-                            CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
-                            CustomerAge = age,
-                            CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
-                            CustomerPhone = phone,
-                            CountryID = country.CountryID,
-                            IsActive = true
-                        };
+                            Console.Write("Enter new country name (max 9 characters): ");
+                            string newCountryName = Console.ReadLine()?.Trim();
 
-                        _dbContext.Customer.Add(newCustomer);
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Customer created successfully.");
+                            if (!string.IsNullOrEmpty(newCountryName) && newCountryName.Length <= 9)
+                            {
+                                var newCountry = new Country { CountryName = newCountryName };
+                                _dbContext.Country.Add(newCountry);
+                                _dbContext.SaveChanges();
+
+                                countryId = newCountry.CountryID;
+
+                                Console.WriteLine($"New country '{newCountryName}' created with ID: {countryId}");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("Invalid country name input. Customer not created.");
+                                return;
+                            }
+                        }
+
+                        var existingCountry = _dbContext.Country.FirstOrDefault(c => c.CountryID == countryId);
+
+
+                        if (existingCountry != null)
+                        {
+                            if (firstName.Length >= 2 && firstName.Length <= 13 &&
+                                lastName.Length >= 2 && lastName.Length <= 13 &&
+                                email.Length >= 2 && email.Length <= 25 &&
+                                phone.Length <= 15)
+                            {
+                                var newCustomer = new Customer()
+                                {
+                                    CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
+                                    CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
+                                    CustomerAge = age,
+                                    CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
+                                    CustomerPhone = phone,
+                                    CountryID = countryId,
+                                    IsActive = true
+                                };
+
+                                _dbContext.Customer.Add(newCustomer);
+                                _dbContext.SaveChanges();
+                                Message.InputSuccessMessage("Customer created successfully.");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("Input length requirements not met. Please try again.");
+                            }
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Country not found. Customer not created.");
+                        }
                     }
                     else
                     {
-                        Message.ErrorMessage("Input length requirements not met. Please try again.");
+                        Message.ErrorMessage("Invalid country ID. Please enter a valid number.");
                     }
                 }
                 else
@@ -84,6 +128,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
+
         public void GetCustomerByID()
         {
             try
@@ -527,39 +572,55 @@ namespace MillesHotelLibrary.Services
         public void UpdateCustomerCountry()
         {
             Console.Clear();
-            Console.WriteLine("Available CustomerIDs:");
+            Console.WriteLine("Available CustomerIDs and Countries:");
             Console.WriteLine("=====================================================");
-            foreach (var customer in _dbContext.Customer)
+
+            var customerList = _dbContext.Customer.Include(c => c.Country).ToList();
+
+            foreach (var customer in customerList)
             {
-                var countryName = _dbContext.Country.Find(customer.CountryID)?.CountryName ?? "Unknown";
                 Console.WriteLine($"CustomerID: {customer.CustomerID}, Name: {customer.CustomerFirstName} {customer.CustomerLastName}, " +
-                    $"Country: {countryName}");
+                    $"Country: {customer.Country?.CountryName ?? "Unknown"}");
             }
             Console.WriteLine("=====================================================");
 
             Console.Write("\nInput Customer ID for new country: ");
             if (int.TryParse(Console.ReadLine(), out int customerId))
             {
-                var customer = _dbContext.Customer.Find(customerId);
+                var customer = customerList.FirstOrDefault(c => c.CustomerID == customerId);
 
                 if (customer != null)
                 {
                     Console.Write("Input New Country (max 9 characters): ");
-                    string newCountry = Console.ReadLine()?.Trim();
+                    string newCountryName = Console.ReadLine()?.Trim();
 
-                    if (!string.IsNullOrEmpty(newCountry) && newCountry.Length <= 9)
+                    if (!string.IsNullOrEmpty(newCountryName) && newCountryName.Length <= 9)
                     {
-                        var country = _dbContext.Country.FirstOrDefault(c => c.CountryName == newCountry);
+                        var existingCountry = _dbContext.Country.FirstOrDefault(c => c.CountryName == newCountryName);
 
-                        if (country != null)
+                        if (existingCountry != null)
                         {
-                            customer.CountryID = country.CountryID;
+                            customer.CountryID = existingCountry.CountryID;
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Customer country updated successfully.");
                         }
                         else
                         {
-                            Message.ErrorMessage("Country not found. Customer country not updated.");
+                            Console.Write("Country not found. Do you want to add a new country? (Y/N): ");
+                            if (Console.ReadLine()?.ToUpper() == "Y")
+                            {
+                                var newCountry = new Country { CountryName = newCountryName };
+                                _dbContext.Country.Add(newCountry);
+                                _dbContext.SaveChanges();
+
+                                customer.CountryID = newCountry.CountryID;
+                                _dbContext.SaveChanges();
+                                Message.InputSuccessMessage("Customer country updated successfully.");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("Customer country not updated.");
+                            }
                         }
                     }
                     else
@@ -580,6 +641,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
+
 
 
     }
