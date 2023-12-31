@@ -40,14 +40,17 @@ namespace MillesHotelLibrary.Services
                     string phone = Console.ReadLine();
 
                     Console.Write("Enter customer country (max 9 characters): ");
-                    string country = Console.ReadLine();
+                    string countryName = Console.ReadLine();
 
                     if (firstName.Length >= 2 && firstName.Length <= 13 &&
                         lastName.Length >= 2 && lastName.Length <= 13 &&
                         email.Length >= 2 && email.Length <= 25 &&
                         phone.Length <= 15 &&
-                        country.Length <= 9)
+                        countryName.Length <= 9)
                     {
+
+                        var country = _dbContext.Country.FirstOrDefault(c => c.CountryName == countryName);
+
                         var newCustomer = new Customer()
                         {
                             CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
@@ -55,7 +58,7 @@ namespace MillesHotelLibrary.Services
                             CustomerAge = age,
                             CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
                             CustomerPhone = phone,
-                            CustomerCountry = char.ToUpper(country[0]) + country.Substring(1),
+                            CountryID = country.CountryID,
                             IsActive = true
                         };
 
@@ -106,7 +109,7 @@ namespace MillesHotelLibrary.Services
                         Console.WriteLine($"Age: {customer.CustomerAge}");
                         Console.WriteLine($"Email: {customer.CustomerEmail}");
                         Console.WriteLine($"Phone: {customer.CustomerPhone}");
-                        Console.WriteLine($"Country: {customer.CustomerCountry}");
+                        Console.WriteLine($"Country: {customer.CountryID}");
                         Console.WriteLine($"Is Active: {customer.IsActive}");
                         Console.WriteLine("==================================================");
                     }
@@ -139,17 +142,19 @@ namespace MillesHotelLibrary.Services
 
             foreach (var customer in customers)
             {
+                var countryName = _dbContext.Country.Find(customer.CountryID)?.CountryName ?? "Unknown";
+
                 if (customer.IsActive)
                 {
                     Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│" +
-                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│ ACTIVE   │");
+                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{countryName,-9}│ ACTIVE   │");
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red; // Set the text color for inactive customers
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"│{customer.CustomerID,-13}│{customer.CustomerFirstName,-13}│{customer.CustomerLastName,-13}│" +
-                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{customer.CustomerCountry,-9}│ INACTIVE │");
-                    Console.ResetColor(); // Reset the text color to default
+                        $"{customer.CustomerAge,-5}│{customer.CustomerEmail,-25}│{customer.CustomerPhone,-15}│{countryName,-9}│ INACTIVE │");
+                    Console.ResetColor();
                 }
 
                 Console.WriteLine("├─────────────┼─────────────┼─────────────┼─────┼─────────────────────────┼───────────────┼─────────┤──────────┤");
@@ -524,10 +529,11 @@ namespace MillesHotelLibrary.Services
             Console.Clear();
             Console.WriteLine("Available CustomerIDs:");
             Console.WriteLine("=====================================================");
-            foreach (var customersID in _dbContext.Customer)
+            foreach (var customer in _dbContext.Customer)
             {
-                Console.WriteLine($"CustomerID: {customersID.CustomerID}, Name: {customersID.CustomerFirstName} {customersID.CustomerLastName}, " +
-                    $"{customersID.CustomerCountry}");
+                var countryName = _dbContext.Country.Find(customer.CountryID)?.CountryName ?? "Unknown";
+                Console.WriteLine($"CustomerID: {customer.CustomerID}, Name: {customer.CustomerFirstName} {customer.CustomerLastName}, " +
+                    $"Country: {countryName}");
             }
             Console.WriteLine("=====================================================");
 
@@ -539,13 +545,22 @@ namespace MillesHotelLibrary.Services
                 if (customer != null)
                 {
                     Console.Write("Input New Country (max 9 characters): ");
-                    string newCountry = Console.ReadLine();
+                    string newCountry = Console.ReadLine()?.Trim();
 
                     if (!string.IsNullOrEmpty(newCountry) && newCountry.Length <= 9)
                     {
-                        customer.CustomerCountry = char.ToUpper(newCountry[0]) + newCountry.Substring(1);
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Customer country updated successfully.");
+                        var country = _dbContext.Country.FirstOrDefault(c => c.CountryName == newCountry);
+
+                        if (country != null)
+                        {
+                            customer.CountryID = country.CountryID;
+                            _dbContext.SaveChanges();
+                            Message.InputSuccessMessage("Customer country updated successfully.");
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Country not found. Customer country not updated.");
+                        }
                     }
                     else
                     {
@@ -565,6 +580,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
+
 
     }
 }

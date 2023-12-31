@@ -226,7 +226,7 @@ namespace MillesHotelLibrary.Services
         {
             Console.Clear();
             var topCustomersByCountry = _dbContext.Customer
-                .GroupBy(c => c.CustomerCountry)
+                .GroupBy(c => c.CountryID)
                 .ToList()
                 .OrderByDescending(group => group.Count())
                 .Take(10)

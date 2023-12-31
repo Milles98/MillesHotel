@@ -23,6 +23,7 @@ namespace MillesHotelLibrary.Data
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Booking> Booking { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<Country> Country { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

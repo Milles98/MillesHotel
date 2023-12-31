@@ -60,6 +60,24 @@ namespace MillesHotelLibrary.Migrations
                     b.ToTable("Booking");
                 });
 
+            modelBuilder.Entity("MillesHotelLibrary.Models.Country", b =>
+                {
+                    b.Property<int>("CountryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryID"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.HasKey("CountryID");
+
+                    b.ToTable("Country");
+                });
+
             modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
@@ -68,13 +86,11 @@ namespace MillesHotelLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
 
-                    b.Property<int>("CustomerAge")
+                    b.Property<int>("CountryID")
                         .HasColumnType("int");
 
-                    b.Property<string>("CustomerCountry")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                    b.Property<int>("CustomerAge")
+                        .HasColumnType("int");
 
                     b.Property<string>("CustomerEmail")
                         .IsRequired()
@@ -100,6 +116,8 @@ namespace MillesHotelLibrary.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("CountryID");
 
                     b.ToTable("Customer");
                 });
@@ -190,6 +208,22 @@ namespace MillesHotelLibrary.Migrations
                     b.Navigation("Invoice");
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
+                {
+                    b.HasOne("MillesHotelLibrary.Models.Country", "Country")
+                        .WithMany("Customers")
+                        .HasForeignKey("CountryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("MillesHotelLibrary.Models.Country", b =>
+                {
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("MillesHotelLibrary.Models.Customer", b =>
