@@ -225,16 +225,32 @@ namespace MillesHotelLibrary.Services
         public void GetTop10CustomersByCountry()
         {
             Console.Clear();
-            var topCustomersByCountry = _dbContext.Customer
+
+            var customerCountsByCountry = _dbContext.Customer
                 .GroupBy(c => c.CountryID)
-                .ToList()
-                .OrderByDescending(group => group.Count())
+                .Select(g => new
+                {
+                    CountryID = g.Key,
+                    CustomerCount = g.Count()
+                })
+                .ToList();
+
+            var topCustomersByCountry = customerCountsByCountry
+                .Join(_dbContext.Country,
+                      customerCount => customerCount.CountryID,
+                      country => country.CountryID,
+                      (customerCount, country) => new
+                      {
+                          CountryName = country.CountryName,
+                          CustomerCount = customerCount.CustomerCount
+                      })
+                .OrderByDescending(group => group.CustomerCount)
                 .Take(10)
                 .Select((group, index) => new
                 {
                     Rank = index + 1,
-                    Country = group.Key,
-                    CustomerCount = group.Count()
+                    Country = group.CountryName,
+                    CustomerCount = group.CustomerCount
                 });
 
             Console.WriteLine("=========================================================");
@@ -247,5 +263,7 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
+
+
     }
 }
