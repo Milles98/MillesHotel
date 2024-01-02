@@ -28,9 +28,14 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
                 }
 
-                Console.Write("Enter room ID to permanently delete: ");
+                Console.Write("Enter room ID to permanently delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
+                    if (roomId == 0)
+                    {
+                        return;
+                    }
+
                     var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
 
                     if (room != null)
@@ -76,9 +81,14 @@ namespace MillesHotelLibrary.Services
                 }
 
                 Message.ErrorMessage(">>WARNING<< Associated bookings will be removed if invoice is paid!");
-                Console.Write("Input Customer ID: ");
+                Console.Write("Input Customer ID (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer
                         .Include(c => c.Bookings)
                         .ThenInclude(b => b.Invoice)
@@ -118,9 +128,14 @@ namespace MillesHotelLibrary.Services
         public void DeleteInvoice()
         {
             Console.Clear();
-            Console.Write("Enter invoice ID to permanently delete: ");
+            Console.Write("Enter invoice ID to permanently delete (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
@@ -152,9 +167,14 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Booking ID: {showBooking.BookingID}");
                 }
 
-                Console.Write("Enter booking ID to permanently delete: ");
+                Console.Write("Enter booking ID to permanently delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
+                    if (bookingId == 0)
+                    {
+                        return;
+                    }
+
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
