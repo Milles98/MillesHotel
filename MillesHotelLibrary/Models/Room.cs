@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace MillesHotelLibrary.Models
 {
+    public enum RoomType
+    {
+        SingleRoom,
+        DoubleRoom
+    }
     public class Room : IRoom
     {
         [Key]
@@ -43,10 +48,5 @@ namespace MillesHotelLibrary.Models
         {
             return !(booking.BookingEndDate <= start || booking.BookingStartDate >= end);
         }
-    }
-    public enum RoomType
-    {
-        SingleRoom,
-        DoubleRoom
     }
 }

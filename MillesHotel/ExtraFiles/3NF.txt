@@ -1,33 +1,23 @@
 ﻿Hur följer mina entiteter 3NF reglerna?
 
-1. Booking
-1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
-2NF - Alla icke primary key attribut är fullt beroende av primary keyn "BookingID"
-Ingen attribut är beroende av bara en del av primary keyn.
-3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+1NF:
 
-2. Customer
-1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
-2NF - Alla icke primary key attribut är fullt beroende av primary keyn "CustomerID"
-Ingen attribut är beroende av bara en del av primary keyn.
-3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+Alla mina kolumner innehåller endast ett värde.
+Alla mina rader är unika, inga datatyper är blandade i samma kolumn. Alla tabeller har en primary key.
 
-3. Invoice
-1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
-2NF - Alla icke primary key attribut är fullt beroende av primary keyn "InvoiceID"
-Ingen attribut är beroende av bara en del av primary keyn.
-3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+2NF:
 
-4. Room
-1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
-2NF - Alla icke primary key attribut är fullt beroende av primary keyn "RoomID"
-Ingen attribut är beroende av bara en del av primary keyn.
-3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+Följer 1NF och har inga partial dependencies. Det har jag följt genom att bryta ut mina tabeller till flera
+separata. 
+På detta sätt kan jag referera till primary keyn för att hitta information, dvs mina tabeller är enbart beroende av
+mina primary keys
 
-5. Country
-1NF - Ingen attribut innehåller repeterande grupper, alla står för ett värde.
-2NF - Alla icke primary key attribut är fullt beroende av primary keyn "CountryID"
-Ingen attribut är beroende av bara en del av primary keyn.
-3NF - Det finns inga transitive dependencies eftersom alla icke primary attribut är beroende av primary keyn
+3NF:
 
-Som avslut så ja, mina entiteter följer 3NF (3:e Normal Form) reglerna och är designade för att minska överflöd och beroende problem.
+Följer 1NF och 2NF samt har inga transitive functional dependencies.
+Mina tabeller följer detta genom om en kolumn som inte är en primary key ändras, påverkar den inte något värde i en annan kolumn.
+Ett exempel på hur jag gjort detta är att splitta på min Customer tabell, jag flyttade ut länder till en ny tabell "Country".
+
+Som avslut så ja, mina entiteter följer 3NF reglerna och är designade för att minska överflöd och beroende problem.
+Jag har även försökt lägga till extra validering och begränsningar i mina tabeller genom att använda StringLength, Range osv.
+Jag har inte använt mig av [Unique] men jag vet hur den funkar.
