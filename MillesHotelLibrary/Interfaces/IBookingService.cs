@@ -23,7 +23,6 @@ namespace MillesHotelLibrary.Interfaces
         void UpdateBookingStartDate();
         void UpdateBookingEndDate();
         void CancelBooking();
-        void ModifyBooking();
         void SearchAvailableRooms();
         void SearchAvailableIntervalRooms();
         void SearchCustomerBookings();
