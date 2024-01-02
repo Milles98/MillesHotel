@@ -9,8 +9,6 @@ namespace MillesHotelLibrary.Interfaces
 {
     public interface IInvoiceService
     {
-        void CreateInvoice();
-        void AssignInvoiceToBooking(Invoice newInvoice);
         void GetInvoiceByID();
         void GetAllInvoices();
         void GetAllPaidInvoices();
