@@ -21,7 +21,7 @@ namespace MillesHotelLibrary.Models
         [StringLength(13)]
         public string CustomerLastName { get; set; } = string.Empty;
 
-        [Range(2, 150)]
+        [Range(18, 150)]
         public int CustomerAge { get; set; }
 
         [Required]

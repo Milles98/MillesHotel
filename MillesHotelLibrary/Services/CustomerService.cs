@@ -24,20 +24,36 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                Console.Write("Enter new customer first name (max 13 characters): ");
+                Console.Write("Enter new customer first name (max 13 characters, 0 to exit): ");
                 string firstName = Console.ReadLine();
-
-                Console.Write("Enter customer last name (max 13 characters): ");
-                string lastName = Console.ReadLine();
-
-                Console.Write("Enter customer age (between 2 and 150): ");
-                if (int.TryParse(Console.ReadLine(), out int age) && age >= 2 && age <= 150)
+                if (firstName == "0")
                 {
-                    Console.Write("Enter customer email (max 25 characters): ");
-                    string email = Console.ReadLine();
+                    return;
+                }
 
-                    Console.Write("Enter customer phone (max 15 characters): ");
+                Console.Write("Enter customer last name (max 13 characters, 0 to exit): ");
+                string lastName = Console.ReadLine();
+                if (lastName == "0")
+                {
+                    return;
+                }
+
+                Console.Write("Enter customer age (between 18 and 150): ");
+                if (int.TryParse(Console.ReadLine(), out int age) && age >= 18 && age <= 150)
+                {
+                    Console.Write("Enter customer email (min 10 max 25 characters, 0 to exit): ");
+                    string email = Console.ReadLine();
+                    if (email == "0")
+                    {
+                        return;
+                    }
+
+                    Console.Write("Enter customer phone (min 5, max 15 characters, 0 to exit): ");
                     string phone = Console.ReadLine();
+                    if (phone == "0")
+                    {
+                        return;
+                    }
 
                     Console.WriteLine("Available Countries:");
                     Console.WriteLine("====================");
@@ -55,8 +71,12 @@ namespace MillesHotelLibrary.Services
                     {
                         if (countryId == 0)
                         {
-                            Console.Write("Enter new country name (max 9 characters): ");
+                            Console.Write("Enter new country name (max 9 characters, 0 to exit): ");
                             string newCountryName = Console.ReadLine()?.Trim();
+                            if (newCountryName == "0")
+                            {
+                                return;
+                            }
 
                             if (!string.IsNullOrEmpty(newCountryName) && newCountryName.Length <= 9)
                             {
@@ -82,8 +102,8 @@ namespace MillesHotelLibrary.Services
                         {
                             if (firstName.Length >= 2 && firstName.Length <= 13 &&
                                 lastName.Length >= 2 && lastName.Length <= 13 &&
-                                email.Length >= 2 && email.Length <= 25 &&
-                                phone.Length <= 15)
+                                email.Length >= 10 && email.Length <= 25 &&
+                                phone.Length >= 5 && phone.Length <= 15)
                             {
                                 var newCustomer = new Customer()
                                 {
@@ -138,9 +158,14 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"CustomerID: {showCustomer.CustomerID}, Name: {showCustomer.CustomerFirstName} {showCustomer.CustomerLastName}");
                 }
 
-                Console.Write("\nInput Customer ID for detailed view: ");
+                Console.Write("\nInput Customer ID for detailed view (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Find(customerId);
                     var countryName = _dbContext.Country.Find(customer.CountryID)?.CountryName ?? "Unknown";
 
@@ -218,9 +243,14 @@ namespace MillesHotelLibrary.Services
                         $"{showCustomer.CustomerFirstName} {showCustomer.CustomerLastName}");
                 }
 
-                Console.Write("Input Customer ID to soft delete: ");
+                Console.Write("Input Customer ID to soft delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Include(c => c.Bookings).FirstOrDefault(c => c.CustomerID == customerId);
 
                     if (customer != null)
@@ -264,9 +294,14 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"Inactive CustomerID: {showCustomer.CustomerID}");
                 }
 
-                Console.Write("Input Inactive Customer ID to reactivate: ");
+                Console.Write("Input Inactive Customer ID to reactivate (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.FirstOrDefault(c => c.CustomerID == customerId && !c.IsActive);
 
                     if (customer != null)
@@ -306,15 +341,24 @@ namespace MillesHotelLibrary.Services
                 }
                 Console.WriteLine("=====================================================");
 
-                Console.Write("\nInput Customer ID for new first name: ");
+                Console.Write("\nInput Customer ID for new first name (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
-                        Console.Write("Input New First Name (max 13 characters): ");
+                        Console.Write("Input New First Name (min 2, max 13 characters, 0 to exit): ");
                         string newName = Console.ReadLine();
+                        if (newName == "0")
+                        {
+                            return;
+                        }
 
                         if (!string.IsNullOrWhiteSpace(newName) && newName.Length >= 2 && newName.Length <= 13)
                         {
@@ -358,15 +402,24 @@ namespace MillesHotelLibrary.Services
                 }
                 Console.WriteLine("=====================================================");
 
-                Console.Write("\nInput Customer ID for new last name: ");
+                Console.Write("\nInput Customer ID for new last name (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Last Name (max 13 characters): ");
+                        Console.Write("Input New Last Name (min 2, max 13 characters, 0 to exit): ");
                         string newLastName = Console.ReadLine();
+                        if (newLastName == "0")
+                        {
+                            return;
+                        }
 
                         if (!string.IsNullOrWhiteSpace(newLastName) && newLastName.Length >= 2 && newLastName.Length <= 13)
                         {
@@ -410,17 +463,27 @@ namespace MillesHotelLibrary.Services
                 }
                 Console.WriteLine("=====================================================");
 
-                Console.Write("\nInput Customer ID for new age: ");
+                Console.Write("\nInput Customer ID for new age (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Age (between 2 and 150 years): ");
+                        Console.Write("Input New Age (between 18 and 150 years, 0 to exit): ");
                         if (int.TryParse(Console.ReadLine(), out int newAge))
                         {
-                            if (newAge >= 2 && newAge <= 150)
+                            if (newAge == 0)
+                            {
+                                return;
+                            }
+
+                            if (newAge >= 18 && newAge <= 150)
                             {
                                 customer.CustomerAge = newAge;
                                 _dbContext.SaveChanges();
@@ -468,17 +531,26 @@ namespace MillesHotelLibrary.Services
                 }
                 Console.WriteLine("==================================================================");
 
-                Console.Write("\nInput Customer ID for new email: ");
+                Console.Write("\nInput Customer ID for new email (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerId))
                 {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
                     var customer = _dbContext.Customer.Find(customerId);
 
                     if (customer != null)
                     {
-                        Console.Write("Input New Email (max 25 characters): ");
+                        Console.Write("Input New Email (min 10 max 25 characters, 0 to exit): ");
                         string newEmail = Console.ReadLine();
+                        if (newEmail == "0")
+                        {
+                            return;
+                        }
 
-                        if (IsValidEmail(newEmail) && newEmail.Length <= 25)
+                        if (newEmail.Length >= 10 && newEmail.Length <= 25)
                         {
                             customer.CustomerEmail = char.ToUpper(newEmail[0]) + newEmail.Substring(1);
                             _dbContext.SaveChanges();
@@ -507,18 +579,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-        public bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
         public void UpdateCustomerPhone()
         {
             Console.Clear();
@@ -531,17 +591,26 @@ namespace MillesHotelLibrary.Services
             }
             Console.WriteLine("=============================================================");
 
-            Console.Write("\nInput Customer ID for new phone number: ");
+            Console.Write("\nInput Customer ID for new phone number (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int customerId))
             {
+                if (customerId == 0)
+                {
+                    return;
+                }
+
                 var customer = _dbContext.Customer.Find(customerId);
 
                 if (customer != null)
                 {
-                    Console.Write("Input New Phone Number (max 15 characters): ");
+                    Console.Write("Input New Phone Number (min 5 max 15 characters, 0 to exit): ");
                     string newPhone = Console.ReadLine();
+                    if (newPhone == "0")
+                    {
+                        return;
+                    }
 
-                    if (IsValidPhoneNumber(newPhone) && newPhone.Length <= 15)
+                    if (newPhone.Length >= 5 && newPhone.Length <= 15)
                     {
                         customer.CustomerPhone = newPhone;
                         _dbContext.SaveChanges();
@@ -565,10 +634,6 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-        public bool IsValidPhoneNumber(string phoneNumber)
-        {
-            return !string.IsNullOrEmpty(phoneNumber);
-        }
         public void UpdateCustomerCountry()
         {
             Console.Clear();
@@ -584,17 +649,26 @@ namespace MillesHotelLibrary.Services
             }
             Console.WriteLine("=====================================================");
 
-            Console.Write("\nInput Customer ID for new country: ");
+            Console.Write("\nInput Customer ID for new country (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int customerId))
             {
+                if (customerId == 0)
+                {
+                    return;
+                }
+
                 var customer = customerList.FirstOrDefault(c => c.CustomerID == customerId);
 
                 if (customer != null)
                 {
-                    Console.Write("Input New Country (max 9 characters): ");
+                    Console.Write("Input New Country (min 2 max 9 characters, 0 to exit): ");
                     string newCountryName = Console.ReadLine()?.Trim();
+                    if (newCountryName == "0")
+                    {
+                        return;
+                    }
 
-                    if (!string.IsNullOrEmpty(newCountryName) && newCountryName.Length <= 9)
+                    if (!string.IsNullOrEmpty(newCountryName) && newCountryName.Length >= 2 && newCountryName.Length <= 9)
                     {
                         var existingCountry = _dbContext.Country.FirstOrDefault(c => c.CountryName == newCountryName);
 
@@ -641,8 +715,5 @@ namespace MillesHotelLibrary.Services
             Console.WriteLine("\nPress any button to continue...");
             Console.ReadKey();
         }
-
-
-
     }
 }

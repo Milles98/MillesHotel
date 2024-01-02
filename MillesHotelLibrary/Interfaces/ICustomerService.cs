@@ -17,9 +17,7 @@ namespace MillesHotelLibrary.Interfaces
         void UpdateCustomerLastName();
         void UpdateCustomerAge();
         void UpdateCustomerEmail();
-        bool IsValidEmail(string email);
         void UpdateCustomerPhone();
-        bool IsValidPhoneNumber(string phoneNumber);
         void UpdateCustomerCountry();
         void ReactivateCustomer();
     }
