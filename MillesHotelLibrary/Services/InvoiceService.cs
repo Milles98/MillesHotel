@@ -19,106 +19,6 @@ namespace MillesHotelLibrary.Services
         {
             _dbContext = dbContext;
         }
-        public void CreateInvoice()
-        {
-            Console.Clear();
-            Console.WriteLine("Existing Invoices:");
-            var activeInvoices = _dbContext.Invoice.Where(i => i.IsActive);
-
-            foreach (var showInvoice in activeInvoices)
-            {
-                Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID} InvoiceAmount: " +
-                    $"{showInvoice.InvoiceAmount.ToString("C2") ?? "N/A"}");
-            }
-
-            Console.WriteLine("Create a new Invoice:");
-
-            decimal minInvoiceAmount = 100m;
-            decimal maxInvoiceAmount = 100000m;
-
-            Console.Write($"Enter invoice total amount (between {minInvoiceAmount:C} and {maxInvoiceAmount:C}): ");
-
-            if (decimal.TryParse(Console.ReadLine(), out decimal invoiceAmount) &&
-                invoiceAmount >= minInvoiceAmount && invoiceAmount <= maxInvoiceAmount)
-            {
-                Console.Write("Enter invoice due date (yyyy-MM-dd): ");
-                if (DateTime.TryParse(Console.ReadLine(), out DateTime invoiceDue) && invoiceDue >= DateTime.Today)
-                {
-                    AssignInvoiceToBooking(new Invoice
-                    {
-                        InvoiceAmount = invoiceAmount,
-                        InvoiceDue = invoiceDue,
-                        IsPaid = false
-                    });
-                }
-                else
-                {
-                    Message.ErrorMessage("Invalid or past due date format. Invoice not created.");
-                }
-            }
-            else
-            {
-                Message.ErrorMessage($"Invalid amount format. Invoice amount must be between {minInvoiceAmount:C} and {maxInvoiceAmount:C}. Invoice not created.");
-            }
-        }
-        public void AssignInvoiceToBooking(Invoice newInvoice)
-        {
-            Console.Clear();
-            var bookings = _dbContext.Booking.Include(b => b.Customer).Include(b => b.Invoice)
-        .Where(b => b.Invoice.IsActive);
-
-            foreach (var showBooking in bookings)
-            {
-                Console.WriteLine($"BookingID: {showBooking.BookingID}, Customer: " +
-                    $"{showBooking.Customer.CustomerFirstName} {showBooking.Customer.CustomerLastName}, " +
-                    $"Current Invoice Amount: {showBooking.Invoice?.InvoiceAmount.ToString("C") ?? "N/A"}");
-            }
-
-            Console.Write("Enter Booking ID to assign the invoice: ");
-            if (int.TryParse(Console.ReadLine(), out int bookingId))
-            {
-                var booking = _dbContext.Booking.Find(bookingId);
-
-                if (booking != null)
-                {
-                    if (booking.InvoiceID == 0)
-                    {
-                        booking.Invoice = newInvoice;
-                        _dbContext.SaveChanges();
-                        Console.Clear();
-                        Message.InputSuccessMessage("Invoice assigned to booking successfully.");
-                    }
-                    else
-                    {
-                        Console.Write("A previous invoice is already assigned. Do you want to update the existing invoice? (Y/N): ");
-                        var confirmation = Console.ReadLine().Trim().ToUpper();
-
-                        if (confirmation == "Y")
-                        {
-                            booking.Invoice = newInvoice;
-                            _dbContext.SaveChanges();
-                            Console.Clear();
-                            Message.InputSuccessMessage("Invoice updated for the booking successfully.");
-                        }
-                        else
-                        {
-                            Message.InputSuccessMessage("Invoice assignment/update canceled.");
-                        }
-                    }
-                }
-                else
-                {
-                    Message.ErrorMessage("Booking not found.");
-                }
-            }
-            else
-            {
-                Message.ErrorMessage("Invalid Booking ID format.");
-            }
-
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
-        }
         public void GetInvoiceByID()
         {
             Console.Clear();
@@ -127,9 +27,14 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}");
             }
 
-            Console.Write("Enter invoice ID for detailed view: ");
+            Console.Write("Enter invoice ID for detailed view (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Booking
                     .Include(i => i.Invoice)
                     .Include(r => r.Room)
@@ -260,15 +165,20 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Amount: {showInvoice.InvoiceAmount.ToString("C2")}");
             }
 
-            Console.Write("Enter invoice ID to update invoice amount: ");
+            Console.Write("Enter invoice ID to update invoice amount (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
                 {
                     Console.Write("Enter new invoice amount: ");
-                    if (decimal.TryParse(Console.ReadLine(), out decimal newInvoiceAmount) && (newInvoiceAmount >= 100 || newInvoiceAmount <= 100000))
+                    if (decimal.TryParse(Console.ReadLine(), out decimal newInvoiceAmount) && (newInvoiceAmount >= 100 && newInvoiceAmount <= 100000))
                     {
                         invoice.InvoiceAmount = newInvoiceAmount;
                         _dbContext.SaveChanges();
@@ -304,9 +214,14 @@ namespace MillesHotelLibrary.Services
                 Console.WriteLine($"InvoiceID: {showInvoice.InvoiceID}, Due: {showInvoice.InvoiceDue}");
             }
 
-            Console.Write("Enter invoice ID to update invoice due date: ");
+            Console.Write("Enter invoice ID to update invoice due date (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
@@ -340,9 +255,14 @@ namespace MillesHotelLibrary.Services
         {
             GetAllInvoices();
 
-            Console.Write("Enter invoice ID to soft delete: ");
+            Console.Write("Enter invoice ID to soft delete (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null)
@@ -382,9 +302,14 @@ namespace MillesHotelLibrary.Services
         {
             GetAllInvoices();
 
-            Console.Write("Enter invoice ID: ");
+            Console.Write("Enter invoice ID (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
+                if (invoiceId == 0)
+                {
+                    return;
+                }
+
                 var invoice = _dbContext.Invoice.Find(invoiceId);
 
                 if (invoice != null && invoice.IsActive)
