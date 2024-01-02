@@ -96,6 +96,7 @@ namespace MillesHotelLibrary.Data
                 dbContext.SaveChanges();
 
                 var invoices = new List<Invoice>();
+                int invoiceCount = 0;
 
                 foreach (var room in rooms)
                 {
@@ -108,6 +109,13 @@ namespace MillesHotelLibrary.Data
                     };
 
                     invoices.Add(invoice);
+
+                    invoiceCount++;
+
+                    if (invoiceCount >= 4)
+                    {
+                        break;
+                    }
                 }
 
                 dbContext.Invoice.AddRange(invoices);
