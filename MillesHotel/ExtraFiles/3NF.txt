@@ -20,4 +20,4 @@ Ett exempel på hur jag gjort detta är att splitta på min Customer tabell, jag
 
 Som avslut så ja, mina entiteter följer 3NF reglerna och är designade för att minska överflöd och beroende problem.
 Jag har även försökt lägga till extra validering och begränsningar i mina tabeller genom att använda StringLength, Range osv.
-Jag har inte använt mig av [Unique] men jag vet hur den funkar.
+Jag har även begränsningen unique på email som krav på att alla måste vara unika genom OnModelCreating i HotelDbContext.

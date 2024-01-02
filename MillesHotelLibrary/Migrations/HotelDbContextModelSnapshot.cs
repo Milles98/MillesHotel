@@ -119,6 +119,9 @@ namespace MillesHotelLibrary.Migrations
 
                     b.HasIndex("CountryID");
 
+                    b.HasIndex("CustomerEmail")
+                        .IsUnique();
+
                     b.ToTable("Customer");
                 });
 
