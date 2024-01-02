@@ -70,12 +70,14 @@ namespace MillesHotel.Menus
                             break;
                         default:
                             Message.ErrorMessage("Invalid choice. Please try again.");
+                            Thread.Sleep(1000);
                             break;
                     }
                 }
                 else
                 {
                     Message.ErrorMessage("Invalid input. Please enter a number.");
+                    Thread.Sleep(1000);
                 }
 
             } while (choice != 0);
@@ -112,12 +114,14 @@ namespace MillesHotel.Menus
                             break;
                         default:
                             Message.ErrorMessage("Invalid choice. Please try again.");
+                            Thread.Sleep(1000);
                             break;
                     }
                 }
                 else
                 {
                     Message.ErrorMessage("Invalid input. Please enter a number.");
+                    Thread.Sleep(1000);
                 }
 
             } while (updateChoice != 0);
