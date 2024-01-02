@@ -26,9 +26,17 @@ namespace MillesHotelLibrary.Services
                 Console.Clear();
                 DisplayCustomerList();
 
-                Console.Write("Enter Customer ID to book: ");
+                Console.Write("Enter Customer ID to book (0 to exit): ");
 
-                if (!int.TryParse(Console.ReadLine(), out int customerId) || !TryGetCustomer(customerId, out var customer))
+                if (int.TryParse(Console.ReadLine(), out int customerId))
+                {
+                    if (customerId == 0)
+                    {
+                        return;
+                    }
+
+                }
+                if (!TryGetCustomer(customerId, out var customer))
                 {
                     Message.ErrorMessage("Invalid Customer ID. Booking not created.");
                     Console.ReadKey();
@@ -53,7 +61,22 @@ namespace MillesHotelLibrary.Services
 
                 DisplayAvailableRooms(availableRooms);
 
-                if (!int.TryParse(Console.ReadLine(), out int roomId) || !TryCreateBooking(customer, roomId, bookingDate, numberOfNights))
+                if (int.TryParse(Console.ReadLine(), out int roomId))
+                {
+                    if (roomId == 0)
+                    {
+                        Console.WriteLine("Press any button to exit");
+                        Console.ReadKey();
+                        return;
+                    }
+
+                    if (!TryCreateBooking(customer, roomId, bookingDate, numberOfNights))
+                    {
+                        Console.ReadKey();
+                        return;
+                    }
+                }
+                else
                 {
                     Console.ReadKey();
                     return;
@@ -102,20 +125,46 @@ namespace MillesHotelLibrary.Services
 
             Console.WriteLine($"\nYou can only book rooms for dates within the next 3 months from today, latest {threeMonthsFromNow:yyyy-MM-dd}");
 
-            Console.Write("Enter booking date (yyyy-MM-dd): ");
-            if (!DateTime.TryParse(Console.ReadLine(), out bookingDate) || bookingDate.Date < DateTime.UtcNow.Date
-                || bookingDate.Date > DateTime.UtcNow.AddMonths(3).Date)
+            Console.Write("Enter booking date (yyyy-MM-dd, 0 to exit): ");
+            if (DateTime.TryParse(Console.ReadLine(), out bookingDate))
             {
+                if (bookingDate.Date == DateTime.MinValue.Date)
+                {
+                    Console.WriteLine("Press any button to exit");
+                    return false;
+                }
 
-                Message.ErrorMessage($"Invalid booking date. Please enter a date equal to " +
-                    $"or later than today and within the next 3 months (until {threeMonthsFromNow:yyyy-MM-dd}). Booking not created.");
+                if (bookingDate.Date < DateTime.UtcNow.Date || bookingDate.Date > DateTime.UtcNow.AddMonths(3).Date)
+                {
+                    Message.ErrorMessage($"Invalid booking date. Please enter a date equal to " +
+                        $"or later than today and within the next 3 months (until {threeMonthsFromNow:yyyy-MM-dd}). Booking not created.");
+                    return false;
+                }
+            }
+            else
+            {
+                Message.ErrorMessage("Invalid input for booking date. Please enter a valid date or 0 to exit.");
                 return false;
             }
 
-            Console.Write("Enter number of nights (max 14): ");
-            if (!int.TryParse(Console.ReadLine(), out numberOfNights) || numberOfNights <= 0 || numberOfNights > 14)
+            Console.Write("Enter number of nights (max 14, 0 to exit): ");
+            if (int.TryParse(Console.ReadLine(), out numberOfNights))
             {
-                Message.ErrorMessage("Invalid number of nights. Booking not created.");
+                if (numberOfNights == 0)
+                {
+                    Console.WriteLine("Press any button to exit");
+                    return false;
+                }
+
+                if (numberOfNights <= 0 || numberOfNights > 14)
+                {
+                    Message.ErrorMessage("Invalid number of nights. Booking not created.");
+                    return false;
+                }
+            }
+            else
+            {
+                Message.ErrorMessage("Invalid input for number of nights. Please enter a valid number or 0 to exit.");
                 return false;
             }
 
@@ -239,10 +288,15 @@ namespace MillesHotelLibrary.Services
                         $"{bookings.Customer.CustomerFirstName} {bookings.Customer.CustomerLastName}");
                 }
 
-                Console.Write("\nEnter booking ID for detailed information: ");
+                Console.Write("\nEnter booking ID for detailed information (0 to exit): ");
 
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
+                    if (bookingId == 0)
+                    {
+                        return;
+                    }
+
                     var booking = _dbContext.Booking
                         .Include(b => b.Room)
                         .Include(b => b.Customer)
@@ -333,9 +387,14 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update start date: ");
+                Console.Write("Enter booking ID to update start date (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
+                    if (bookingId == 0)
+                    {
+                        return;
+                    }
+
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
@@ -390,9 +449,14 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to update end date: ");
+                Console.Write("Enter booking ID to update end date (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
+                    if (bookingId == 0)
+                    {
+                        return;
+                    }
+
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null)
@@ -447,9 +511,14 @@ namespace MillesHotelLibrary.Services
             {
                 GetAllBookings();
 
-                Console.Write("Enter booking ID to cancel: ");
+                Console.Write("Enter booking ID to cancel (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
+                    if (bookingId == 0)
+                    {
+                        return;
+                    }
+
                     var booking = _dbContext.Booking.Find(bookingId);
 
                     if (booking != null && booking.IsActive)
@@ -488,92 +557,6 @@ namespace MillesHotelLibrary.Services
                     else
                     {
                         Message.ErrorMessage("Booking not found or already canceled.");
-                    }
-                }
-                else
-                {
-                    Message.ErrorMessage("Invalid booking ID. Please enter a valid number.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Message.ErrorMessage($"An error occurred: {ex.Message}");
-            }
-
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
-        }
-        public void ModifyBooking()
-        {
-            try
-            {
-                GetAllBookings();
-
-                Console.Write("Enter booking ID to modify: ");
-                if (int.TryParse(Console.ReadLine(), out int bookingId))
-                {
-                    var booking = _dbContext.Booking
-                        .Include(b => b.Room)
-                        .Include(b => b.Customer)
-                        .Include(b => b.Invoice)
-                        .FirstOrDefault(b => b.BookingID == bookingId);
-
-                    if (booking != null && booking.IsActive)
-                    {
-                        Console.WriteLine($"Current Booking Information:\n{booking}");
-
-                        Console.Write("Enter new booking start date (yyyy-MM-dd): ");
-                        if (DateTime.TryParse(Console.ReadLine(), out DateTime newStartDate))
-                        {
-                            Console.Write("Enter new booking end date (yyyy-MM-dd): ");
-                            if (DateTime.TryParse(Console.ReadLine(), out DateTime newEndDate))
-                            {
-                                if (newStartDate.Date >= DateTime.Now.Date && newEndDate.Date >= DateTime.Now.Date)
-                                {
-                                    if (newEndDate >= newStartDate)
-                                    {
-                                        booking.BookingStartDate = newStartDate;
-                                        booking.BookingEndDate = newEndDate;
-
-                                        if (booking.Invoice != null)
-                                        {
-                                            var roomSize = booking.Room?.RoomSize ?? 0;
-                                            var roomPrice = booking.Room?.RoomPrice ?? 0;
-                                            var numberOfNights = (newEndDate - newStartDate).Days;
-
-                                            var invoiceAmount = roomPrice * numberOfNights;
-
-                                            booking.Invoice.InvoiceAmount = invoiceAmount;
-                                            booking.Invoice.InvoiceDue = newEndDate;
-                                            booking.Invoice.IsPaid = invoiceAmount > 0;
-                                        }
-
-                                        _dbContext.SaveChanges();
-                                        Message.InputSuccessMessage("Booking information modified successfully.");
-                                    }
-                                    else
-                                    {
-                                        Message.ErrorMessage("End date must be equal to or later than the start date. Booking information not modified.");
-                                    }
-                                }
-                                else
-                                {
-                                    Message.ErrorMessage("Start and end dates must be equal to or later than today's date. Booking information not modified.");
-                                }
-                            }
-                            else
-                            {
-                                Message.ErrorMessage("Invalid date format. Booking information not modified.");
-                            }
-                        }
-                        else
-                        {
-                            Message.ErrorMessage("Invalid date format. Booking information not modified.");
-                        }
-                    }
-                    else
-                    {
-                        Message.ErrorMessage("Booking not found or canceled.");
                     }
                 }
                 else
@@ -682,9 +665,14 @@ namespace MillesHotelLibrary.Services
             {
                 Console.Clear();
                 DisplayCustomerList();
-                Console.Write("\nEnter Customer ID to search for which rooms they have booked: ");
+                Console.Write("\nEnter Customer ID to search for which rooms they have booked (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int customerID))
                 {
+                    if (customerID == 0)
+                    {
+                        return;
+                    }
+
                     var bookedRooms = _dbContext.Booking
                         .Where(b => b.CustomerID == customerID)
                         .Join(
