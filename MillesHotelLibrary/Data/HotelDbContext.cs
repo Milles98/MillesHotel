@@ -35,6 +35,10 @@ namespace MillesHotelLibrary.Data
                 .Property(r => r.RoomPrice)
                 .HasColumnType("decimal(18, 2)");
 
+            modelBuilder.Entity<Customer>()
+                .HasIndex(e => e.CustomerEmail)
+                .IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
 

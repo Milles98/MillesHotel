@@ -12,7 +12,7 @@ using MillesHotelLibrary.Data;
 namespace MillesHotelLibrary.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240102171743_initial migration")]
+    [Migration("20240102205857_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -121,6 +121,9 @@ namespace MillesHotelLibrary.Migrations
                     b.HasKey("CustomerID");
 
                     b.HasIndex("CountryID");
+
+                    b.HasIndex("CustomerEmail")
+                        .IsUnique();
 
                     b.ToTable("Customer");
                 });

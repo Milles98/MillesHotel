@@ -48,6 +48,14 @@ namespace MillesHotelLibrary.Services
                         return;
                     }
 
+                    if (_dbContext.Customer.Any(c => c.CustomerEmail == email))
+                    {
+                        Message.ErrorMessage("Customer with the same email already exists. Please enter a unique email address.");
+                        Console.WriteLine("Press any button to continue");
+                        Console.ReadKey();
+                        return;
+                    }
+
                     Console.Write("Enter customer phone (min 5, max 15 characters, 0 to exit): ");
                     string phone = Console.ReadLine();
                     if (phone == "0")
@@ -110,7 +118,7 @@ namespace MillesHotelLibrary.Services
                                     CustomerFirstName = char.ToUpper(firstName[0]) + firstName.Substring(1),
                                     CustomerLastName = char.ToUpper(lastName[0]) + lastName.Substring(1),
                                     CustomerAge = age,
-                                    CustomerEmail = char.ToUpper(email[0]) + email.Substring(1),
+                                    CustomerEmail = email,
                                     CustomerPhone = phone,
                                     CountryID = countryId,
                                     IsActive = true

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,8 +22,13 @@ namespace MillesHotelLibrary.Models
 
         public bool IsActive { get; set; } = true;
 
+        [ForeignKey("Customer")]
         public int CustomerID { get; set; }
+
+        [ForeignKey("Room")]
         public int RoomID { get; set; }
+
+        [ForeignKey("Invoice")]
         public int InvoiceID { get; set; }
 
         public Customer Customer { get; set; }
@@ -35,7 +41,7 @@ namespace MillesHotelLibrary.Models
         }
         public override string ToString()
         {
-            return $"BookingID: {BookingID}, StartDate: {BookingStartDate:yyyy-MM-dd}, EndDate " +
+            return $"BookingID: {BookingID}, StartDate: {BookingStartDate:yyyy-MM-dd}, EndDate: " +
                 $"{BookingEndDate:yyyy-MM-dd}, RoomID: {RoomID}, InvoiceID: {InvoiceID}";
         }
     }

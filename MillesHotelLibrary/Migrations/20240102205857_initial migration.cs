@@ -140,6 +140,12 @@ namespace MillesHotelLibrary.Migrations
                 name: "IX_Customer_CountryID",
                 table: "Customer",
                 column: "CountryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_CustomerEmail",
+                table: "Customer",
+                column: "CustomerEmail",
+                unique: true);
         }
 
         /// <inheritdoc />
