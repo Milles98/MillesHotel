@@ -402,10 +402,7 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                foreach (var room in _dbContext.Room)
-                {
-                    Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
-                }
+                GetAllRooms();
 
                 Console.Write("Enter room ID to soft delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
@@ -453,10 +450,22 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
+                bool roomsFound = false; 
+
                 foreach (var showRoom in _dbContext.Room.Where(r => !r.IsActive))
                 {
                     Console.WriteLine($"RoomID: {showRoom.RoomID}, RoomType: {showRoom.RoomType}, " +
                         $"RoomSize: {showRoom.RoomSize}, IsActive: {showRoom.IsActive}");
+
+                    roomsFound = true; 
+                }
+
+                if (!roomsFound)
+                {
+                    Console.WriteLine("There are no rooms to reactivate.");
+                    Console.WriteLine("Press any button to continue...");
+                    Console.ReadKey();
+                    return; 
                 }
 
                 Console.Write("Enter room ID to reactivate (0 to exit): ");
