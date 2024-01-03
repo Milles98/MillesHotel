@@ -336,17 +336,15 @@ namespace MillesHotelLibrary.Services
 
                 if (room != null)
                 {
-                    Console.Write("Enter new room type (SingleRoom/DoubleRoom, 0 to exit): ");
+                    Console.Write("Enter new room type (SingleRoom/DoubleRoom): ");
                     if (Enum.TryParse(Console.ReadLine(), out RoomType newRoomType))
                     {
-                        if (newRoomType == 0)
-                        {
-                            return;
-                        }
 
-                        if (newRoomType == RoomType.SingleRoom && room.RoomSize < 30)
+                        if (newRoomType == RoomType.SingleRoom)
                         {
                             room.RoomType = newRoomType;
+                            room.ExtraBedsCount = 0;
+                            room.ExtraBeds = false;
                             _dbContext.SaveChanges();
                             Message.InputSuccessMessage("Room type updated successfully.");
                         }
@@ -450,14 +448,14 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                bool roomsFound = false; 
+                bool roomsFound = false;
 
                 foreach (var showRoom in _dbContext.Room.Where(r => !r.IsActive))
                 {
                     Console.WriteLine($"RoomID: {showRoom.RoomID}, RoomType: {showRoom.RoomType}, " +
                         $"RoomSize: {showRoom.RoomSize}, IsActive: {showRoom.IsActive}");
 
-                    roomsFound = true; 
+                    roomsFound = true;
                 }
 
                 if (!roomsFound)
@@ -465,7 +463,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine("There are no rooms to reactivate.");
                     Console.WriteLine("Press any button to continue...");
                     Console.ReadKey();
-                    return; 
+                    return;
                 }
 
                 Console.Write("Enter room ID to reactivate (0 to exit): ");
