@@ -18,6 +18,6 @@ Följer 1NF och 2NF samt har inga transitive functional dependencies.
 Mina tabeller följer detta genom om en kolumn som inte är en primary key ändras, påverkar den inte något värde i en annan kolumn.
 Ett exempel på hur jag gjort detta är att splitta på min Customer tabell, jag flyttade ut länder till en ny tabell "Country".
 
-Som avslut så ja, mina entiteter följer 3NF reglerna och är designade för att minska överflöd och beroende problem.
+Som avslut så ja, mina entiteter följer 3NF reglerna och är designade för att minska redundancy och dependency problem.
 Jag har även försökt lägga till extra validering och begränsningar i mina tabeller genom att använda StringLength, Range osv.
 Jag har även begränsningen unique på email som krav på att alla måste vara unika genom OnModelCreating i HotelDbContext.

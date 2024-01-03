@@ -2,6 +2,7 @@
 using MillesHotelLibrary.Data;
 using MillesHotelLibrary.ExtraServices;
 using MillesHotelLibrary.Interfaces;
+using MillesHotelLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace MillesHotelLibrary.Services
                 Console.Clear();
                 foreach (var room in _dbContext.Room)
                 {
-                    Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, IsActive: {room.IsActive}");
+                    Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, ExtraBeds: {room.ExtraBedsCount}");
                 }
 
                 Console.Write("Enter room ID to permanently delete (0 to exit): ");
@@ -128,6 +129,26 @@ namespace MillesHotelLibrary.Services
         public void DeleteInvoice()
         {
             Console.Clear();
+
+            List<Invoice> invoices = _dbContext.Invoice
+                .Include((Invoice b) => b.Booking)
+                .ThenInclude((Booking c) => c.Customer)
+                .ToList();
+
+            foreach (Invoice showInvoice in invoices)
+            {
+                Console.Write($"Invoice ID: {showInvoice.InvoiceID}, ");
+
+                if (showInvoice.Booking != null && showInvoice.Booking.Customer != null)
+                {
+                    Console.WriteLine($"Customer: {showInvoice.Booking.Customer.CustomerFirstName} {showInvoice.Booking.Customer.CustomerLastName}");
+                }
+                else
+                {
+                    Message.ErrorMessage("Customer information not available (possibly permanently deleted).");
+                }
+            }
+
             Console.Write("Enter invoice ID to permanently delete (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
@@ -162,9 +183,13 @@ namespace MillesHotelLibrary.Services
             try
             {
                 Console.Clear();
-                foreach (var showBooking in _dbContext.Booking)
+
+                var bookings = _dbContext.Booking.Include(c => c.Customer).ToList();
+
+                foreach (var showBooking in bookings)
                 {
-                    Console.WriteLine($"Booking ID: {showBooking.BookingID}");
+                    Console.WriteLine($"Booking ID: {showBooking.BookingID}, Customer: " +
+                        $"{showBooking.Customer.CustomerFirstName} {showBooking.Customer.CustomerLastName}");
                 }
 
                 Console.Write("Enter booking ID to permanently delete (0 to exit): ");
