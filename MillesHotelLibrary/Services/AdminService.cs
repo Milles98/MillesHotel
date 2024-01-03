@@ -29,6 +29,7 @@ namespace MillesHotelLibrary.Services
                     Console.WriteLine($"RoomID: {room.RoomID}, RoomType: {room.RoomType}, RoomSize: {room.RoomSize}, ExtraBeds: {room.ExtraBedsCount}");
                 }
 
+                Message.ErrorMessage(">>WARNING<< This is permanent!");
                 Console.Write("Enter room ID to permanently delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int roomId))
                 {
@@ -37,24 +38,34 @@ namespace MillesHotelLibrary.Services
                         return;
                     }
 
-                    var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
+                    Console.Write("Type 'DELETE' to confirm: ");
+                    string confirmation = Console.ReadLine();
 
-                    if (room != null)
+                    if (confirmation == "DELETE")
                     {
-                        if (room.Bookings == null || !room.Bookings.Any())
+                        var room = _dbContext.Room.Include(r => r.Bookings).FirstOrDefault(r => r.RoomID == roomId);
+
+                        if (room != null)
                         {
-                            _dbContext.Room.Remove(room);
-                            _dbContext.SaveChanges();
-                            Message.InputSuccessMessage("Room permanently deleted.");
+                            if (room.Bookings == null || !room.Bookings.Any())
+                            {
+                                _dbContext.Room.Remove(room);
+                                _dbContext.SaveChanges();
+                                Message.InputSuccessMessage("Room permanently deleted.");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("Cannot delete the room because it has associated bookings. Please delete the bookings first.");
+                            }
                         }
                         else
                         {
-                            Message.ErrorMessage("Cannot delete the room because it has associated bookings. Please delete the bookings first.");
+                            Message.ErrorMessage("Room not found.");
                         }
                     }
                     else
                     {
-                        Message.ErrorMessage("Room not found.");
+                        Message.ErrorMessage("Deletion canceled. Confirmation text was incorrect.");
                     }
                 }
                 else
@@ -90,27 +101,37 @@ namespace MillesHotelLibrary.Services
                         return;
                     }
 
-                    var customer = _dbContext.Customer
+                    Console.Write("Type 'DELETE' to confirm: ");
+                    string confirmation = Console.ReadLine();
+
+                    if (confirmation == "DELETE")
+                    {
+                        var customer = _dbContext.Customer
                         .Include(c => c.Bookings)
                         .ThenInclude(b => b.Invoice)
                         .FirstOrDefault(c => c.CustomerID == customerId);
 
-                    if (customer != null)
-                    {
-                        if (customer.Bookings == null || customer.Bookings.All(b => b.Invoice == null || b.Invoice.IsPaid))
+                        if (customer != null)
                         {
-                            _dbContext.Customer.Remove(customer);
-                            _dbContext.SaveChanges();
-                            Message.InputSuccessMessage("Customer permanently deleted.");
+                            if (customer.Bookings == null || customer.Bookings.All(b => b.Invoice == null || b.Invoice.IsPaid))
+                            {
+                                _dbContext.Customer.Remove(customer);
+                                _dbContext.SaveChanges();
+                                Message.InputSuccessMessage("Customer permanently deleted.");
+                            }
+                            else
+                            {
+                                Message.ErrorMessage("Cannot delete customer with associated unpaid bookings. Please remove unpaid bookings first.");
+                            }
                         }
                         else
                         {
-                            Message.ErrorMessage("Cannot delete customer with associated unpaid bookings. Please remove unpaid bookings first.");
+                            Message.ErrorMessage("Customer not found.");
                         }
                     }
                     else
                     {
-                        Message.ErrorMessage("Customer not found.");
+                        Message.ErrorMessage("Deletion canceled. Confirmation text was incorrect.");
                     }
                 }
                 else
@@ -149,6 +170,7 @@ namespace MillesHotelLibrary.Services
                 }
             }
 
+            Message.ErrorMessage(">>WARNING<< This is permanent!");
             Console.Write("Enter invoice ID to permanently delete (0 to exit): ");
             if (int.TryParse(Console.ReadLine(), out int invoiceId))
             {
@@ -157,17 +179,27 @@ namespace MillesHotelLibrary.Services
                     return;
                 }
 
-                var invoice = _dbContext.Invoice.Find(invoiceId);
+                Console.Write("Type 'DELETE' to confirm: ");
+                string confirmation = Console.ReadLine();
 
-                if (invoice != null)
+                if (confirmation == "DELETE")
                 {
-                    _dbContext.Invoice.Remove(invoice);
-                    _dbContext.SaveChanges();
-                    Message.InputSuccessMessage("Invoice permanently deleted successfully.");
+                    var invoice = _dbContext.Invoice.Find(invoiceId);
+
+                    if (invoice != null)
+                    {
+                        _dbContext.Invoice.Remove(invoice);
+                        _dbContext.SaveChanges();
+                        Message.InputSuccessMessage("Invoice permanently deleted successfully.");
+                    }
+                    else
+                    {
+                        Message.ErrorMessage("Invoice not found.");
+                    }
                 }
                 else
                 {
-                    Message.ErrorMessage("Invoice not found.");
+                    Message.ErrorMessage("Deletion canceled. Confirmation text was incorrect.");
                 }
             }
             else
@@ -192,6 +224,7 @@ namespace MillesHotelLibrary.Services
                         $"{showBooking.Customer.CustomerFirstName} {showBooking.Customer.CustomerLastName}");
                 }
 
+                Message.ErrorMessage(">>WARNING<< This is permanent!");
                 Console.Write("Enter booking ID to permanently delete (0 to exit): ");
                 if (int.TryParse(Console.ReadLine(), out int bookingId))
                 {
@@ -200,17 +233,27 @@ namespace MillesHotelLibrary.Services
                         return;
                     }
 
-                    var booking = _dbContext.Booking.Find(bookingId);
+                    Console.Write("Type 'DELETE' to confirm: ");
+                    string confirmation = Console.ReadLine();
 
-                    if (booking != null)
+                    if (confirmation == "DELETE")
                     {
-                        _dbContext.Booking.Remove(booking);
-                        _dbContext.SaveChanges();
-                        Message.InputSuccessMessage("Booking permanently deleted.");
+                        var booking = _dbContext.Booking.Find(bookingId);
+
+                        if (booking != null)
+                        {
+                            _dbContext.Booking.Remove(booking);
+                            _dbContext.SaveChanges();
+                            Message.InputSuccessMessage("Booking permanently deleted.");
+                        }
+                        else
+                        {
+                            Message.ErrorMessage("Booking not found.");
+                        }
                     }
                     else
                     {
-                        Message.ErrorMessage("Booking not found.");
+                        Message.ErrorMessage("Deletion canceled. Confirmation text was incorrect.");
                     }
                 }
                 else
