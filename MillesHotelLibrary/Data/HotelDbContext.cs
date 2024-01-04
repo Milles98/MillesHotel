@@ -47,7 +47,6 @@ namespace MillesHotelLibrary.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("MillesHotelContextConnection");
-                //@"server=localhost;initial catalog=MillesHotel;integrated security=true;TrustServerCertificate=True;"
             }
         }
     }
