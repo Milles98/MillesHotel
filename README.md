@@ -4,10 +4,23 @@ The MillesHotel solution is a .NET 8.0 application that simulates a hotel manage
 ## Projects
 ## MillesHotel
 This is the main project of the solution. It is a console application that provides a user interface for interacting with the hotel management system. It includes various menus for managing bookings, customers, rooms, invoices, and admin tasks.
-The project references the MillesHotelLibrary project and several NuGet packages including Autofac, Bogus, Microsoft.EntityFrameworkCore.SqlServer, Microsoft.EntityFrameworkCore.Tools, Microsoft.Extensions.Configuration, and Microsoft.Extensions.Configuration.Json.
+
+The project references the MillesHotelLibrary project and several NuGet packages including:
+* Autofac
+* Bogus
+* Microsoft.EntityFrameworkCore.SqlServer
+* Microsoft.EntityFrameworkCore.Tools
+* Microsoft.Extensions.Configuration
+* Microsoft.Extensions.Configuration.Json.
 ## MillesHotelLibrary
-This project is a class library that contains the core logic and data models for the hotel management system. It includes services for managing bookings, customers, rooms, invoices, and admin tasks. It also includes interfaces and data models that represent the entities in the system.
-The project references several NuGet packages including Autofac, Microsoft.EntityFrameworkCore.SqlServer, Microsoft.EntityFrameworkCore.Tools, Microsoft.Extensions.Configuration, and Microsoft.Extensions.Configuration.Json.
+This project is a class library that contains the core logic and data models for the hotel management system. 
+It includes services for managing bookings, customers, rooms, invoices, and admin tasks. It also includes interfaces and data models that represent the entities in the system.
+The project references several NuGet packages including:
+* Autofac
+* Microsoft.EntityFrameworkCore.SqlServer
+* Microsoft.EntityFrameworkCore.Tools
+* Microsoft.Extensions.Configuration
+* Microsoft.Extensions.Configuration.Json.
 ## Data Models
 The data models in the MillesHotelLibrary project represent the entities in the hotel management system. These include Booking, Customer, Room, Invoice, Admin, and Country.
 ## Services
